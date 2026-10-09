@@ -7,6 +7,9 @@ ghidra-proj/
 # Logs
 *.log
 
+# Loop run logs
+loop-logs/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db
