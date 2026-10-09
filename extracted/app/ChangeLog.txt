@@ -1,0 +1,1597 @@
+Change log by version:
+
+1.1.03:
+- [Oz] Bugfix: Crash in measure tool after dragging a line measurement
+- [Oz] Bugfix: Simulation / preview wasn't respecting 'Fast Whitespace' setting
+- [Oz] Bugfix: shortcuts broken by new German translation
+- [Oz] Added support for width adjustment in DXF MTEXT import
+- [Oz] Bugfix: thread termination in LightBurn Bridge Scanner could crash on rare occasions
+- [Oz] Bugfix: flood fill with cross-hatch was broken by changes for galvo version
+- [Oz] Bugfix: flood filled shapes inside others, when "Order by Layer" was off, would fill incorrectly
+
+
+1.1.02:
+- [Oz] Bugfix: Crosshatch broke for DSPs because of some changes for galvo systems
+- [Oz] Added support for '@font-face' member in SVG style block (fixes some files importing all black)
+- [Oz] Bugfix: In rare cases, it was possible for a line to 'arch' when snapping to the start point of a shape
+- [AH] Bugfix: Fixed possible crash when ordering by group and using virtual arrays
+- [Oz] Added support for gray colors in AI files
+- [Oz] Bugfix: backup path of an empty text object would confuse the project file loader and crash
+- [Oz] Bugfix: Changing 'corner radius' on two or more rectangles of different sizes would reset the rect dimensions to 0
+- [Oz] Bugfix: Fixed a crash bug resolving a non-dictionary 'PieceInfo' tag in PDF files
+- [Oz] Bugfix: 'Locked' state wasn't loading properly on locked shapes
+- [Oz] Added setting to save/restore the state of Move/Rotate/Scale/Shear toggles on main window
+- [Oz] Measure tool can now switch between mm/in display
+
+
+1.1.01:
+- [Oz] Fixed a small issue with 'interactive' text welding (this was a display-only issue)
+- [Oz] Fixed snapping weights, increased range of "hold Alt to snap more"
+- [Oz] Bugfix: holding Shift to axis align line drawing works again
+- [AH] Bugfix: extreme numbers of tabs could cause a slowdown and potential crash
+- [AH] Bugfix: undoing changes to manual tabs was unreliable
+- [AH] Bugfix: Add "Modes" menu item back to Windows menu
+- [Oz] Bugfix: Line mode will now start on an existing line point
+- [Oz] Bugfix: Fixed crash when restarting after de-licensing / re-licensing
+- [Oz] GCode users can now stop when framing again
+- [Oz] Added a user switch to enable laser when framing (in device settings)
+
+
+1.1.00:
+Editor:
+- [Oz] Images are now supported by the Cut Shapes tool (only if not already masked / cut)
+- [Oz] Added 'Sort Cuts Last' to right-click menu in Cuts/Layers List (right-click on the header)
+- [Oz] Added toggles to disable Move / Size / Rotate / Skew controls in selection mode (global locks top prevent accidental actions)
+- [AH] Added "Exit Array" option and better handling for invalid 1x1 virtual array
+- [Oz] Added Re-scan button to Laser window for LightBurn bridge devices
+- [AH] Auto-reset right side dock tabs into compact form if it won't fit on your screen.
+- [Oz] Offset tool is a little faster, a little more accurate
+- [Oz] Added "Outer shapes only" option to Offset tool
+- [AH] Added prefs backup browser/loader
+- [AH] Added machine settings backup browser/loader
+- [Oz] Added drag & drop support for cut list ordering
+- [Oz] Added 'Bake' button to variable text window to bake variable text into project
+- [Oz] Added full-size pop-up preview to Art Library (on mouse hover), shows full title and size
+- [Oz] Added "Port open failed - in use?" message for GCode / serial devices
+- [Oz] Click+Drag to create curves in Line mode
+- [JS/JN] Added backup path to be used when moving a file to a system that doesn't have a font.
+- [AH] Add image adjustment presets with import/export
+- [AH] Cut library is now linked to device and will load according to chosen device
+- [Oz] Added Nesting feature using SVGNest
+- [Oz] Material library will now display fractions for 'Inch' mode users (for anything less than 1")
+- [Oz] Material library doesn't "fold up" when you change units
+- [Oz] Added optional entry title for "no thickness" materials, to help keep organized
+- [AH] Material library preference is now saved / restored with each laser (changing to a new laser will load its material lib)
+- [JS] Added centerfinder wizard for circle stock
+- [JS] Add option for center finder to create T1 circle to represent stock
+- [AH] Display memory error message in Adjust Image when output is too large for system memory
+- [Oz] Added 'Auto Group' function (under arrange menu - automatically groups shapes within other shapes that contain them)
+- [Oz] Added 'negate display' button to Image Adjust window
+- [AH] Added mode status (rotary/Print & Cut/cylinder correction) to main window and framing
+- [AH] Added duplicate option in right click menu for devices list.
+- [Oz] Added save and restore units per device
+- [WP] Added checklist option to device settings
+- [Oz] Added new Shear (skew) controls
+- [Oz] Measure tool now remembers last position
+- [Oz] Added ability to drag artwork from desktop into open Art Library
+- [Oz] Material test tool now available on GCode / DSPs (bypasses Ruida layer count limit)
+
+- [Oz] Tweaked toggle switches to be more visually consistent with other apps
+- [Oz] Added Cut Shapes shortcut key (Alt+C)
+- [AH] Save per-device dock panel state
+- [AH] Bugfix: Fixed framing for tool layers and virtual arrays.
+- [AH] BugFix: Grouping shapes on virt array properly removes those shapes from the array association now
+- [AH] BugFix: Fixed cursor placement when tabs are in text
+- [Oz] Bugfix: Cut Shapes tool could be very off if multiple cuts intersected a long curve or arc
+- [Oz] Bugfix: Measure tool area calc was not including object scale
+- [Oz] Bugfix: Rubber-band frame now respects tool layer 'Frame' setting
+- [Oz] Bugfix: Arc fit tool (Optimize shapes) could produce an invalid path in rare cases
+- [Oz] Bugfix: Images set to "Fill Groups Together" now retain their group info, so 'Order by Group' now works
+- [Oz] Bugfix: Rotary setting and mirror flip are now checked if you click 'Start' and the laser was not synced before
+- [AH] Bugfix: Tool layer frame toggle was not being saved
+- [WP] Bugfix: Restore Note field in Contact tab of QR dialog
+
+Import / Export:
+- [Oz] First pass at importing text from SVG files
+- [Oz] Added support for 'Vectornator' SVG exports
+- [Oz] Added support for absolute arcs when importing PLT / HPGL files
+- [Oz] Fixed color mapping so if two colors in an imported file are close, but not the same, they will get unique layers in LB if possible
+- [Oz] Added the option to export as PNG / JPG / BMP (if the selected object is a bitmap)
+- [Oz] Added support for importing of heirarchical SVG stroke/fill properties
+- [Oz] Added support for DXF 'ATTRIBUTE' objects
+- [Oz] Bugfix: SVG export containing compound path shapes would sometimes close the shape when they shouldn't
+- [Oz] Bugfix: DXF text imports were ignoring width scaling
+- [Oz] Bugfix: DXF text vertical alignment was incorrect for some device origins
+- [Oz] Bugfix: DXF 2018 format with embedded object tags on MTEXT would load incorrectly
+
+DSPs:
+- [Oz] Show proper 'Ready' state on Trocen & TopWisdom devices when detected
+- [Oz] Added "99 files" message to Ruida to warn you if a send will fail due to full controller
+- [Oz] Tweaks for TopWisdom comms timeout
+- [Oz] Added ability to delete multiple files from DSP controllers (File list window)
+- [Oz] KT322N controller now uses U axis for Z moves, supports in-job Z moves
+- [AH] Always send PWM frequency value if override set on any layer for Ruida
+
+GCode:
+- [Oz] GCode devices will now always frame with the laser on if the Fire button is enabled
+- [Oz] Added support for TCP connections with GRBL / GRBL-LPC devices
+- [Oz] GCode devices will now run O-Frame at full curve resolution
+- [Oz] Added XTool support to 'Find my Laser'
+- [AH] Added Z Focus Offset UI input for iLaser devices
+
+
+1.0.05:
+- [Oz] Added some checks for a valid / connected laser in Machine Settings, cut palette editing
+- [Oz] Added code to limit the max internal size when converting to bitmap to prevent a crash
+- [Oz] Bugfix: Fixed loading a shape from LBRN2 that had shared verts, but unique prims - could crash
+
+
+1.0.04:
+- [Oz] Bugfix: Tool layer order wasn't properly saved/restored after recent change to repair them when broken by externally created files
+- [Oz] Bugfix: do not crash if trying to jog, edit machine settings, rotary, etc if no machine connected
+- [Oz] Improved initial connection for LB Bridge devices
+
+
+1.0.03:
+- [Oz] Fixed PDF fax compression parser (mostly used in plane plans)
+- [AH] BugFix: Tool layers can no longer be corrupted.
+- [Oz] Added 'Shift by Half' toggles to Grid Array
+- [Oz] UI Improvements for LightBurn Bridge scan, device settings for IP address
+- [JS] Added shortcut tool-tips for most UI tools (especially Node Edit)
+- [AH] Bugfix: render grouped shapes in virtual array when source is offscreen
+- [Oz] Bugfix: Fixed a couple of edge cases in float precision when importing SVG arcs
+- [Oz] Bugfix: Fixed a small precision issue when auto-joining imported DXFs (and other files)
+- [Oz] Bugfix: TL-A1 and some Trocen devices weren't automatically found / connected with Find my Laser
+- [Oz] Updated Ruida output for 658XG controller
+- [Oz] If user has never saved before, use Documents folder instead of current system folder as default
+- [Oz] Holding Alt key now widens snapping distance, making it easier to snap-lock objects together
+- [AH] Shape selection in tabs tool now works just like regular selection, based on direction
+
+
+1.0.02:
+- [Oz] Tweaked UI of Boolean Assistant to show last op state more clearly
+- [Oz] Added data rate limiting to bypass MacOS/BigSur/FTDI flow control bug
+- [Oz] Added languages back in for Mac version (files were moved to get app to CodeSign properly)
+- [AH] Bugfix: Fix for large tabs that are close together not always rendering
+- [Oz] Added LightBurn Bridge connection mode for Ruida controllers
+- [Oz] Bugfix: delayed numeric entry boxes in Adjust Image didn't always update correctly
+- [Oz] Bugfix: fixed a preview crash when an image did not load / wasn't found
+- [Oz] Auto-pan improvement - no longer have to continually move mouse
+- [Oz] Shortcuts for rotate CW/CCW now show in menu
+- [Oz] Bugfix: If no device was connected, you would erroneously get "still streaming" warning when closing
+- [Oz] Bugfix: Could crash in rotary setup or machine settings if no device connected
+
+
+1.0.1:
+- [Oz] Bugfix: MacOS serial port closed too early
+- [AH] Bugfix: properly output selected items on virt arrays when using "Cut Selected"
+- [AH] Bugfix: render virt arrays correctly when machine origin changes.
+- [AH] Bugfix: horizontal / vertical flip works correctly for virt arrays
+- [JS] Bugfix: fix scaling issue for Print and Cut Wizard dialog boxes
+- [AH] Disallow grouping shapes not in the same virt array
+- [Oz] Added 'Reset' button to Boolean Assistant
+- [Oz] Installer tweaks for DoCheck dependencies
+- [AH] Delete virt array from project when last shape deleted
+- [AH] Bugfix: ensure grid array dialog is in correct mode
+- [Oz] G0 Whitespace now defaults to off for GRBL-M3
+- [Oz] Better automatic port selection, filtering of ineligible ports
+- [AH] Cut Shapes now only selects the outter shapes afterwards
+- [Oz] Improved UI disables for Default speed / power toggles
+- [Oz] Added pop-up troubleshooter for Lead in/out enabled but with zero length
+- [Oz] Bugfix: laser on/off commands weren't being correctly emitted for GRBL-M3 because of Pen Mode changes
+
+1.0.0:
+Editor:
+- [AH] Add preferences import/export
+- [AH] Added warning when opening projects from newer versions
+- [Oz] Auto-update internal font list when a new font is added to the system (Windows only)
+- [Oz] Added automatic view panning while dragging
+- [AH] Added min/max tab limits for even spacing mode
+- [JN] Made preview rendering less choppy
+- [Oz] 15% speedup for preview simulation
+- [Oz] Improved auto-join speed and accuracy
+- [JN] Added "reduce motion" setting
+- [Oz] Ramp mode rasterizing for vectors now 2x faster
+- [AH] Now warn when switching to tool layer for shapes with manual tabs
+- [AH] Add serial port exclusion (user can set a list of ports to ignore)
+- [AH] Automatically calculate columns / rows for grid array based on provided dimensions
+- [Oz] Improved stability of 'Adjust Image', better handling of out-of-memory or oversize conditions
+- [JS] Added Print and Cut Wizard
+- [Oz] Added Boolean and Alignment helpers for Beginner Mode
+- [AH] Tab insert is now zoom aware
+- [Oz] Can now click anywhere in a filled shape to select / drag it
+- [Oz] Disabled mouse wheel changing of 'Mode' in the Cut List window - too easy to do accidentally
+- [AH] Add Enable/Disable/Invert right click menu for air assist
+- [Oz] Added two point rotate / scale tool (under Arrange menu)
+- [AH] Use LightBurn default font if font not found when loading project
+- [Oz] Added a few extra memory / stability checks during device search, rasterization, convert to bitmap
+- [Oz] Added shape width / height to Measure tool
+- [Oz] More robust arc / angle detection in Measure tool
+- [Oz] Bugfix: auto-grouping of inner/outer filled shapes when using "fill individually" didn't work if "order by layer" wasn't enabled
+- [AH] Bugfix: properly save group image masks
+- [Oz] Bugfix: Fixed a crash if you tried to radius the end of a straight line
+- [Oz] Bugfix: if 'Start point' was forced to first vert in a shape, could be ignored in cut planner
+- [Oz] Fixed a bug in automatic scaling when printing
+- [JN] Bugfix: Printing an image will not be reversed on Windows
+- [AH] Bugfix: SHX fonts on path now work for all origins
+- [JN] Bugfix: Create QR code now has a 2000 byte limit to prevent crash after 2331 bytes
+- [JN] Bugfix: Locked shapes cannot have their layer modified
+- [AH] Bugfix: correctly update row/col spacing in grid array after first start
+- [AH] Bugfix: float rounding error could cause remainder of shape to be skipped when using tabs
+- [AH] Bugfix: Undo of moved tab no longer deletes the tab
+- [Oz] Fixed a bug in the LBRN2 file format when saving shapes with an unused node at the end of the node list
+- [JN] Bugfix: Locked text shape cannot be edited
+- [Oz] Bugfix: Fixed an alignment issue with Unscaled Print & Cut mode
+
+GCode:
+- [Oz] Allowed bluetooth units to connect, now that serial thread / connect crash is fixed
+- [Oz] Properly ignore [echo:] messages from GRBL
+- [Oz] Improved accuracy of GCode output in mm mode
+- [Oz] Enabling 'Fast Whitespace' and setting the speed to zero now uses G0 moves (goes as fast as firmware allows)
+- [JN] Added settings read/write for Marlin firmware
+- [AH] Bugfix: Constant power and cut-through no longer conflict
+- [Oz] Bugfix: GRBL devices now properly wait for send queue space before transmitting (GRBL-LPC issue because of huge receive buffer on the device)
+- [Oz] Fixed a speed bug when framing on GRBL-LPC
+
+DSPs:
+- [Oz] RD File imports now properly color map
+- [Oz] Re-wrote serial/USB library for Ruida/TopWisdom to be synchronous / faster
+- [Oz] Added a safety warning for potentially class-reducing vendor settings
+- [Oz] Added support for auto-feed on Trocen controllers
+- [Oz] Added support for 'by layer' or 'with laser' for air assist on Ruida 6445G
+- [Oz] Added support for docking point setting on 6445G
+- [Oz] Added ability to select a specific Ruida/port when using Packet/USB
+- [Oz] Find my Laser will now return Packet/USB Ruida connection as an option
+- [Oz] Bugfix: Homing and Limit Direction flags were switched in Machine Settings for Trocen devices
+
+Import / Export:
+- [Oz] Added handling for PDF inline images (not fully parsed yet, but no longer crashes)
+- [Oz] Improved DXF MText positioning accuracy
+- [Oz] Bugfix: SVG export didn't properly handle negative corner radius on rectangles
+- [Oz] SVG bitmap exports now work properly in Corel / Illustrator
+- [AH] Bugfix: ignore negative rx/ry values for SVG rect import
+- [AH] Bugfix: export masked images to SVG correctly
+- [AH] Bugfix: export tool layers to SVG
+
+
+
+0.9.24
+- [AH] Fix saving to legacy lbrn format on Linux
+- [Oz] persist the COM port choice even if the device supports automatic port selection
+- [Oz] Fixed 'overrides' panel display when using Move / Frame buttons on GRBL devices
+- [Oz] Bugfix: New merged image scanner wasn't getting scanning offset adjustments
+- [Oz] Bugfix: MacOS DSP connection / comms stability issues resolved
+- [Oz] Bugfix: Gamma setting in Adjust Image wasn't properly set if above 1.0
+- [Oz] Bugfix: Fire / Frame now works with Smoothieware
+- [Oz] Remember last used serial port for faster reconnect
+- [Oz] Better handling of multi-page PDF vs single-page / multi-layer AI files
+- [Oz] Proper jog / frame handling on RDC5121 with problem firmware versions
+- [Oz] DTR enable flag is now tested / set automatically when using 'Find my laser' with GRBL devices
+- [Oz] Bugfix: QR Codes were ignoring global variable text offset ('Current index')
+- [Oz] Better handling of viewport switch in Align Camera wizard
+
+
+0.9.23:
+- [AH] Fix QR Code contact field bugs. Fix "Create QR Code" menu name
+- [Oz] Fixed the Ruida / TopWisdom temporary connection issues for Serial/USB users
+- [Oz] Show the Adjust dialog before doing the first processing step (improves interactivity)
+- [Oz] Additional stabilty checks in image processing, better handling of out-of-memory and missing images
+- [Oz] Don't remove co-linear node in pre-processing if it's the designated start point
+- [Oz] Bugfix: Tiny DXF import bulge values could crash the renderer - now discarded if below precision threshold
+- [Oz] Bugfix: corrected color handling for SVGs imported from Silhouette Business Edition
+- [Oz] Bugfix: deferred loading of Material Library until after splash - could lock on MacOS
+
+
+0.9.22:
+- [Oz] Improved degenerate prim removal
+- [Oz] Multiple, successive linear moves are now merged
+- [Oz] Scanning moves shorter than 10 microns are removed (Ruida doesn't like them apparently)
+- [Oz] Copy / Paste of text on path could crash if you didn't copy the path too
+- [Oz] Safety checks for missing bitmaps when loading
+- [Oz] Area calc for measure tool was doubled
+- [AH] Ensure image data is written even if cache sharing fails
+- [AH] Immediately cache vectors converted to bitmap
+- [AH] Do not cache images in older lbrn format
+
+
+0.9.21:
+Editor:
+- [AH] Enable saving in lbrn2 format - 1/4 the size, 6x the speed (it varies)
+- [AH] Add "Edit Text Shapes" dialog, supports pan/zoom while up
+- [Oz] Added measure tool
+- [Oz] Added ability to print designs from LightBurn (need to add option to send processed images)
+- [Oz] Added "Adjust Image" (right click or Tools option)
+- [Oz] Images can now be scanned together (only with horizontal scanning angles)
+- [AH] Prim/Vert sharing (in memory and on disk)
+- [AH] Add image sharing (in memory and on disk)
+- [Oz] Added MacOS-Sur version for Big Sur users
+- [Oz] Added Arabic, Greek, Danish, Catalan, Traditional Chinese, Korean, and updated all translations
+- [Oz] Fixed translation of Art Library
+- [Oz] Added START and STATUS commands to UDP command socket
+- [Oz] Added shortcuts for Print & Cut
+- [Oz] Added 'n' (Number of passes) to Variable Text for Cut Setting
+- [Oz] Added support for Z moves in stored positions manager
+- [Oz] Made inner/outer sorting ~40% faster
+- [Oz] Bugfix: Locale / Language change on startup could crash 'SetupOriginMenu' function
+- [Oz] Bugfix: Save As in Material Library didn't always work
+- [Oz] Added an Air column to the cuts/layers list
+- [Oz] Stop / Start / Pause buttons will not trigger if the display is off
+- [Oz] Added a setting to disable the 'Ignore start button when monitor off' behavior
+- [Oz] Bugfix: Variable Text now handled correctly when using 'Start here' in preview
+- [AH] Improve font dropdown performance with large number of installed system fonts
+- [Oz] Fixed loading of text to a different device origin so it stays in original orientation
+- [JS] Added 'Save laser file' option to the File menu
+- [AH] Reworked shape association for multi-level associations (allows mask to use text on path,for example)
+- [Oz] Copy Along Path now respects user Start Point for shape
+- [AH] Bugfix: restore numeric spin arrows for some locales (mostly a Linux issue)
+- [JS] Copy Along Path now updates count or distance when the other property is changed
+- [Oz] Bugfix: Offset tool could produce strange output if a shape was partially inside an open curve
+- [Oz] Added "non scaling" mode for Print & Cut - just does position and orientation
+- [Oz] Offset dialog now allows zooming / panning while in use
+- [Oz] Improved speed of dithering functions by 10% to 20% (better interactivity in Adjust Image window)
+- [Oz] "SHX path missing" error now deferred until after splash screen closes (caused issues on MacOS)
+- [Oz] Bugfix: bent text in an Art Library would bend inverted if imported into a workspace with a different device origin
+- [Oz] Bugfix: stored coordinates editor was showing Y value for the Z as well (stored properly, just shown wrong)
+- [Oz] Bugfix: fixed a crash when looking for snap intersections on very dense files when zoomed way back
+- [Oz] Gave 'Fire' button a red halo when enabled
+- [Oz] Added an option to flip (mirror) rotary output to the Rotary Setup window
+
+Import / Export:
+- [AH] Remember last used export extension and make default for next time
+- [Oz] Added support for SVG <symbol> tag
+- [Oz] PLT import now creates a tiny circle when the file contains zero-length lines (these are point shapes)
+- [Oz] Added bitmap support to SVG exporter
+- [Oz] Bugfix: Exported SVGs will now fill anything exported with Offset Fill
+- [Oz] Bugfix: Proper handling of NURBS curve weights in DXF splines
+- [Oz] DXF exporter now exports circles as CIRCLE objects instead of converting to lines
+- [Oz] SVG import now supports images with clip paths
+- [Oz] Bugfix: fixed a crash when parsing an SVG path that does not start with a valid move command
+
+GCode:
+- [Oz] Added speed and power overrides for GRBL (in the Move window, when a job is running)
+- [Oz] Bugfix: Connection issue with Arduino-based GRBL boards
+- [AH] Allow forcing constant power mode in the regular Grbl profile
+- [Oz] GRBL - keep checking for pause even after all commands have been send, until all are finished processing
+- [Oz] Bugfix: bounds clamping on new jog was incorrect for Y axis
+- [Oz] Added file_line_count to SnapMaker header
+- [Oz] Added 'Focus Height" and "Material Height" to SnapMaker interface
+
+DSP:
+- [Oz] Bugfix: Fill+Line mode on Trocen controllers was missing a command
+- [Oz] Can now select a specific device if more than one Trocen laser is connected via USB
+- [Oz] DSP controllers now use temporary connections to the laser (connections no longer held open)
+- [Oz] Added 'Default' buttons for Ruida power & speed settings, to use the values stored in the panel
+- [Oz] Added 'Enable Laser 2 controls' setting for DSPs, so you can enable / disable dual tube controls in the UI
+
+
+0.9.20:
+- [AH] Bugfix: Tab selection for small shapes with many small tabs
+- [AH] Bugfix: Tab placement for scaled shapes now correctly updated
+- [Oz] Bugfix: 'Reduce Direction Changes' optimization setting could override a forced shape direction
+- [Oz] Bugfix: Hitting 'Esc' in Optimize Shapes didn't revert changes
+- [Oz] Bugfix: If a DXF ellipse specified StartAngle=0, EndAngle=2xPI, close the shape
+- [Oz] Add F1 help for Optimization Settings window
+- [Oz] Bugfix: Saving inverted preview didn't work if 'Shade According to Power' was off
+- [Oz] Bugfix: Fixed double-click launching into a running LightBurn when the filename contains non-ASCII characters
+- [Oz] Bugfix: Only allow 'Create rubber-band outline' if something is selected
+- [Oz] Bugfix: Improve font selection, scrolling, and adding to Most Recent Fonts
+- [Oz] Added a small icon to the material library to show the type (Cut, Fill, Image)
+- [Oz] Auto-save a named material library after any change, not just on shutdown
+- [AH] Bugfix: correctly show user origin position when loaded from a project file
+- [Oz] Added support for multiple <svg> tags in an svg file
+- [Oz] Bugfix: Offset fill would sometimes fill inner nested shapes
+- [Oz] Offset fill computation speedup (now about 3x faster)
+- [Oz] SnapMaker header / frame bounds added
+- [Oz] Turn off 'Fire' button (if on) when Home is clicked
+- [Oz] Added TopWisdom TL-A1 to the 'Find my Laser' wizard
+- [AH] Added support for ZStd compression (can now read AI content from AI 2020 files)
+- [Oz] ONLY apply gcode clustering to images (improves performance of Smoothie pause delay)
+- [AH] Allow pan/drag while in Grid Array tool.
+- [Oz] Added a retry mechanism for GRBL query to get around Ortur firmware bug
+- [Oz] Added troublshooting helpers for 'ALARM:2' and 'Connection lost'
+- [Oz] Modified equation boxes to always show decimal point as fraction delimiter
+- [Oz] Changing offset distance value now updates offset instantly
+- [Oz] Startup / 'Hello' message tweak for GRBL devices
+- [AH] Fix image mask flatten when using gamma/contrast/brightness
+- [Oz] Added a 1-bit BMP reader for broken GIMP output that claims the image is compressed when it isn't
+
+
+0.9.19:
+- [Oz] Bugfix: don't allow tool layers to be used with the material library
+- [Oz] Bugfix: tool layers in the middle of the cuts list caused problems when editing layers after them
+- [Oz] Bugfix: auto-home setting in Device Settings didn't disable correctly, incorrect tool tip
+- [Oz] Enable new jog for Gerbil devices (continuous & $J based jogging)
+- [Oz] Bugfix: Exporting filled shapes to SVG did not properly merge shapes with curves into compound paths
+- [Oz] Bugfix: Some PDF images do not use row padding
+- [Oz] Bugfix: PDF image decode params can be explicity null (caused a crash)
+- [Oz] Bugfix: fixed parsing issue with PDF dictionaries when a number was followed by an object reference
+- [Oz] Added support for palettized images in PDF files
+- [AH] Add import/export for scanning offsets
+- [Oz] Improved inner/outer sorting of cuts when NOT using 'Order by Layer' and using 'Fill all shapes'
+- [Oz] License entry box now checks for weird characters
+- [Oz] Added a workaround for Ortur locking up when sending ? command with newline
+- [Oz] Automatically reset GRBL devices when [MSG: reset to continue] is seen (helps Ortur usage)
+- [AH] Bugfix: tabs, perforation, and dot mode now correctly enable/disable as the others are selected
+- [AH] Bugfix: fix tab generation when overlapping start/end of shape
+- [AH] Bugfix: fix tab selection and placement when tab size is very large
+- [Oz] Updated Win64 installer to respect /SILENT mode on library sub-installers
+- [Oz] Bugfix: Sometimes Min Power was hidden for GCode devices in image / grayscale mode
+- [Oz] Bugfix: 'Cut Shapes' tool would sometimes fail to cut along curves
+- [Oz] Bugfix: drag-select of multiple text nodes didn't activate 'multi-edit'
+- [AH] Bugfix: select from from Favorites or Recent first if exists
+- [AH] Bugfix: select system font in font dropdown if requested font does not exist
+
+
+0.9.18:
+Fixed:
+- [Oz] Bugfix: Tool layers appears in cut settings editor, could crash if changed
+- [Oz] Bugfix: Transparent or cropped images had black borders when thresholded, sometimes black lines appeared
+- [Oz] Bugfix: GCode devices with 'Fire' button enabled would disable the beam after jogging
+- [Oz] Bugfix: sideways mouse wheel moves would zoom
+- [Oz] Bugfix: Some shortcut keys were still broken in Polish translation
+- [Oz] Bugfix: "Start here" button no longer shown for systems that don't support file uploads
+- [Oz] Added Ctrl+0 shortcut for 'Zoom to page'
+
+
+0.9.17:
+Editor:
+- [AH] Added tool layers (never output, used for labels, alignment, text on path, etc)
+- [Oz] Added shape smoothing to Optimize Shapes dialog
+- [AH] Added Font Favorites and Most Recently Used 
+- [AH] Added image masking (live crop)
+- [AH] Added Mask Flatten option to "bake in" mask/crop operation
+- [Oz] Added 'Start here' option to preview (allows starting a job part-way through)
+- [Oz] New Cut Settings editor with Common / Advanced settings tabs
+- [AH] Support for SHX Fonts
+- [AH] Support for Right-to-Left text
+- [Oz] Shape Properties now properly multi-edit (select 5 circles, change width/height all at once)
+- [Oz] Added 'Offset Fill' mode (use sparingly - can be very complex to compute)
+- [Oz] Bitmaps with transparency now work with Enhance Amount / Enhance Radius
+- [AH] Added tabs enable/disable without destroying tabs or tab settings
+- [Oz] Added WIFI & Contact (MECARD) editors to QR Code creator
+- [Oz] Added snapping to shape intersection points
+- [Oz] Added support for ramp mode with threshold images
+- [AH] Added partially cut tabs
+- [Oz] Adding an entry to the Art Library with an existing name will ask if you'd like to replace it
+- [Oz] 5X faster snap-point search (speeds up user interaction on slower computers)
+- [Oz] Auto-choose a COM port if there is only one candidate port available
+- [AH] Performance fix for large amounts of generated tabs
+- [Oz] Time-based merging of multiple undos for shape or node movement
+- [Oz] Frame & O-Frame now respect "Discard out of bounds shapes" setting
+- [Oz] Offset dialog now allows units/equations in distance field
+- [Oz] Start points tool can now change selection while active
+- [Oz] Right-click paste now puts the pasted shape wherever the right-click was
+- [Oz] Added 'Create rubber-band outline' function
+- [Oz] When using 'Discard out of bounds shapes' you'll now get a warning if shapes are discarded because they cross the machine bounds
+- [Oz] Added a hotkey for 'Offset' (Alt+O), changed 'Optimize' to (Alt+Shift+O)
+- [AH] Updated tab generation with more accurate placement and better tab merging
+- [Oz] Fixed a couple bugs with tab generation that could cause shapes to disappear entirely
+- [Oz] Bugfix: Rotary check in Camera Alignment code was incorrect
+- [Oz] Bugfix: Drag-select in Edit Nodes mode didn't work when zoomed in
+- [Oz] Bugfix: crash when trying to auto-join grouped shaped highlighted by 'Show Me'
+- [Oz] Bugfix: images were placed incorrectly using Print & Cut
+- [Oz] Bugfix: Changing from mm/sec to mm/min would set the wrong Z-speed in the UI
+- [Oz] Bugfix: Art libraries with decimal points in the name were displayed incorrectly
+- [Oz] Bugfix: Fixed shortcut translations for Polish language
+- [Oz] Bugfix: don't allow bitmaps when using 'Cut Shapes'
+- [Oz] Bugfix: Alignment & distribute functions now properly skip locked objects
+- [Oz] Bugfix: Variable Text cut setting interval showed wrong layer setting
+
+DSPs:
+- [Oz] Move to cut start first, then do Z move (Ruida / GCode)
+- [AH] Add option to disable Start button for machines with upload capability.
+- [Oz] Fixed corrupted file list on Trocen/AWC with large numbers of files (more than 60)
+
+GCode devices:
+- [Oz] Fixed stuttering on GCode job start with Windows systems
+- [Oz] Better messages for gcode devices not being connected
+- [Oz] Added built-in translation for GRBL error and alarm messages
+- [Oz] Added 'Synchronous' transfer mode for GCode devices (Edit > Device Settings)
+- [Oz] GCode stream time now displayed as HH:MM:SS if long enough
+- [Oz] SnapMaker profile now uses M106 / M107 for air assist
+- [Oz] Improved handling of pause/resume and preserving correct laser state
+- [Oz] GCode macros with $ commands are now sent line by line in the gcode sender thread (more robust, no UI lockup)
+- [Oz] Query GRBL for buffer size on startup to help improve streaming performance
+- [Oz] Forced GCode cursor jog commands to wait for completion
+- [Oz] Bugfix: When doing really slow, small moves, gcode emitter could mis-track rounding errors
+- [Oz] Bugfix: M2 command is now emitted after any user GCode trailer
+- [Oz] Bugfix: Smoothieware reports positions in inches when in inch mode (not documented behavior)
+- [Oz] Cleanup for Z handling on GCode systems using relative moves.  Z now returns to start height properly.
+
+Import/Export:
+- [Oz] Improved robustness of AI / PDF importing
+- [Oz] Added a setting for SVG import DPI  (96 or 72, for InkScape or Illustrator)
+- [Oz] Added parsing for DXF MText height, color formatting fields
+- [Oz] Added support for CCITT-Fax encoded images in PDF files
+- [Oz] Bugfix: SVG export of Polygon objects and QR codes did not work if in a group that was scaled/offset
+- [Oz] Crash fix: Ignore invalid viewBox in SVG files
+
+
+0.9.16:
+- [AH] Allow skipping inner shapes for automatic tabs
+- [AH] Fixed a couple rare crashes with tabs on malformed artwork
+- [Oz] Fixed broken 'path memory' on Win64 version
+- [Oz] Ignore invalid data in SVG paths to prevent crashing on malformed files
+- [Oz] Warn & quit focus test if Z is not enabled
+- [Oz] Auto-select first layer when loading a new file, just so the 'Cut info' below the cut list is valid
+- [Oz] Art library now checks for changes whenever the app is activated, allowing multiple instances to share libraries without conflict
+- [Oz] Bugfix: Stop button on TopWisdom could crash
+- [Oz] Added 'Upper Case' flag to text shapes
+- [Oz] Allow copy/paste from Illustrator (auto-detect SVG clipboard content in text)
+- [Oz] Bugfix: gcode start code not emitted for Marlin devices
+- [Oz] Bugfix: radio buttons for air/power on Marlin were in the same 'click group'
+
+
+0.9.15:
+Editor:
+- [AH] Added Manual and Automatic tab placement
+- [Oz] Added 'Cut Shapes' tool
+- [Oz] Major improvements to 'Hide Backlash' optimization
+- [Oz] Added 'No laser connected' message instead of 'busy or paused' when appropriate
+- [Oz] Major improvements to inside / outside testing (much more robust now, a touch faster)
+- [Oz] Added support for importing a specific page from a PDF
+- [Oz] Much smarter inside/outside tests - shapes that touch, single lines, unclosed shapes, etc
+- [Oz] Added support for creating QR Codes (Tools > QrCode)
+- [Oz] Update the Windows system 'recent files' list for LightBurn project files
+- [Oz] Rotate will snap to 15's (Shift) or 45's (Ctrl+Shift) in addition to 5's (Ctrl)
+- [Oz] Move button sizing cleaned up for all platforms
+- [Oz] Snap to point lightly takes precedence over snap to line
+- [Oz] Check if rotary enabled when starting camera alignment
+- [Oz] Improved text bending - now bends straight lines too
+- [Oz] Turning off 'Fade' for the camera background now dims the grid
+- [Oz] Auto-select text on creation
+- [Oz] < and > (Shift held) rotate by 45 degrees
+- [Oz] Visual indication of start/end of paths, making it easier to find open shapes
+- [AH] "Cut Through" may now be set on start and end pauses individually
+- [Oz] 'Choose Corners' optimization now prefers points where direction changes on circle/ellipse (top, bottom, left, right)
+- [Oz] Custom camera system compatibility improvement
+- [AH] Extend now works when selecting line instead of node
+- [AH] Write multiple axis calibration at once
+- [Oz] Added a setting to rotate captures by 90 degrees for flatbed (narrow) lasers
+- [AH] Fixed start direction when using kerf offset
+- [Oz] Added camera lens calibration presets for all official LightBurn cameras
+- [Oz] Major speed increase for Filled/Smooth rendering
+- [Oz] Fixed a little UI weirdness in Radial Array dialog with steps / end values
+- [Oz] Added a bunch of 'status tips' - helper text displayed in the status bar
+- [Oz] Clear Print & Cut mode when file is closed
+
+Editor bug fixes:
+- [Oz] Bugfix: text shapes with Order by Group and Fill+Line enabled would order strangely
+- [Oz] Bugfix: bug in Trim function when intersecting thin shapes with close to straight curves
+- [Oz] Added missing VC2015 redistributable to installer
+- [Oz] Bugfix: Double-clicking a file with international characters in the name could fail to open
+- [Oz] Bugfix: Copy/Paste of bent text didn't always keep the bend
+- [Oz] Bugfix: Correct button sizing for mm/in button when font size is changed
+- [Oz] Bugfix: Fixed crash when changing font display size
+- [Oz] Bugfix: Fixed omitting shapes that touch the bottom edge of the page
+- [Oz] Bugfix: Fixed an issue importing PLT files that ended with a pen-up command
+- [Oz] Bugfix: Rotary test displayed an error when there wasn't one
+- [AH] Bugfix: Keep proper start point when applying kerf offset, even in the middle of a line
+- [Oz] Bugfix: kerf offset + power scale would lose the power scale on Line mode
+- [AH] Bugfix: Ensure lead in/out is not outside of preview view box
+- [Oz] Bugfix: Frame was incorrect when using Print & Cut
+
+DSPs:
+- [Oz] Added 'Overcut' support for TopWisdom and Trocen
+- [Oz] Added 'Delete all files' command for Trocen
+- [Oz] Enabled PPI setting for vector fills on Trocen controllers
+- [Oz] Bugfix: TopWisdom machine setting for rotary / normal mode didn't work
+- [Oz] Bugfix: TopWisdom step length settings were scaled incorrectly and not written properly
+- [Oz] Bugfix: Trocen devices connected with USB would frame in the wrong place
+- [Oz] Bugfix: Framing on TopWisdom in 'User Origin' mode (and all others) now works correctly
+- [Oz] Added 'Go to Origin' button for TopWisdom to jog to the current user origin
+- [Oz] Added Vank Laser Ruida protocol support
+- [Oz] Enabled dual-tube support for Ruida RDLC320A controller
+
+GCode:
+- [AH] Add ability to set Start/End gcode to output
+- [Oz] Added homing speeds to GRBL machine settings
+- [Oz] Added option to enable faster pausing for Smoothieware
+- [Oz] GCode systems now display layer & pass info in the status bar
+- [Oz] Made 'Return to Finish Position' optional for Emblaser 2
+- [Oz] Enabled air assist commands on Marlin  (M8/M9, optional M7)
+- [Oz] Bugfix: pause/resume on GCode controllers could get stuck
+- [Oz] Bugfix: pressing 'Stop' on a GRBL device when idle could sometimes lock the communication channel
+- [Oz] Bugfix: GRBL homing invert flag is a single switch, not a per-axis mask
+- [Oz] Bugfix: writing GRBL $20 setting before $22 setting could error ($20 needs $22 to be set first)
+
+Import/Export:
+- [Oz] Added support for 1-bit images embedded in PDF files
+- [Oz] Added support for ICC_profile RGB images in PDFs
+- [Oz] Added handling of text style property for MTEXT in DXF files, improved font matching
+- [Oz] Bugfix: vertically centered DXF TEXT positioned incorrectly
+- [Oz] Bugfix: SVG polygon with no coords would crash
+- [Oz] Bugfix: Fixed a crash in PDF when the file ends with a carriage return without newline
+- [Oz] Bugfix: DXF export would sometimes position shapes incorrectly if grouped
+
+
+0.9.14:
+- [Oz] Major speed increase to 'fill' engine for vector shapes
+- [Oz] Jog arrows now size with tool button size
+- [Oz] Ruida Z speed is written to the controller *unless* feeder axis / feed first is used
+- [Oz] Bugfix: mm/in button and layer order buttons on MacOS not repainting properly
+- [Oz] Bugfix: fixed issue when using OverCut and Remove overlapping lines together
+- [Oz] Bugfix: 'don't frame while already framing' check didn't work on some Ruida controllers
+- [Oz] Bugfix: Copy/Paste from newer versions of InkScape would cause text to paste in addition to shapes
+- [Oz] Focus test no longer forces absolute coords / center page
+- [Oz] Bugfix: Units on numeric edits weren't changed to in properly when switching between mm/in
+- [Oz] Bugfix: Wait for command to turn off fire button to complete before sending job data (GCode)
+- [Oz] Bugfix: SVGs using 'pixels' as units were incorrectly sized
+
+
+0.9.13:
+- [Oz] Reverted some code to improve high-DPI displays that broke low-res systems
+- [Oz] Fixed a Marlin setting issue (M3/M106/Inline wasn't remembered properly)
+
+0.9.12:
+New features:
+- [Oz] Bendable text
+- [AH] Added 'T'rim command to node editing
+- [AH] Added 'E'xtend command to node editing
+- [AH] Convert to Bitmap for vector shapes
+- [Oz] Added 'Locked' property for shapes to prevent movement / grouping
+- [AH] Add axis calibration dialog in Machine Settings
+- [Oz] Cut setting editor will now allow switching between settings (edit multiple settings)
+- [Oz] Copy / Paste from EngraveLab to LightBurn
+- [Oz] Radius tool will now auto-convert rect or polygon to path if necessary
+- [Oz] Display language names in each native language
+- [Oz] Better alignment for focus test text, reduced text output
+- [Oz] Reduce Direction Changes optimization improvements - now generally improves cutting time
+- [AH] Add 'Save to File' option for Focus Test
+- [AH] If variable text CSV isn't found, look in project folder, in case we're on a new machine
+- [Oz] Don't do internal reset if the user just views the license screen, but doesn't change anything
+- [AH] Filled rendering mode will properly draw open shapes that are set to fill
+- [AH] Filled rendering mode will render in cut list order
+- [AH] Added Device Profile Import/Export
+- [Oz] Convert to Path option given even if selection contains some things that can't be converted
+- [Oz] Camera Selection Helper (help menu)
+- [Oz] Added list of stored positions for Move window
+- [AH] Cut layer default settings per device
+- [Oz] Added numeric labels to cut color buttons for colorblind users (optional, can be disabled in settings)
+- [Oz] Cuts & Laser windows allowed to be slightly shorter for space constrained displays
+- [Oz] Added snap along line & bezier
+- [Oz] Added option to ramp outer edges or not when using ramp mode
+- [Oz] Auto-invert the preview if you have just an image that is negated
+- [Oz] Drag-snap of lines on different layers no longer merges the paths
+- [AH] Auto-backup preferences and machine settings 
+- [Oz] Expired license now shows the expiry date
+- [Oz] Added support for importing vectors in SignCut (.sc) file format (with embedded AI content)
+- [Oz] Added support for importing vectors in SignCut Pro (.scpro2) file format
+- [Oz] Recent file list now properly displays foreign language characters
+- [Oz] Added 'Read Controller Settings' to simulation params page for GRBL, Ruida, Trocen
+- [Oz] Add font size control to settings
+- [Oz] Z-speed on Ruida is now the controller default speed for that axis
+- [Oz] Added hotkey for rotary setup (Alt+Shift+R)
+- [Oz] Added hotkey for Wireframe toggle (Alt+Shift+W)
+- [Oz] Pointer Offset (if enabled) is now included in Print & Cut positioning
+
+- [Oz] BugFix: Using 'Remove Overlaps' in the cut optimizer could cause crashes if complete shapes were removed
+- [Oz] Bugfix: broken Japanese file import filter pattern (*.ai didn't work)
+- [Oz] Bugfix: thumbnail parsing
+- [Oz] Preview now properly uses 'Start From' position
+- [Oz] Bugfix: Allow for a few microns of error in the 'are cuts within the workspace' check
+- [Oz] Respect start point / direction even when path optimizations are off
+- [Oz] Bugfix: cut-through/delays are now suppressed on fill layers even if the setting is present in Line mode
+
+Import / Export:
+- [Oz] New file Open / Import / Save dialogs for Win64 that can't be crashed by broken external thumbnail tools
+- [Oz] Improved SVG export compatibility with SVGNest
+- [Oz] Improved parsing of CADLink exported PDF files
+- [Oz] Improved support for HPGL / PLT files (PU;PD;PA;PUPAxxx,yyy;PDPAxxx,yyy now suppported
+
+- [Oz] Bugfix: DXF import was not clearing Cut Priority setting on shapes
+- [Oz] Bugfix: Don't crash on a completely empty / malformed SVG file
+- [Oz] Bugfix: DXF MTEXT objects using top or middle vertical alignment were placed incorrectly
+
+DSP:
+- [Oz] TopWisdom machine settings write, more settings added
+- [Oz} Dual tube support for Trocen controllers
+- [Oz] Detect current origin mode for Trocen/AWC - corrects framing issues, aids camera use
+- [Oz] Bugfix: Numeric controls in Cut Info window didn't work for Laser 2
+- [Oz] Bugfix: Fill+Line mode now uses correct output for Line mode if Fill is set to Laser 2
+- [Oz] Bugfix: fixed jog direction in Continuous Jog for Trocen controllers
+- [Oz] Bugfix: Hitting frame while framing would lose position (Ruida)
+- [Oz] Added Feeder table support (Alt+Shift+F)
+
+GCode:
+- [Oz] If 'Fire' button is on when jogging, leave the beam on at the low-power setting
+- [Oz] Bugfix: Don't perform start / end dwells in GCode for fills
+- [Oz] Grayscale now treats white as empty space if Min Power is 0
+- [Oz] Added SnapMaker support
+- [Oz] Minor change to GRBL opening command to prevent 'Error 9' showing when locked
+- [AH] Bugfix: correctly parse position status for latest Smoothieware
+
+General bugfixes:
+- [Oz] Bugfix: Fixed a precision/alignment issue when importing images in vector files
+- [Oz] Bugfix: Variable text import filter (CSV / TXT) was incorrectly formatted
+- [Oz] Bugfix: Crash when selecting a camera if no laser profile is created
+- [Oz] Bugfix: Art Library wouldn't allow renaming with extended international characters
+- [Oz] Bugfix: Text cursor would temporarily disappear if you deleted all text applied to a path
+- [Oz] Bugfix: framing with Print & Cut enabled is now corrected
+- [AH] Force text and associated path to group together
+- [Oz] Auto-advance variable text only advances if at least one enabled layer contains variable text
+- [Oz] Bugfix: Cut-through & delays cleared for fill layers
+- [Oz] Bugfix: Select all no longer selects hidden shapes (unless they're part of a group where something else is visible)
+
+
+0.9.11:
+- [Oz] Fixed shortcuts in language packs (translations were incorrect)
+- [Oz] Added a switch to disable 'Ignore out-of-bounds shapes' behavior
+- [Ah] Fixed frame speed bug
+- [Oz] Fixed an issue with double-click launching files whose paths have spaces in the name
+- [Oz] Fixed a crash when importing PDF files with inline ColorSpace definitions
+- [Oz] Fixed bug with thumbnail extraction in shell extension
+- [Oz] Fixed shutdown crash when camera running on Windows
+- [Oz] Added failed transfer sound (and a preference to disable it) for DSPs
+
+
+0.9.10:
+Editor Features:
+- [Oz] New camera capture library for Windows 8 & up. Faster, use any camera, manual exposure and brightness controls
+- [Oz] When 'Open shapes set to fill', click 'Show Me' to select them for you automatically
+- [Oz] Fixed preview thumbnails for all Windows systems
+- [Oz] Images are now included in thumbnails
+- [Oz] Added lower 'cutoff' to image trace - allows tracing 'bands' of gray
+- [Oz] Added fine grid when zoomed
+- [Oz] Added 'Hide Backlash' option to optimizations (similar to Backlash Repay Optim on Ruida)
+- [Oz] Multi-select nodes in node edit mode for moving, deleting
+- [Oz] Drag line in Node Edit mode converts it to a curve if necessary, and drags the curve
+- [Oz] Ctrl+Click on a line in Node Edit inserts a new point along the line
+- [Oz] Art library added
+- [Oz] Added Load / Save machine settings
+- [Oz] Added 'Invert' button to preview window - Allows viewing negative engraving
+- [Oz] Added Test function for rotary steps
+- [Oz] Added interior corner radius on rectangles (use negative numbers)
+
+General improvements / bug fixes:
+- [Oz] Fixed grid, radial, and path copy of Text on Path
+- [Oz] Added Halftone image mode
+- [AH] Added optimization settings to project file
+- [AH] Added job log of sent files
+- [AH] Dim images when layer is disabled
+- [Oz] Improved point insertion / deletion on curves
+- [AH] Remember which camera was used and restore it
+- [Oz] Radial array goes clockwise now, regardless of controller origin point
+- [Oz] Added hotkeys for Break Apart (Alt-B) and Delete Duplicate Shapes (Alt-D)
+- [AH] Cut/Paste images from Windows file explorer into LightBurn
+- [AH] Added option to delete image after image trace
+- [RK] Remember / restore last used preview speed
+- [Oz] Failed project file parsing will now return an error message
+- [Oz] Split main toolbar for space constrained displays
+- [Oz] New translations, added Turkish, Finnish
+- [Oz] Colorized some of the primary tools when active
+- [Oz] Library save now backs up your old file, then saves, then removes the backup, just in case something fails
+- [Oz] Changed main laser button layout (less likely to press Start unstead of Frame)
+- [Oz] Remove overlapping lines (Optimization settings) now removes any line entirely covered by another
+- [Oz] Skip shapes that are out of workspace when using Absolute Coords mode
+- [Oz] Added a warning if you create a material with no name or description
+- [Oz] Added 'Ludicrous DPI' warning to cut settings window
+- [Oz] Disabled Z controls in cut settings if 'Enable Z' is not set
+- [Oz] Trace Image button in camera window automatically captures first (saves a step)
+- [Oz] Cut Order or Power Scale applied to group is applied to all group members
+- [Oz] Group members retain individual cut order priorities when grouped
+- [AH] Added Alt+Shift+L shortcut to save cut file 
+- [Oz] In Variable Text CutSetting mode, C = Absolute cut layer number, from 0 (different cut setting)
+- [Oz] In Variable Text CutSetting mode, L = Laser Name (L6,2 = start from the 6th char, 2 characters long)
+
+- [Oz] Bugfix: Fixed a bug in the computing offset in scanning offset tables with more than two entries
+- [Oz] Bugfix: arc fit occasionally left shapes open (showed up in welded text)
+- [Oz] Bugfix: Fixed a precision error that sometimes caused rectangles to partially scan the first / last line
+- [Oz] Bugfix: Fixed a double-click launch issue with some Windows systems
+- [Oz] Fixed Table of Contents links in PDF docs
+- [Oz] Bugfix: moving a vertical or horizontal line from the end defaulted to rotation mode
+- [Oz] Bugfix: rare bug that could cause files saved with text/path to crash when loading
+- [Oz] Bugfix: Beginner Mode was overriding user choice of Arrange / Arrange Long toolbars
+- [Oz] Bugfix: Motion planner was ignoring scanning acceleration setting
+- [Oz] Bugfix: crash when undoing a vertex delete that failed
+- [Oz] Bugfix: Fixed shape offsets when using 'Rotate Shapes' with 'Copy Along Path'
+
+DSPs:
+- [Oz] Made network timeout configurable for Ruida & Trocen controllers
+- [Oz] TopWisdom origin modes fix
+- [Oz] Improved DSP layer output conformance with stock software (Ruida / Trocen)
+- [AH] Added continuous jog for Ruida
+- [Oz] Added Auto Air Assist flag for TopWisdom
+- [Oz] Fixed a small inconsistency in machine file for TopWisdom
+- [Oz] Added 'Go To Origin' button for Ruida
+- [Oz] Added 'Go to Origin' button for Trocen
+- [Oz] Fixed an issue when clicking 'Frame' on Ruida in User Origin mode, when not currently at the user origin
+- [Oz] Added support for real relative Z moves on Ruida controllers
+- [Oz] Added warning for full controller memory on Ruida
+- [Oz] Bugfix: cut-through mode no longer affects later layers on Ruida (is also a bug in RDWorks!)
+- [Oz] Modified cut-through mode to allow start / end delays for all controllers
+- [Oz] Added Continuous jogging for TopWisdom controllers
+- [Oz] Added missing file terminator on failed file transfer (Ruida)
+- [Oz] Bugfix: Trocen controllers in 'Soft Origin' mode would be offset if the Job Origin wasn't set correctly
+- [Oz] Added continuous jogging for Trocen controllers
+- [Oz] Added Z jogging for Trocen controllers (controller only supports Z jog in Continuous mode)
+- [AH] 'Send' will start job immediately after transfer if Shift is held when clicking Send
+
+GCode:
+- [Oz] Added 'Show all' button to GCode console - echoes all gcode sent to controller
+- [Oz] Fixed a position parsing error for older versions of GRBL where status uses commas instead of |'s
+- [Oz] Added 9600 and 19200 baud for comm rates
+- [Oz] Bugfix: Fixed 'Get Positions' for Marlin
+- [Oz] Auto-setup for XCarve / Shapeoko machines
+- [Oz] Bugfix: Fast Whitespace Scan didn't do fast uni-directional return moves if overscan was enabled
+- [AH] Warn on close while gcode streaming
+
+Import / Export:
+- [Oz] SVG Exporter now correctly merges nested filled shapes into composite paths with holes
+- [Oz] Added support for PDF Resource table inheritance (some PDF's didn't import images properly)
+- [Oz] Added support for ICC color profile parsing in PDF / AI files
+- [Oz] Bugfix: crash with malformed DXF files missing referenced objects
+- [Oz] Bugfix: incorrect scale when importing SVGs with embedded images using px as units (Affinity Designer)
+- [AH] Bugfix: SVG style parsing bug
+- [Oz] Added support for LZW compressed streams in PDF files
+- [Oz] Added handling of 'none' for SVG fill & stroke, meaning "discard this"
+- [Oz] Bugfix: Importing an LBRN file will now preserve text on path associations
+- [Oz] Bugfix: rotated DXF text would be mirrored for some machine origins
+- [Oz] 'Export' now evaluates variable text first
+- [Oz] Bugfix: vertex bulge with negative extrusion in DXF files caused arcs to flip the wrong way
+- [Oz] Bugfix: PDF files with custom palette dictionaries could cause a parser crash
+- [Oz] Bugfix: PDF crash when import file with missing colorspace definition
+
+
+0.9.09:
+- [Oz] Fixed weird interaction between grouped text/path fix and snaps
+- [Oz] Made 'Check for Updates' also check for patch releases
+- [Oz] Added a toggle switch for Ruida frame bounds check
+- [Oz] Updated Mac port filtering to only remove cu. devices with bluetooth in the name
+- [Oz] Added center snap for arbitrary objects
+- [AH] Made $J jogging for GRBL devices optional, disabled by default (must be on for Continuous Jogging)
+- [Oz] Added global default prefs override for schools / maker spaces
+- [Oz] Fixed missing VCRuntime140 error on Win32 installs
+- [Oz] Fixed an issue with text on ellipse in group
+- [Oz] Fixed sizing handles missing for horiz / vert lines
+- [AH] Fixed positioning update after jog
+
+
+0.9.08:
+Editor Features:
+- [Oz] 15x or better speed increase in finding inner / outer shapes on complex files
+- [Oz] Added Print & Cut marker targeting
+- [Oz] Added various snap types while dragging
+- [Oz] Zoom-adaptive grid snap behavior (makes node editing much more intuitive)
+- [Oz] Improved planning output when using "Reduce Direction Changes" optimization setting
+- [Oz] Added ability to export / import camera calibration settings
+- [Oz] Added ability to toggle Group-on-import behavior
+- [Oz] Added ability to toggle Select-on-import behavior
+- [Oz] Rebuilt settings window for easier navigation
+- [Oz] Added threshold slider to image trace for easier tuning
+- [Oz] Double-middle-mouse frames selection, or project content (from AutoDesk Fusion)
+- [Oz] Automatic daily check for updates
+- [Oz] Flood Fill enabled again for DSP controllers
+- [Oz] Flood Fill now respects scanning offset correction and ramp mode
+- [Oz] Added round corner tool (fillet)
+- [AH] Added Default font and size option (used by editor, and DXF imports)
+- [Oz] Added full-screen cursor option
+- [Oz] Added new 'Sketch' mode for dithering and image tracing - great for handwriting
+- [Oz] Explorer thumbnails for Windows version (doesn't work yet on all systems - still investigating)
+- [Oz] Added option to re-use running instance when launching files on Windows (on by default)
+- [Oz] Smarter text cursor placement / editing of overlapping text objects
+- [Oz] Focus test now supports inch or mm, and settings are preserved
+- [Oz] Added ability to save captured / undistorted camera image
+- [Oz] Improved arc fit in shape optimizer
+- [Oz] Added shortcut for Send (Alt+Shift+S), O-Frame (Alt-Shift-R), Convert to Path (Ctrl+Shift+C)
+- [Oz] Added shortcut for Focus Z (Alt+Shift+F)
+- [Oz] CSV parser now includes quoted strings with commas, and allows "" to represent single quotes
+- [Oz] Added flag for Z-move optimization
+- [Oz] Dark background option for edit window
+
+General bug fixes / improvements:
+- [Oz] Fixed OSX double-click to open LightBurn projects
+- [Oz] Fixed text-on-path added to group (no longer has double offsets applied)
+- [Oz] Fixed images being cut off slightly on sides when rotated
+- [Oz] Fixed importing of CSV files with incorrect line endings on Windows
+- [Oz] Startup checks to make sure window position is on screen, doesn't restore if it isn't
+- [Oz] Saving preview image now properly draws the last line in the cut
+- [Oz] O-Frame now works with 'Cut Selected Graphics' enabled
+- [Oz] Fixed a bug that would prevent duplicates from being removed in certain situations
+- [Oz] Fixed a bug that caused 'Optimize selected shapes' to not close the shape in certain cases
+- [Oz] Fixed a bug where using fills and cuts without 'Order by Layer' could break inner/outer ordering
+- [Oz] Fixed an issue where expired licenses were incorrectly showing huge days left (numeric wraparound)
+- [Oz] Fixed Linux / Mac exports, GCode / UFile saves (properly adds extension)
+- [Oz] Fixed a bug where minimizing / restoring the main window made the origin control creep to the right
+- [Oz] Fixed a bug in variable text that caused the CurrentIndex to reset back to zero when running a job
+- [Oz] Don't auto-advance serial text if send/save failed or was cancelled
+- [Oz] Fixed a crash when trying to trace the captured background if no capture was present
+- [Oz] Fixed a bug in text creation where setting the font first then typing text would revert to old font
+- [Oz] Fixed a bug in text creation where clicking around the page multiple times could cause a later crash
+- [Oz] Fixed diagonal axis snap bug
+- [AH] New Linux deployment script (AppImage is gone, deployed as .7z or .run file)
+- [Oz] Camera alignment window remembers scale setting
+- [Oz] Improved camera lens calibration images
+
+DSP:
+- [Oz] Added ability to auto-increment numbers in filename sent to laser for DSPs
+- [Oz] Improved compatibility with Fill+Line for Ruida controllers
+- [Oz] Optimized frame for Ruida & Trocen starts at the nearest point
+- [Oz] Ruida checks frame will be in bounds, if possible
+
+GCode:
+- [Oz] Multiple passes on an open shape will reverse along the same path (GCode only for now)
+- [Oz] Frame with laser enabled now uses constant power (M3) on GRBL
+- [AH] Fixed a bug in cut-through mode for M3 GRBL
+- [Oz] Reduced output decimals for GCode grayscale on GRBL machines to save bandwidth
+- [Oz] Increased overscan range for images to 50% (GCode devices)
+- [Oz] Improved compatiblity with GRBL 0.8 (testing)
+
+Import / Export:
+- [Oz] Don't group when importing a single shape or bitmap from an AI / PDF / SVG file
+- [Oz] Add layer color to DXF export
+- [Oz] Ignore zero width & height rectangles in SVG import
+- [Oz] Fixed a parsing issue with DXF files that contained extra whitespace
+- [Oz] Fixed a parse issue with SVG line objects containing units in the line coordinates
+- [Oz] Fixed an issue with alternate DXF text rotation, and DXF text size
+- [Oz] Fixed AI exports to be compatible with Aspire, VCarve (color format was wrong)
+- [Oz] Added a warning for using Import of a LightBurn file into an empty project
+
+
+0.9.07:
+- [Oz] Added TopWisdom frame functions
+- [Oz] Fixed preview cut distance display in inch mode
+- [Oz] Copy from InkScape / Paste SVG to LightBurn
+- [Oz] If using Fill Groups Together with text, pretend it's grouped, even if it isn't
+- [Oz] Fixed material library thickness entry in Inch mode
+- [Oz] Don't pause GCode systems if not busy
+- [AH] Send GRBL settings one line at a time
+- [Oz] Make same width / height now works from object center
+- [Oz] Fixed a crash when a multi-line variable text entry doesn't resolve correctly
+- [Oz] Fixed a crash in the device discovery on Mac (confused by Bluetooth ports)
+- [Oz] Added support for PNG predictor tags in embedded PDF images (fixes skewed/angled images)
+- [Oz] Fixed an issue where the preview would fail if Fast Whitespace was enabled, but set to zero
+- [Oz] Fixed a crash caused by incorrect tracking of which cut layers are used when copying/pasting/duplicating
+- [Oz] Auto-highlight the cut setting after assigning a color to a selection
+- [Oz] Camera alignment wizard prompts with marker index, can detect out of order in some cases
+- [Oz] Fixed a crash when assigning default cached cut setting to an image layer
+- [Oz] Fixed a bug in A axis machine settings for GRBL
+
+
+0.9.06:
+- [Oz] Fixed a bug when setting rotary pulses in Inch mode on Ruida systems
+- [Oz] Fixed a bug in the offset tool, choosing the wrong cut layer in some cases
+- [Oz] Fixed a bug where cut-through mode could be left on if a cut was changed to a fill
+- [Oz] Fixed an issue with Linux / AppImage not including libnsl
+
+0.9.05:
+New Editor Features:
+- [Oz] Created CorelDraw Export macro & install guide, doesn't re-launch LightBurn if already running
+- [Oz] Added image enhancement shape properties (Unsharp masking)
+- [Oz] Added Variable Text: date/time, serial number, power/speed/interval, and CSV/merge
+- [Oz] Fixed a crash when rotating images and using pass-through
+- [Oz] Added right-click context menu to edit window (Cut / Copy / Paste / Duplicate / Select All / Group / UnGroup / Preview)
+- [Oz] Added "Show Properties" shortcut to right-click menu (for Shape Properties)
+- [Oz] Added 'Context Aware' help - hover the mouse over a control and press F1 to get help for it
+- [Oz] Added a "Help with Corel Macro installation" entry to help menu
+- [Oz] Added Line Midpoint and Curve Midpoint snaps
+- [Oz] Added context cursors for point snaps, shape creation tools & node editing
+- [Oz] Added "Save processed bitmap" function
+- [Oz] Added Lead In/Out feature for cuts
+- [Oz] Improved handling of license expiry and renewal flow, messages
+- [Oz] Added clip rectangle to trace dialog
+- [Oz] Rotary setup can now be done in inch or mm
+- [Oz] Added Focus Test feature
+- [Oz] Added toolbar button to switch units on the fly
+- [Oz] Hold Shift to drag nodes in X/Y/diagonal
+- [Oz] Convert to Path bakes variable text into the design
+- [Oz] Select Contained Shapes now works properly for curves too
+- [Oz] Improved path planning of nested grouped scanned shapes when using Order by Group
+- [Oz] Fixed linux camera alignment camera initialization issue
+- [AH] Now deploying Linux as an AppImage, added application icon
+- [Oz] Added "Close paths with tolerance" dialog
+- [Oz] Fixed a bug where perforate settings could end up in the post-cut of Fill+Line mode
+- [Oz] Fixed a bug where doubling clicking a LightBurn file with a long name wouldn't load it (Windows)
+- [Oz] Fixed the "is newer version available" check
+- [Oz] Fixed a bug where the preview didn't always restore to the previous position
+- [Oz] Added a status message for auto-save, giving a visual indication of what's happening
+- [Oz] Fixed an issue with the preview when files contained infinitely short lines
+- [Oz] Added one more large tool button size in the toolbar scaling
+- [Oz] Adjusting color palette icon size with other tool button sizing from settings window
+- [Oz] Rotary Setup now hidden if no device is selected
+
+Fonts and Text:
+- [Oz] Font selection now faster, doesn't weld or create undo entries when using the drop-list
+- [Oz] Fixed text line spacing when reading older files on systems with non-standard display scaling
+- [Oz] Font welded option will be auto-ignored for single-line fonts
+- [Oz] Multiple text objects can now be edited at once
+- [Oz] Fixed a bug where changing the "Welded" option on new text wasn't applied correctly
+- [Oz] Fixed an issue with text-on-path cursor for some origin settings
+- [Oz] Added text on path handling for Duplicate / Cut / Copy / Paste
+- [Oz] Enabled Paste action if there is text on the clipboard
+
+Import / Export:
+- [Oz] Fixed a parse error with AI5 embedded image content
+- [Oz] Fixed a parse error in PDF/AI when encountering embedded stream after a number
+- [Oz] Improved SVG parsing of switch, defs, and use commands (instances)
+- [Oz] Discard empty polygon paths when importing SVG files
+- [Oz] Improved compatibility of exported DXF files with AutoCad
+- [Oz] Added Auto-detect option for DXF import units (not all DXFs will have units, but will use when possible)
+- [Oz] Added support for "rgb()" color notation in SVG files
+- [Oz] Fixed SVG export page view bounds
+- [Oz] Fixed a parsing issue for PDF 1.6 and newer
+- [Oz] Fixed placement of images imported from PDF files
+- [Oz] Fixed an issue parsing embedded images in Corel-exported AI files
+- [Oz] Added support for PDF CMYK-black image format
+
+DSPs:
+- [Oz] Added rotary settings for Thunder Laser controller variant
+- [Oz] Fixed name of "door protect enable" setting for Ruida (was mis-labeled "Water Protection enable")
+- [Oz] Added 'Calc Time' button support in files list for Ruida controllers
+- [Oz] Fixed an issue with skipped layers for AWC/LO-X7 controllers
+- [Oz] Fixed incorrect machine setting of step length for AWC controllers
+
+GCode:
+- [Oz] Fixed GRBL-M3 profile not turning off beam when doing Z moves between passes
+- [Oz] Better GCode controller communications / connection
+- [Oz] Added option to enable DTR for GCode controllers
+- [Oz] Added a flag to optimize Z moves for GCode devices
+- [Oz] Fixed a couple bugs in Marlin GCode output for scans (errors in rounded precision tracking)
+- [Oz] Updated Emblaser2 Wifi MAC address table (finds new Emblaser systems)
+
+
+
+0.9.04:
+- [Oz] Showing "(no thickness)" and mm in Material library window again
+- [Oz] Library now displays inch or metric, based on settings
+- [Oz] Fixed issue with booleans and single letter text objects
+- [Oz] Fixed bug where duplicating text on path could cross-link objects
+
+0.9.03:
+New editor features:
+- [Oz] Apply path to text
+- [Oz] Rect, Ellipse, Polygon are now auto-selected after creation
+- [Oz] Altered scaling code to push changes back into rectangles, ellipses, polygons, and text, if possible
+- [Oz] Digitally signed windows versions
+- [Oz] Added ramp mode for stamps
+- [Oz] Now supporting multi-language text entry (Chinese, Japanese, Korean, and other extended character sets)
+
+- [Oz] Added Overcut distance to cut settings
+- [Oz] Allow larger Z-offset values (+/- 100mm)
+- [Oz] Deleting all text in a string (or just making it all spaces) deletes the text object
+- [Oz] Added move selection to top / bottom / left / right
+- [Oz] Pressing Escape in selection mode will clear the selection
+- [Oz] Added menu items for Move Laser to Selection (corners / center / sides)
+- [Oz] Fixed an issue with manual ordering of nested scanned shapes in groups
+- [Oz] Added "Move Laser to Selection" menu items
+- [Oz] Added right-click to cut list header to show/hide all, enable/disable all
+
+DSP devices:
+- [Oz] Added AWC machine settings
+- [Oz] Added "Enable air assist" and "Enable water protect" Ruida vendor settings
+- [Oz] Added "Get Controller Info" to retrieve job time, laser on time, etc from Ruida
+- [Oz] Added 2nd tube offset param / support for Ruida
+- [Oz] Cut settings editor will auto-select 2nd tube if it's the only one enabled
+- [Oz] Added scramble key for Kaitian Ruida device
+- [Oz] Fixed a bug where Ruida could run a cut from the current point instead of jogging to the start point
+- [Oz] Added FTDI/Serial support for older AWC 608 devices
+- [Oz] Added main-panel support for 2nd laser tube settings
+- [Oz] Disabled Flood Fill for DSPs until I can fix the path generation for them
+
+GCode devices:
+- [Oz] Added support for "Set finish position" on Emblaser devices
+- [Oz] Support for Smoothieware gcode clustering (faster rasters with supported firmware)
+- [Oz] Fixed a bug where using cut-through on GCode would incorrectly set the feed rate
+- [Oz] Fixed feed rate calc error for rotary output in "Current Position" and "User Origin" modes
+
+Import/Export improvements:
+- [Oz] Fixed importing DXF reference of text object crashing
+- [Oz] Fixed a bug that could cause imported AI files to assign incorrect colors to disconnected segments
+- [Oz] Fixed an AI file import crash when using very old AI files containing font references
+- [Oz] Fixed a PDF import crash when encountering uncompressed image data streams
+- [Oz] Better identifying of EPS - AI files that aren't supported
+- [Oz] Fixed a PDF crash when importing a file that references images in appended stream objects
+- [Oz] Fixed importing of DXF polyline objects with extrusion (flipped objects)
+- [Oz] Now properly handling scaled DXF insert references
+- [Oz] Fixed more "empty objects" being left behind when importing DXFs
+- [Oz] DXF imported text now defaults to Arial if no font specified
+- [Oz] Handling DXF text styles
+- [Oz] Fixed a DXF issue importing 2-vertex closed shapes with bulge
+
+Other changes:
+- [Oz] Fixed translation of Position / Width / Height controls on main toolbar
+- [Oz] Fixed DXFs exporting mirrored on systems with origin other than front-left
+- [Oz] Fixed rotate 90 CW/CCW buttons swapped
+- [Oz] Fixed "reset to default layout" function
+- [Oz] Fixed a bug where shape properties weren't updating if changed in Undo
+- [Oz] Now remembers settings for aspect lock and anchor position (9 dot on toolbar)
+- [Oz] Start point is preserved when applying kerf offset
+- [Oz] Fixed a bug where duplicating a material then changing the material name would cause it not to be saved
+- [Oz] Fixed a bunch of UI spacing issues on Mac
+- [Oz] Fixed a bug in "Delete Duplicate Shapes" that would miss some line duplicates
+
+
+0.9.02: (patch release)
+- [Oz] Fixed connectivity issue with GCode devices
+- [Oz] Fixed Text HSpace and VSpace glitching in Inch mode
+- [Oz] Fixed a crash when importing an empty AI file with a missing metadata reference
+- [Oz] Use last library save / load path for Load / Save of new libraries
+- [Oz] Fixed occasional crash when starting a job using Beginner mode
+- [Oz] Fixed numpad jogging for Linux
+- [Oz] Enabled HW flow control for Smoothieware (should improve image throughput)
+- [Oz] Auto device wizard asks for size if not found, turns off auto-home if homing disabled
+- [Oz] Added Stucki dither mode (slightly faster than Jarvis, slightly crisper)
+- [Oz] Fixed Marlin baud rate parsing for non-English locales
+- [Oz] Z move speed is now saved / restored with prefs
+- [Oz] Disabled numpad jogging when in text entry mode
+
+
+0.9.01: (patch release)
+- [Oz] Fixed issues with Smoothieware devices connecting
+- [Oz] Fixed the window size changing when restoring the main window
+- [Oz] Fixed grayscale images being negated
+- [Oz] Fixed GRBL dwell time scaling (GRBL uses seconds, everything else is milliseconds)
+
+0.9.00:
+New editor features:
+- [Oz] Full simulation preview (with new motion planner)
+- [Oz] Added "Beginner mode" (simplified UI & cut settings)
+- [Oz] Auto device select / configure (Find my laser)
+- [Oz] Added hotkey for "Position Laser" tool (Alt-L)
+- [Oz] Added "Copy Along Path" function
+- [Oz] Ctrl + "Move Selection To" buttons will now move the laser to the indicated corner of the selection
+- [Oz] Added Rotate 90 CW and CCW, and connected them to < and > keys
+- [Oz] Added a setting to enable / disable the "Rotary Enable" control on the main window
+- [Oz] Brightness and Contrast properties for images
+- [Oz] Image Gamma control now affects bitmaps interactively
+- [Oz] Numpad arrows now jog machine (including diagonals)
+- [Oz] Added "Break line" (B) in node editing (breaks continuity at a node)
+- [Oz] Added "Select Contained Shapes"  (WIP - needs changes to handle curves)
+- [Oz] Added support for ' and " markers for feet and inches in equations (5' + 2")
+
+General usability & bug fixes:
+- [Oz] Changed Cut/Scan to Line/Fill - easier to understand for beginners
+- [Oz] Selection marquee now moves in cut direction
+- [Oz] Double-click a library entry to edit it
+- [Oz] Cut layer names show in the tool-tips for color palette entries
+- [Rk] Save & restore "Show Laser Position" & "Start From" setting
+- [Oz] Added slider to change tool button size in the settings, for high DPI displays
+- [Oz] Moved Pass Count into the main cut settings (replaces "Priority" value)
+- [Oz] Offsets / Booleans now keep the most used source object color
+- [Oz] Added equation / units support to font entry boxes
+- [Oz] Added warning for missing fonts when loading a project
+- [Oz] Remember / restore maximized state of the main window, pre-maximized size
+- [Oz] Increased allowed precision for Jog Distance to 2 decimals (metric)
+- [Oz] Fixed a bug in the cut planner that didn't optimize shapes with a forced start point
+- [Oz] Fixed "break apart" crashing on grouped objects
+- [Oz] Fixed text being incorrectly selected by "select open shapes"
+- [Oz] Auto-delete empty text (or text with only spaces or newline characters)
+- [Oz] Images now flash when right-clicking an image layer
+- [Oz] Fixed translations of files, move, library, and other docked windows
+- [Oz] Fixed a rare bug where "remove overlaps" could confuse the preview into not showing anything
+- [Oz] Fixed an issue where it was hard to enter decimal places in Min/Max power on the main cut list
+- [Oz] AutoSave automatically deferred when pop-up dialogs are display (like Offset, Grid Array, Preview, etc)
+- [Oz] Fixed a bug where "Pass Through" and "Negative Image" options could be left on when loading a file with them off
+- [Oz] Fixed a bug that prevented joining some paths
+- [Oz] Fixed font windows scaling / offset differences  (may cause text spacing shifts in saved projects, initially)
+- [Oz] Hide / Disable rotary setting for Emblasers (no more accidentally setting it)
+
+Camera updates
+- [Oz] Added camera capture button to main toolbar
+- [Oz] Added new "fisheye camera" option for camera calibration, better fit for fisheye lenses
+- [Oz] Better handling of fisheye distortion (larger usable camera area)
+- [Oz] Now forcing "Cut Selected Graphics" off, and Optimize on when running camera alignment cut
+- [Oz] Closing the current file will now reset the camera capture background
+- [Oz] Fixed: "Frame" in the Camera Alignment wizard would fail if "Cut Selected" was checked in the main window
+
+Import / Export improvements:
+- [Oz] Added DXF export (polyline only for now)
+- [Oz] Remember last export path and file type
+- [Oz] Fixed an import bug in PDF files using named instances
+- [Oz] Added support for TIFF images
+- [Oz] Auto convert text to paths when exporting to SVG
+- [Oz] Fixed an SVG importer issue with rotated arc segments
+- [Oz] Fixed AI import of odd sized 1-bit images
+- [Oz] Fixed a bug that created a dummy node at the origin when importing RD files for further editing
+- [Oz] Zero length lines and zero radius circles are now discarded if encountered during DXF import
+- [Oz] Fixed: importing SVG circles with no specified center point would crash
+- [Oz] Fixed importing of custom RGB color entries in AI files
+- [Oz] Fixed a bug in SVG importing paths with both style and class properties
+
+DSP Controllers
+- [Oz] AWC USB support
+- [Oz] Added X & Y backlash values to Ruida machine settings
+- [Oz] Added "Wireless Panel" settings for RDWorks user settings
+- [Oz] Better handling of "is connected" and "Enable Rotary" states for Ruida
+- [Oz] Added Ruida min/max tube power to vendor settings
+- [Oz] Fixed rare crash when finished sending a job to Ruida
+- [Oz] Relative Z handling for Ruida
+- [Oz] Support for dual-tube Ruida systems (work in progress)
+- [Oz] Fixed "Process Offset" bug for Ruida
+
+GCode Controllers
+- [Oz] Added support for DefaultPrefs.ini, to override prefs.ini for shared use spaces
+- [Oz] GRBL can now pause at start/end of a cut (cut-through mode)
+- [Oz] Exposed S-Value max scale for Marlin devices
+- [Oz] Wait for GRBL/Smoothie to respond on startup before issuing home command
+- [Oz] Fixed a bug in GCode systems when using the square Frame button in User Origin mode
+- [Oz] Fixed some erronious "might be out of bounds" warnings in User Origin mode with GCode systems
+- [Oz] Fixed GCode generation ignoring the Min Power setting for grayscale
+- [Oz] Added a toggle to disable the "out of bounds" check for GCode systems
+- {Oz] Added ability to disable "return to finish position" at end of gcode job
+- [Oz] Machine settings now work correctly for older versions of GRBL (like 0.9)
+- [Oz] Annotated GRBL settings with $ numbers for clarity
+- [Oz] Added homing direction invert mask values to GRBL machine settings
+
+
+0.8.07:
+- [Oz] Units and equations support in position, size, and scale boxes
+- [Oz] Fixed a couple bugs with new cut planner, ordering by group, with scans and images
+- [Oz] Fixed an issue where a single object in a layer could be ordered wrong in the new planner
+- [Oz] Better prefs handling - auto backup, corruption prevention
+- [Oz] Delete overlaps, as part of cut planning
+- [Oz] Added "Paste in place" (Alt-V) command
+- [Oz] Changed "Hide" to be "Show" so the presense of a check box means the layer is shown
+- [Oz] Grid snap distance setting now shown in proper units
+- [Oz] Cut planner will slightly prefer X moves to Y moves
+- [Oz] Updated Russian language
+- [Oz] Camera view can now be in color
+- [Oz] Radial array Start value was incorrectly using Radians instead of Degrees
+- [Oz] Now remembers grid array gap settings and reverse direction settings
+- [Oz] Perforation mode now makes sure at least one perforation will fit
+- [Oz] Project Open from the Corel macro now doesn't change the "last loaded" path
+- [Oz] Size, position, scale boxes now allow equations
+- [SP] Added "Break Apart" function
+- [SP] Added "Move H-together" / "V-together" functions
+- [Oz] Object origin point now affects numeric-entry rotation
+
+- [Oz] Fixed - SVG output missing parts required for SVGNest
+- [Oz] Added support for "custom color space" colors in AI files
+- [Oz] Added colors to AI exporter
+- [Oz] Fixed alignment issue with images embedded in AI files
+- [Oz] Fixed an issue reading custom color profile RGB colors from PDF files
+- [Oz] Composite path shapes in AI files are now imported as groups
+- [Oz] Improved text handling from DXF files (bold, italics, better escape sequence handling)
+- [Oz] Improved DPI handling for JPG images via EXIF parsing
+
+- [Oz] Fixed a Ruida issue where the laser could fire while moving to the user origin
+- [Oz] Flip Z button directions for Ruida
+- [Oz] "success / fail" message for Rotary Enable button on main screen
+- [Oz] Grayscale and Power Scale now working properly for AWC controllers
+- [Oz] Enabled PPI mode for AWC controllers
+- [Oz] Fixed start point handling of open curves / last point
+- [Oz] Added Ruida min / max power per tube to machine settings
+- [Oz] Added engraving mode, tube type, tube enables to Ruida machine settings
+- [Oz] Added RDLC-420B scramble key / support
+- [Oz] Added some file transfer stats for Ruida
+
+- [Oz] Fix inch-mode scan precision tracking for GCode controllers
+- [Oz] Fixed Marlin leaving laser on between scanned shapes
+
+
+0.8.06:
+- [Oz] Fixed inch mode intervals to be in inches, and only in mm for mixed mode
+- [Oz] Added support for 1-bit images embedded in AI files
+- [Oz] Fixed a bug where 'Dot Mode' could affect scans on Ruida systems
+- [Oz] Fixed a bug with directional ordering on some machines (mirrored, based on origin)
+- [Oz] Fixed a bug where user selected start point on curves would start at the next curve/line
+- [Oz] Added 'Buy LightBurn' button to the trial page, auto choose the version based on device
+- [Oz] Increased overscan limits, and now showing how much overshoot you get at a given speed / % value
+- [Oz] Fixed a crash that could happen on shutdown when using 'Select Layer Shapes' feature
+
+
+0.8.05:
+- [Oz] New cut planner / optimizer
+- [Oz] Added support for offsetting open shapes
+- [Oz] When resizing from corners, locked aspect is now the default, holding Shift unlocks
+- [Oz] Fixed image scanner to handle angled scans and arbitrary skew/scale/rotation
+- [Oz] Double click text now auto-chooses text edit mode, places the cursor
+- [Oz] Added bold & italics to font options, rearranged layout
+- [Oz] Added job origin to  main panel
+- [Oz] Added rotary enable to main panel
+- [Oz] Start position / direction respected by new cut planner
+- [SP] Added Align Centers function
+- [Oz] Added "Reset to default" button in cut settings
+- [Oz] Fixed capture flipping upside down on some machines during alignment
+- [Oz] Fixed the camera projection math to try to maximize the usable workspace area
+- [Oz] Roller rotary object diameter properly saved / restored
+- [SP] Added "push to back" / "push to front"  (Ctrl PgUp / PgDn)
+
+- [Oz] Added "Machine Settings" for GRBL
+- [Os] Increased AWC file transfer timeout period
+- [Oz] User cancelling AWC transfer shouldn't show an error message
+- [Oz] Added "Return Position" machine setting to Ruida
+- [Oz] Fixed default Ruida filename assignment for untitled files
+- [Oz] Partial Ruida 658XG machine support
+
+- [Oz] Fixed orientation of imported PLT / HPGL files
+- [Oz] Applying kerf to thin shapes would end up skipping some pieces
+- [Oz] Added Polygon tool to the tools menu
+- [Oz] Switching back to the app with something on the clipboard now enables 'Paste' button
+- [Oz] Added support for multi-page PDF files  (currently only loads page 0)
+- [Oz] Fixed a crash when using dot/perforation mode with a zero length
+- [Oz] Fixed color mapping code to not always "use closest" - if too far, just pick an unused color
+- [Oz] Fixed a couple potential crashes in PDF importing
+- [Oz] Ctrl-A now works to select all text in edit boxes
+- [Oz] Tab / Shift-tab to cycle selected object (when edit window is focused)
+- [Oz] Offset Both with "Select Results" now selects both the inner and outer result shape
+- [Oz] Modified vector engraving to be consistent with image engraving - improves quality of M3 mode
+- [Oz] Shape properties now display properly in Inch mode
+- [Oz] Increased allowed max machine bed size to 5000mm square
+- [Oz] Selected object count is displayed in status bar
+- [Oz] Fixed missing selection marquee around bitmaps in filled rendering mode
+- [Oz] Fixed a crash when importing custom PDF color spaces
+- [Oz] Fixed a 'stray line' artifact when closing AI/PDF multi-shapes
+- [Oz] Flipped 'interval' setting to be always in mm, added "lines per inch" value to scan mode
+- [Oz] "Show layer" flashing for filled rendering
+- [Oz] Added a download link to the "Circles Pattern" file in the lens calibration wizard
+- [Oz] Added support for proxy server in the license dialog
+- [Oz] Added "Air Assist" option to camera alignment wizard
+- [Oz] Fixed a crash when parsing AI files using 'DXF color' mode
+- [Oz] Fixed a bug in detection of all outputs disabled with grouped objects
+- [Oz] "Show Laser Position" marker no longer hidden behind images
+- [Oz] AWC / Ruida - Choose most common scramble key when no machine connected
+- [Oz] Added a flag to bypass the use of system file dialogs (bypass crashing 3rd party thumbnail tools)
+
+
+0.8.04:
+- [Oz] Added PDF doc link to help menu
+- [Oz] Progress bar added for auto-join of huge files, can now cancel in-progress
+- [Oz] Properly disabled scanning offsets in preview
+- [Oz] Increased allowed input range for perforation mode
+- [Oz] Changed radial array behavior a little to make it easier to use for less than 360 degree sweeps
+- [Oz] Editing a device in the New Device wizard now retains the origin setting correctly
+- [Oz] Corner scaling arrows were incorrect for some origin settings
+- [Oz] Writes version string into LBRN file and when writing GCode (easier for support help)
+- [Oz] Message dialogs with Yes/No now use Y/N hotkeys
+- [Oz] Fixed a bug in "Select layer shapes" that would sometimes select incorrect shapes
+- [Oz] Added hotkey for Frame (Alt-R)
+- [Oz] Right-Click the "Devices" button to reset the current device / connection
+- {Oz] Fixed a bug where welded text could not be selected after hiding Cut Layer 0
+- [Oz] Re-ordered size settings & font bar for more compact layout and consistency with other software
+- [Oz] Auto-convert short filenames back to long ones when double-click launching files with spaces in the name
+- [Oz] Right-click Get Positions to fill the "Move to" coordinates with the current position
+- [Oz] Added setting for grid contrast
+- [Oz] Added 'laser pointer offset' value - used to offset jobs by a fixed amount
+- [Oz] Cropped camera capture to page size
+
+- [Oz] Filtering out disabled layers in AI files (IE, templates)
+- [Oz] Filtering guides out of imported AI files
+- [Oz] Now importing groups from AI files
+- [Oz] Fixed a bug in imported SVG arcs (and fixed it again in Win64 release build)
+- [Oz] Changed AI import to use stroke color IF object has stroke + fill, but the fill is white
+- [Oz] Improved handling of modern AI formats with CMYK+RGB color definitions
+- [Oz] Improved plt / hpgl file support
+- [Oz] Fixed AI importing some images upside down/backwards
+- [Oz] Fixed precision issue causing some SVG arcs to bulge
+- [Oz] SVG export now auto-converts text to paths (AI export already does this)
+- [Oz] Improved handling of embedded references in PDF files
+- [Oz] Fixed a crash when importing a file that contained only embedded bitmaps
+
+- [Oz] Added frame checks for GCode devices (includes overscan area)
+- [Oz] Added "Go to Origin" button for GCode devices
+- [Oz] Allowing 'home on startup' for generic GRBL and others
+- [Oz] Fixed slow feedrate bug in rotary GCode (for real, I hope?)
+- [Oz] Added 'S0' to Marlin's 'Fan off' command, because 'off' also requires a speed, it seems
+- [Oz] Improved GCode output for Grbl-M3 device
+- [Oz] Added Emblaser 2 Lens Clean Wizard (Gen2)
+- [Oz] Added air assist power control for Emblaser 2
+- [Oz] Added space to Marlin's Z moves
+- [Oz] Fixed inch display of positions for GCode systems
+
+- [Oz] "Send" defaults to current project name, and remembers if it's changed (during the current session)
+- [Oz] First pass of AWC 708c support
+- [Oz] Added AWC 708 support for jog buttons, file delete, file start, set origin, clear origin
+- [Oz] Ruida now reports problem sending if the machine is paused / not ready
+- [Oz] Cancelling a Ruida file transfer no longer displays an error dialog
+- [Oz] Ruida file overwrite dialog now defaults to Yes
+- [Oz] AWC frame commands now functioning
+- [Oz] Added Boss Laser device and sizes to device list
+- [Oz] Added LO-X7 DSP/RayScam scramble key to AWC driver
+- [Oz] Added Ruida focus distance to machine settings
+- [Oz] Clamped cut speeds to 2000 mm/sec (or equivalent)
+- [Oz] Added Grayscale support for AWC
+
+
+0.8.03:
+- Fixed a crash in new Scan by Groups option
+- Fixed a scale bug when saving / copying N-sided regular polygons
+- Fixed an issue with relative-mode GCode generation for rotary
+- Fixed a bug where foreign language settings were causing all cuts to use "Current position"
+
+
+0.8.02:
+- [Oz] Added installer flag to not launch LightBurn automatically during silent installs
+- [Oz] Fixed installer waiting for LightBurn to finish when "Run LightBurn" is checked
+- [Oz] G0 based overscan option
+- [Mh] Implemented rotate cursors for shape rotations
+- [Mh] Implemented Offset Both in offset dialog
+- [Mh] Fixed user reported bug for M8/M7 on grbl and change the UI to use a pair of radio buttons)
+- [Mh] Array copy X & Y mirror alternate rows/columns implementation changed to mirror all shapes with respect to the overall bounding rect.
+- [Oz] Fixed an AI export bug causing malformed outputs
+- [Oz] Major changes to AI / PDF handling - more complex nested embedding is handled, less sensitive to artboard size
+- [Oz] Removed G92 command from FabKit smoothie driver
+- [Oz] More robust rotary code generation for GCode machines (fix for tiny/slow moves)
+- [Mh] Added CutOrder property to shapes (getting ready for user-ordering)
+- [Mh] Support for multi selected Shapes and Groups common property editing (CutOrder and PowerScale)
+- [Mh] Fixed missing images from project files that don't have the bitmap data embedded in them. Also display a dialog if the file can't be found.
+- [Mh] Fixed shape keyboard move (nudge) bug to support inches
+- [Oz] Fixed issue with scanning large files on Ruida controllers that would occasionally drop lines or corrupt data
+- [Oz] Filtering out some MText escape sequences to make DXF text import cleaner
+- [Oz] Turned off scanning offset adjustments in preview
+- [Oz] Updated license libraries - should resolve "time has been tampered with" issue
+- [Oz] Select all on current layer now ungroups only if necessary
+- [Oz] Significant speedup to inner/outer sorting using spatial queries
+- [Oz] Fixed an odd rendering bug with heavily scaled images when zoomed out
+- [Oz] Auto-weld property of text objects is now copied for grid / copy paste
+- [Oz] Added "Scan by Group" for scan merging
+- [Oz] Added N-sided polygon tool
+- [Oz] Flood fill cleanup for Ruida controllers
+- [Oz] Added support for PWM frequency override for cut mode on Ruida controllers
+- [Oz] Added support for embedded images in AI files
+- [Oz] Hold shift to frame with laser enabled (uses Laser Fire Power setting, must be enabled)
+- [Oz] Added "Read" button and status display to Rotary Setup dialog for Ruida controllers
+- [Oz] Showing trial identifier for expired trials too
+- [Oz] Fixed a bug where pressing space to view drag could interrupt dragging a shape
+- [Mh] Fixed null ptr bug that crashed if a device was not created
+- [Oz] Resolved Linux dependency issues
+- [Oz] Added optional filled rendering of scanned shapes
+- [Oz] Added quick settings for Antialiasing & Filled Rendering to Window menu
+- [Oz] Camera alignment now includes scale for larger machines, captures more bed area
+- [Oz] M03/M05 option for Marlin controllers
+
+
+0.8.01:
+- Added Bitmap Replace / Refresh / Replace to fit features
+- Added FTDI/CDM driver for Ruida USB connections (packet based, hopefully more robust)
+- Changed 'cursor nudge' inputs to allow decimals
+- Added support for RDV6332G
+- Added command-line function to store license for "all users" of a machine (only works for online activation)
+- Ctrl + Jog buttons moves shorter
+- Shift + Jog buttons moves farther
+- Ctrl + Shift + Job moves farther still
+- Added Show Notes feature for project (under the File menu)
+- Now support M7 device setting for air assist in GRBL devices
+- Fixed setting name in Ruida (min accel appeared twice, one should be max accel)
+- Fixed a raster scanner issue that caused stray lines in specific circumstances
+- Fixed an error in DXF parsing - empty shapes could cause the app to crash
+- DXF import now handles \P (paragraph) marker in MText objects
+- Pause now uses the appropriate command for Marlin to turn off the laser
+- Fixed a bug where Emblaser devices were not available in the trial with the new license systems
+- COM port now remembered for devices that do not auto-connect
+
+
+0.8.00:
+- Added boolean shape operators
+- Added 'Set Cut Origin / Direction' tool (still needs to be integrated into cut planner)
+- Added "Project not found" message if trying to load a file that does not exist
+- Added machine settings dialog for Ruida
+- Fixed a hard crash in certain fonts (Albertus MT)
+- Added checks to ignore 0 radius circles and ellipses in SVG files
+- Fixed a bug in DXF bulge handling of the final point in a closed loop, when certain flags were present
+- Fixed a bug in DXF spline loops where the last segment could flatten
+- DXF spline reconstruction is now 50% faster (most noticeable on large files)
+- DXF files now ignore 'spline frame' control vertices (certain files imported incorrectly)
+- DXF files now ignore hidden objects / layers
+- Fixed a bug in the GCode generator for rounding negative numbers that could cause them to roll-over
+- Auto-discard malformed paths (paths with no lines / curves, just vertices)
+- Windows version sets file association on startup
+- Fixed mirror across a line not including line object transform
+- Fixed an issue with clipboard copy/paste not updating cut entries properly
+- Fixed an issue with bulge on LWPolyLine shapes with only two vertices
+- Auto-save timing can be adjusted or disabled entirely
+- Material Library properly sorts thicknesses >= 10mm
+- New license system in place
+
+
+0.7.04:
+- DXF reference to an empty block would cause a crash
+- Added support for copy/paste through system clipboard (copy from one LightBurn to another)
+- Added ability to paste bitmaps from system clipboard
+- Added ability to paste text from system clipboard
+- Added "Arrange (long)" toolbar to allow people to choose between a compact or full-length version
+- Added shape move increment settings (normal, short, long)
+- Added jog-distance modifiers (Shift, Ctrl, Both)
+- Preview window remembers size / position
+- Fixed Ruida USB connectivity issue
+- Un-checking 'pass-through' now re-enables image mode setting
+
+
+0.7.03:
+- Added auto save functionality
+- Added "distribute by centers" and "distribute padding" functions
+- Numeric entry JogXY in Move window
+- Compacted Align and Set Position menus into sub-context menus
+- Rubber-band frame returns to start position
+- Reduced "reposition threshold distance" for points in the camera alignment wizard
+- Added support for Marlin tool index (IE, laser on fan 0, 1, 2 , etc)
+- Added support for dot mode on Ruida devices
+- Old auto-join code was still active for DXF lines, and could join things on different color layers (fixed)
+- Added EagleLaser (re-branded Ruida) support
+- Now storing / restoring language setting
+- Changed (Auto) to (Choose) when auto-connect is not supported
+- Added function to open prefs folder, for those occasions where it's helpful
+- Fixed camera undistort resulting in gray image bug
+- Fixed DXF importer bug : now supporting multiple references to the same block/insert object
+- Fixed rotation of block insert refs
+- Fixed an AI export bug where open paths were exported as closed, inserting extra lines
+- Fixed an AI import bug where removing an empty shape could cause the next shape to be incomplete
+- Delete Duplicates now marks project as modified
+- Fixed a bug where clicking multiple times on the 'center-to-center' buttons in the grid array would alter the spacing
+- Fixed having "Fast Whitespace Skip" enabled with a speed of 0 generated invalid GCode
+- Fixed language deployment on Mac & Linux
+- Fixed a bug with GCode generation for rotary when moves are nearly infinitely short
+- Now persisting the "Support Height" value for Emblaser2 machines
+- Tweaked license handler to not constantly annoy when grace period has passed (can't contact server)
+- Added a warning about unsupported text objects in SVG files
+- Better handling of embedded sub-object streams in AI files (more files handled)
+- Better handling of scaled shapes in shape optimizer, and added more range (larger numbers)
+- Disabled Z Focus button for GRBL (not supported by firmware)
+- Fixed missing storage of rotary object object diameter in roller mode
+- Applying license no longer requires restart
+- Add the name of the GCode profile to the top of the file as a comment, just in case
+- Added a check for S-range support in case the user switches a device from GRBL to Smoothie
+- Fixed a bug in the 'Send xxxx file' dialog where GCode extensions were incorrect
+
+
+0.7.02:
+- Mirror across a line
+- Camera Lens Calibration Wizard rewrite
+- New Camera alignment wizard / process
+- Fixed a crash when importing certain PDF / AI files with embedded images
+- Fixed an issue when tracing images that are very light (well below the initial threshold)
+- Fixed a crash when attempting to import binary DXFs
+- Fixed a rare crash when importing AI / PDF with ONLY embedded image data
+- Total rewrite of camera lens and alignment calibration
+- Air assist enabled on M8/M9 for GRBL devices
+- Fixed GCode emitted with commas in locales using comma as a numeric separator
+- Fixed bug where cancelling an "Open File" dialog would still open the file
+- Proper transparency support for images (trace, dither, negative, edit window)
+- Fixed uninitialized tangent handle when closing a line to a curve
+- "Fire Laser" button now auto-disables when starting a job
+- Added ability to save the preview image to a file
+- Add CLB extension to saved cut libs on Mac / Linux
+- Added 6 programmable user macro buttons to the console window (Gcode users)
+- Enabled Z focus button for Ruida
+- Frame / O-Frame with "Cut Selected", frames only the selection
+- Full Z control implemented on Ruida devices
+- Fixed missing undo's for Z-offset and Kerf
+- Perforation settings now persist correctly in project files
+- Camera is properly disabled when starting calibration wizards, restored on exit
+- Fixed a bug in DXF block inserts using "base origin" values or rotation
+- AI files ignore insertion of zero-length lines, improving duplicate removal
+- Node edit mode now highlights starting vertex in a shape (prep for setting start point)
+- Added support for SVG 'T' path commands (quadratic with implied control point)
+- AI importer now ignores redundant nodes (improves duplicate removal)
+- AI importer converts "curves" that are actually lines into real lines (improves duplicate removal)
+- Edit window now shows non-snapped coords when Ctrl is held
+- Added support for Grbl constant-power mode (M3) to support older Grbl firmware (earlier than 1.1f)
+- Fixed "Frame" in "Current position" and "User Origin" mode on GCode machines
+- Fixed an issue with Ruida frame command
+- Fixed a "sometimes" bug in the output precision of GCode in inch mode
+- Fixed the traversal speed setting in the preview when in Inch mode (and added a decimal place to the distance values)
+- Fixed display of status strings in Inch mode
+- Fixed an issue where changing units from inch to mm with a cut selected could alter the speed setting
+
+
+0.7.01:
+- Added Perforation cut mode
+- Added "Pass-Through" mode for images dithered externally to prevent resizing / moire artifacts
+- Added buttons to store a default cut setting, or apply it to the current cut
+- Fixed an issue with "Select shapes on current cut layer" if shapes were in nested groups
+- Fixed the same issue with "Select open shapes" / "... shapes set to scan"
+- Fixed a bug in Show Laser Position in Inches mode (GCode systems)
+- Fixed a bug where the title bar showed filename incorrectly if it contained multiple .'s
+- Preview traversal speed & other settings now persist
+- Fixed a bug in offline deactivation request handling
+- Fixed an issue with joining two curved nodes when the objects have different transforms
+- Changed the selection marquee for better visibility
+- Grid Array dialog now works in Inch mode
+
+0.7.00:
+- Fixed an issue where numeric entry controls for sizing didn't work if the cached value wasn't updated
+- PgUp / PgDown alter the render order of an object in view (push to front, push to back)
+- Fixed a number of bugs in camera capture / sizing of captured chessboard
+- Fixed a bug where empty shapes in an SVG could cause the layer assignment code to crash
+- Node snap while dragging in node edit mode is much more accurate
+- Node snap in node edit will now join/close shapes
+- Fixed a bug handling nested transforms in AI / PDF files
+- Increased allowable range for scanning compensation offsets to +/- 30mm
+- Separate Z-speed value for jogging Z in move window
+- Added A axis jog buttons (for rotary)
+- Saving an empty project now saves all cut settings (can be used as a settings template)
+- Fixed air assist not disabling bug on Ruida
+- Fixed rotary dialog not repainting correctly on Mac
+- Added "Select all shapes on current cut layer" (also works by shift-clicking a layer)
+- Mac now adds proper default extension when saving cut file
+- Frame / O-Frame now frames only content that will be output to machine, instead of entire job

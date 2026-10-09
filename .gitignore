@@ -1,0 +1,14 @@
+# Downloads / raw installer payload (re-download via aria2; .aria2 sidecar has the URL)
+LightBurn 1.1.03 (x64) Multilingual/
+
+# Ghidra project data (regenerable via analyzeHeadless; see AGENTS.md)
+ghidra-proj/
+
+# Logs
+*.log
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+__pycache__/
+*.swp

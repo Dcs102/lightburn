@@ -1,0 +1,52 @@
+' LightBurn CorelDraw exporter / launcher
+' Thanks to Casey Gadd for the original version
+
+Sub LightBurn()
+    Dim answer As Integer
+    Dim OrigSelection As ShapeRange
+    Set OrigSelection = ActiveSelectionRange
+    OrigSelection.CreateSelection
+    Dim expopt As StructExportOptions
+    Set expopt = CreateStructExportOptions
+    expopt.UseColorProfile = True
+    Dim expflt As ExportFilter
+    
+    Dim outputFile As String
+    outputFile = "C:" & Environ("HOMEPATH") & "\LBExport.ai"
+    If Len(Dir$(outputFile)) > 0 Then
+        Kill (outputFile)
+    End If
+
+    'Is anything selected?
+    answer = vbYes  ' Assume success
+
+    If ActiveSelectionRange.Count = 0 Then
+        'Export everything if there's no selection
+        Set expflt = ActiveDocument.ExportEx(outputFile, cdrAI, cdrAllPages, expopt)
+    Else
+        Set expflt = ActiveDocument.ExportEx(outputFile, cdrAI, cdrSelection, expopt)
+    End If
+
+    If answer = vbYes Then
+        With expflt
+            .Version = 10 ' FilterAILib.aiVersionCS6
+            .TextAsCurves = True
+            .PreserveTransparency = True
+            .ConvertSpotColors = False
+            .SimulateOutlines = False
+            .SimulateFills = False
+            .IncludePlacedImages = True
+            .IncludePreview = True
+            .EmbedColorProfile = False
+            .Finish
+        End With
+
+        Dim appLocation As String
+        appLocation = Environ("ProgramFiles") & "\LightBurn\SendUDP.exe "
+        If Len(Dir$(appLocation)) = 0 Then
+            appLocation = "C:\Program Files\LightBurn\SendUDP.exe "
+        End If
+
+        Call Shell(appLocation & """" & outputFile & """", vbHide)
+    End If
+End Sub
