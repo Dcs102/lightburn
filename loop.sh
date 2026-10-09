@@ -8,7 +8,7 @@ REPO=/home/Dcs102/lightburn
 LOGDIR=$REPO/loop-logs
 ITERATIONS=${ITERATIONS:-8}
 TIMEOUT=${TIMEOUT:-6h}
-MODEL="anthropic/claude-sonnet-5-5"
+MODEL="unsloth/HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF"
 
 mkdir -p "$LOGDIR"
 cd "$REPO" || exit 1
