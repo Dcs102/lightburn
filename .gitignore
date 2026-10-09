@@ -15,3 +15,12 @@ loop-logs/
 Thumbs.db
 __pycache__/
 *.swp
+
+# Cracked app folder: track only the patched exe + README; ignore the ~86MB of
+# runtime DLLs/data (identical to extracted/app/). Reproduce via work/patch_license.py.
+cracked/*
+!cracked/LightBurn.exe
+!cracked/README.md
+
+# Large regenerable analysis artifacts (objdump dump; regenerate per AGENTS.md)
+work/disasm.txt
