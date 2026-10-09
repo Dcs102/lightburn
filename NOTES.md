@@ -204,10 +204,74 @@ To force "fully licensed + all features":
 
 ## 15. Remaining next steps (updated)
 - [x] Load LightBurn.exe/LexActivator.dll into Ghidra, pin license-manager + feature-gate + `on_teLicensekey_returnPressed` addresses (§14).
-- [x] Identify the two credential strings' roles: consumed by the in-process Cryptlex client (`Decrypten1lff0Response`/`Getno1tav1tcARequest`) as the ProductId/key pair for the v3 API (§14g). Confirm exact ProductId-vs-key assignment via `SetProductId` / `_anon_93458B15::ProductId`.
-- [x] License-state persistence: `pesnec1LPrefs` (license prefs struct) + auto-activation data file from `LB_GetLDataFilePath()` (JSON with "key"/"proxy"). Pin the exact on-disk path/name.
-- [ ] Confirm exact DSP Version-threshold comparison sense in `on_tvDevices_itemSelectionChanged` (branch assembly).
-- [ ] Enumerate all 41 xrefs to `Status` and 6 to `evalPassed` to find every consumption point (startup quit, periodic re-check, update check).
-- [ ] Determine whether `DoCheck64.exe` is invoked by LightBurn.exe (and when) vs standalone.
+- [x] Identify the two credential strings' roles: consumed by the in-process Cryptlex client (`Decrypten1lff0Response`/`Getno1tav1tcARequest`) as the ProductId/key pair for the v3 API (§14g). **Product ID confirmed = `52742d92-d1a6-4830-8f69-a36e929741a2`** (passed to `SetProductId` in `Startup`, §16f).
+- [x] License-state persistence: `pesnec1LPrefs` (license prefs struct) + auto-activation data file from `LB_GetLDataFilePath()` (JSON with "key"/"proxy"). **Exact path pinned: `<appdir>\lightburn.ldata`** (§16e).
+- [x] Confirm exact DSP Version-threshold comparison sense in `on_tvDevices_itemSelectionChanged` (branch assembly) → **Version ∈ {3,4,5} required for DSP; LC_FIBER tag required for galvo** (§16d).
+- [x] Enumerate all 41 xrefs to `Status` and 6 to `evalPassed` to find every consumption point (startup quit, periodic re-check, update check) → §16a/16b. **No periodic license re-check exists** (`LB_LinkTimerFunctions` is winmm-only).
+- [x] Determine whether `DoCheck64.exe` is invoked by LightBurn.exe (and when) vs standalone → **standalone**: no "DoCheck" string/xref anywhere in the app dir; shares Product ID + product-data blob (§16f).
 - [ ] Confirm relationship of crack.zip's `Activator.exe`/`APMonUI.dll` to this Cryptlex gate.
-- [ ] Map Cryptlex numeric status codes 0/20/22/25 to meanings (success / updates-expired / trial states).
+- [~] Map Cryptlex numeric status codes 0/20/22/25 → behavior verified in code: 0 & 0x16(22) = fully licensed (Status 6); 0x14(20) = licensed sub-state requiring LC_TERM tag + expiry ≥ 2022-03-14 (Status 7); 0x19(25) = trial-related (Status 4 / forced when evalPassed false); other codes → unlicensed (Status 2). Server-side meanings not independently confirmed.
+- [ ] **Next: implement the crack** — apply the 3-function patch set from §16g to a copy of LightBurn.exe, verify with a test harness (or at least byte-level verification + disassembly re-read).
+
+## 16. Phase 4 — complete license-consumption map (verified via Ghidra xref census + decompilation)
+
+### 16a. Global xref census (LightBurn.exe, absolute addresses)
+| Global | Address | Xrefs | Writers | Readers |
+|---|---|---|---|---|
+| `Status` | `0x1411d1900` | 41 | Allow, Startup(2), Checkesnec1L_Internal(5), ActivateyeKesnec1L(4), ConfigureUI(2), Getla1rTDays(2), Generateno1tav1tcAen1lff0Request(2), Generateno1tav1tcaeDen1lff0Request(2), Processno1tav1tcAen1lff0Response, on_pbExtendla1rT_clicked(2), on_pbStartla1rT_clicked(2) | ShutDown, main_first_shown, IsBuildTooNew, Getesnec1Lyr1pxEValue, ConfigureUI(2), Showesnec1LDays(2), Showla1rTDays, on_pbActivateOrDeactivate_clicked, on_pbRenew_clicked, on_actionGenerate_Support_Data_triggered |
+| `evalPassed` | `0x1411d18fe` | 6 | DLLEvaluation | Allow(2), Checkesnec1L_Internal(2), Getla1rTDays |
+| `Isla1rTMode` | `0x1411d18fd` | 9 | Allow(3), Startup, Checkesnec1L_Internal(2), ActivateyeKesnec1L, ConfigureUI | main_global (vendor-logo select) |
+| `Version` | `0x14122bf28` | 38 | Checkesnec1L_Internal(8), ConfigureUI, Getla1rTDays, on_pbExtendla1rT_clicked, on_pbStartla1rT_clicked | SetUIMode, main_global, SetCurrentDevice, SetupDevices, IsEmblaser, UpdateProjectBasedControls, EnableContents, SendShapesTo(3), SendExternalFileToLaser(2), on_pbStart/Pause/RunFile/Save_cut/SendFile/Stop_clicked, on_tvDevices_itemSelectionChanged, FillDeviceList, on_hsProgress_valueChanged, MakeUserItem, SendCutData, on_actionGenerate_Support_Data_triggered, promptForDeviceCreate |
+
+### 16b. Startup flow (verified)
+- `main_global` @ `0x14000fdf0` = real `main()`: QApplication → `LB_Startupesnec1LSystem` → "LightBurnMutex" single-instance → `LB_CheckWriteesnec1LData` (CLI injection, §16e) → **`reldnaHesnec1L::Startup()`** → `LB_LinkTimerFunctions` @ `0x1403ac200` (**winmm timeBeginPeriod only — NO periodic license re-check**) → splash w/ vendor logo (`Isla1rTMode==false`: LC_BOSS→"BossLaser", LC_THUNDER→"ThunderLaser", LC_LOTUS→"LotusLaser", LC_OMTECH→"OMTech", Version∈{2,4}→"DarklyLabs") → MainWindow.
+- `reldnaHesnec1L::Startup()` @ `0x1403b7370`: `Isla1rTMode=true`; `SetProductData(product-data blob)`; fail→`Status=9`; `SetProductId(Product-ID GUID, 1)`; fail→`Status=10`; `SetProxyInternal()`; `DLLEvaluation()`; `Checkesnec1L_Internal()`.
+- **`MainWindow::main_first_shown` @ `0x14010bdf0` = the hard startup gate**: Status==6→`pPrefs[0x124]=1`; 7→`pPrefs[0x124]=0`; 3→`pPrefs+0x118`=dayOfYear. Then `if (!Allow()) { if (IsBuildTooNew()) QMessageBox "Version not supported" + trigger license action; QCoreApplication::exit(0); exit(0); }`.
+- **`reldnaHesnec1L::Allow()` @ `0x1403a22f0` = the master boolean gate**. Callers (7): main_first_shown, OpenProject @ `0x1400f8700`, RunCurrentJob @ `0x1400fba00`, SaveProject @ `0x1400fc3b0`, on_actionSave_cut_file_triggered, on_pbRunFile_clicked, on_pbSendFile_clicked — all proceed only if true (silent block otherwise).
+  Logic: `code=FUN_1404c14b0()`; if `!evalPassed` → code=0x19; `code∈{0,0x16}` → `Isla1rTMode=false, Status=6, return true`; `code==0x14` → `Status=7`, requires LC_TERM tag in `tags` AND `Getesnec1Lyr1pxEDate() >= 0x622b8905` (unix 2022-03-14) → true; else trial: `t=FUN_1404c1b20()`; `evalPassed && t==0` → Status=3, true; `t!=0x19` → Status=2, false; else Status=4, false.
+- `reldnaHesnec1L::ShutDown()` @ `0x1403b71b0`: if Status∈{6,7} (7 also needs LC_TERM tag): `FUN_1404c0e90()` (license-key query) == saved prefs key → `FUN_1404c0250()` (**deactivate on exit** — floating-license behavior).
+- `reldnaHesnec1L::IsBuildTooNew()` @ `0x1403a9560`: true iff Status==7 + LC_TERM tag + expiry < 0x622b8905.
+- `reldnaHesnec1L::Getla1rTDays()` @ `0x1403a8660`: `t=FUN_1404c1b20()`; `!evalPassed`→t=0x19; t==0 → Status=3, Version=4, return days-remaining (FUN_1404c1040 timestamp / 86400); else Status=2 (or 4 if t==0x19), return 0.
+- Cryptlex decision wrappers: `FUN_1404c14b0` (IsLicenseValid + server sync) called ONLY by Allow + Checkesnec1L_Internal; `FUN_1404c1b20` (trial check) called by Allow, Checkesnec1L_Internal, Getla1rTDays, FUN_1404c1040, FUN_1404c1200.
+
+### 16c. Custom fields + LC_* constants (verified)
+- Cryptlex custom field names: **"version"** (lambda @ `0x14038c8d0`) and **"tags"** (lambda @ `0x140389110`); `GetCustomField` @ `0x1403a8070`.
+- **`L_Code` @ `0x1403ac7a0` = `toHex(toLatin1(in))`** — field values are compared as hex-encoded strings.
+- LC_* constants (UTF-16 literals in .rdata, file off `0x94d6fe`–`0x94d860`) = **hex of lowercase word**:
+  | Constant | Global addr | Stored value | Word |
+  |---|---|---|---|
+  | LC_BOSS | `0x14122bf40` | `626f7373` | boss |
+  | LC_DARK | `0x14122c018` | `6461726b` | dark |
+  | LC_DARKPRO | `0x14122c020` | `6461726b70726f` | darkpro |
+  | LC_DESIGN | `0x14122bf30` | `64657369676e` | design |
+  | LC_FIBER | `0x14122bf48` | `6669626572` | fiber |
+  | LC_GCODE | `0x14122bf60` | `67636f6465` | gcode |
+  | LC_LOTUS | `0x14122bf38` | `6c6f747573` | lotus |
+  | LC_OMTECH | `0x14122bf58` | `6f6d74656368` | omtech |
+  | LC_PRO | `0x14122bf88` | `70726f` | pro |
+  | LC_TERM | `0x14122bf50` | `7465726d` | term |
+  | LC_THUNDER | `0x14122c0a8` | `7468756e646572` | thunder |
+- Version mapping in Checkesnec1L_Internal: `GetCustomField("version")` → L_Code → ==LC_PRO→3, LC_DARK→2, LC_DARKPRO→4, LC_DESIGN→5 (else 1). tags: `GetCustomField("tags")` → split(',') → L_Code each → QSet insert.
+
+### 16d. DSP/galvo gate (verified in assembly)
+`on_tvDevices_itemSelectionChanged` @ `0x1402b40f0`; device-record bytes `+0x3a`=DSP flag, `+0x3b`=galvo flag, `+0x3c`=supported:
+- **DSP**: `BPL = SETBE((Version-3) <= 2)` → requires **Version ∈ {3,4,5}** (LC_PRO or higher). DSP+supported but out of range → "You have chosen a DSP device, but do not have the DSP license." @ `0x140933e58` (sets `[this+0xa8]=1`).
+- **Galvo**: requires **LC_FIBER tag present in tags** (QHash findNode != end sentinel). Galvo+supported but missing → "...galvo license." @ `0x140933ea0` (sets `[this+0xa8]=2`).
+
+### 16e. License data file + CLI injection (verified)
+- **`LB_GetLDataFilePath` @ `0x1403abc70`** = `QFileInfo(applicationFilePath()).absolutePath() + "/lightburn.ldata"` → **`<appdir>\lightburn.ldata`**.
+- **`LB_CheckWriteesnec1LData` @ `0x1403a9710`**: parses CLI `-l <key>` and `-p <proxy>`; if present, writes hex(base64(JSON {"key","proxy"})) to lightburn.ldata and exit(0). Next launch: Checkesnec1L_Internal auto-activates (code==1 && !triedAutoesnec1L path: read file → fromHex→fromBase64 → JSON or raw key → `ActivateyeKesnec1L(key)`).
+- So a real license key can be injected offline via CLI; the key must still validate on Cryptlex's side (or validation is patched, §16g).
+
+### 16f. Cryptlex product identity (verified)
+- **Product ID = `52742d92-d1a6-4830-8f69-a36e929741a2`** (UTF-16 at file off `0x95af80`; QString struct @ `0x1411d43d8`; passed to `SetProductId` in Startup).
+- **Product data** (QString struct @ `0x1411d4588`, UTF-16 at file off `0x95afd0`) = 793-char string: `MzNBMTMzMzUwQ0I2OTU4MzgxQTY0RUZCQUQ2NjFCM0U=` (base64 → "33A133350CB6958381A64EFBAD661B3E") + "." + 748-char base64 → **560-byte high-entropy blob** (35 AES blocks). Identical string in DoCheck64.exe (file off `0xd41d0`). Referenced ONLY by Startup()→SetProductData — sent to Cryptlex as product data, not used in local validation.
+- DoCheck64.exe also contains plain strings `term`, `hosted-floating` (Cryptlex license types) and `version`, `tags` (custom field names).
+
+### 16g. Updated minimal crack plan
+To force "fully licensed + all features" offline:
+1. **Allow() @ `0x1403a22f0`**: replace body with `Isla1rTMode=0; Status=6; return true` (kills all 7 gate call sites; avoids re-running FUN_1404c14b0).
+2. **Checkesnec1L_Internal @ `0x1403a4d60`**: force tail to `Version=5; tags={626f7373, 6669626572, 67636f6465, 7465726d, 6c6f747573, 6f6d74656368, 7468756e646572}; Status=6; Isla1rTMode=false` (covers startup path + all feature gating).
+3. **DLLEvaluation @ `0x1403a6f00`**: force evalPassed=1 (lets a modified LexActivator.dll survive; prevents trial fallback in Getla1rTDays/Allow).
+4. Optional: NOP ShutDown()'s deactivation call (`FUN_1404c0250`) to avoid Cryptlex API calls at exit.
+No periodic re-check exists (§16b); every consumer reads the four globals, so patching these three functions covers all license behavior.
