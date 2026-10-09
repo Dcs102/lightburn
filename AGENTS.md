@@ -4,11 +4,16 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 
 ## What's loaded
 - Ghidra MCP headless server: `http://127.0.0.1:8089` (systemd user svc `ghidra-mcp-headless`, v7.0.0)
-- **Two Ghidra projects exist:**
+- **A second MCP instance runs at `http://127.0.0.1:8090`** (started ad hoc for the Activator work;
+  launcher `/home/Dcs102/tools/ghidra-mcp/start-headless.sh` honors `GHIDRA_MCP_PORT`). Use it to avoid
+  disturbing the shared `:8089` program. Pass `program=Activator.exe` explicitly on every call.
+- **Three Ghidra projects exist:**
   - The original installer project (`LightBurn-v1.1.03.exe`, i386 Inno Setup stub, 2,550 fns).
   - **`LBproj`** at `/var/home/Dcs102/lightburn/ghidra-proj/LBproj` — the REAL app binaries
     (`LightBurn.exe` x64 = 59,632 fns, `LexActivator.dll`, `DoCheck64.exe`), all auto-analyzed.
     This is where the license gate lives (see NOTES.md §14).
+  - **`Actproj`** at `/var/home/Dcs102/lightburn/ghidra-proj/Actproj` — the warez dropper
+    `Activator.exe` (PE32+ x86-64, 99,672 fns), auto-analyzed. See NOTES.md §20.
 - To work on the app: `POST /open_project {"path":".../LBproj.gpr"}` then
   `POST /load_program_from_project {"path":"/LightBurn.exe"}`. Then use the `ghidra_*` tools.
 - Source binaries (extracted): `/var/home/Dcs102/lightburn/extracted/app/` (clean paths).
@@ -34,6 +39,10 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
   GhidraScript"). Use the MCP REST tools, or plain non-GhidraScript classes.
 - `analyzeHeadless` needs `JAVA_HOME` set explicitly; background jobs are killed on shell-tool
   timeout (process-group kill) → launch with `setsid ... < /dev/null & disown`.
+- **JDK ignores `TMPDIR`** — to keep Ghidra's temp/DB-buffer files off the quota-limited `/tmp`, pass
+  `-Djava.io.tmpdir=<real-disk-dir>` explicitly: via `JAVA_OPTS` for the MCP launcher
+  (`start-headless.sh`) and via `GHIDRA_JAVA_OPTIONS` for `analyzeHeadless`. Used
+  `work/act_tmp` for the Activator analysis (NOTES.md §20).
 - objdump `--start-address/--stop-address` is unreliable for these PEs; dump full disasm + grep/sed.
 - **tmpfs quota (user `Dcs102`) = 12,449 MB, shared across `/tmp`,`/dev/shm`,`/run/user/1000`.**
   It gets driven to 100% by the parallel CoDWaW loop's `/tmp/codwaw_db` (~12 GB). When full: the
@@ -65,8 +74,11 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 Goal: decompile/understand LightBurn's behavior. The `.text` entropy (~6.4) indicates mostly
 plain MSVC code, not a heavy packer — standard decompilation should yield readable C.
 
-**STATUS (Phase 6 complete):** the license gate is cracked AND runtime-verified. `cracked/LightBurn.exe`
+**STATUS (Phase 7 complete):** the license gate is cracked AND runtime-verified. `cracked/LightBurn.exe`
 (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave / DLLEvaluation, see NOTES.md §17) launches
-under Wine to a fully functional main window (NOTES.md §19). Remaining optional work: Ghidra-decompile the
-warez `Activator.exe` (`work/lb1102/extracted/crack/`, 48.6 MB; deferred — shared Ghidra server is
-tmpfs-quota-blocked for writes, see Gotchas). NOTES.md is the source of truth; do not re-derive what it says.
+under Wine to a fully functional main window (NOTES.md §19). The warez `Activator.exe` is now fully
+decompiled (NOTES.md §20): it's a dropper that stages a PowerShell payload into
+`C:\Windows\logs\system-logs.txt` (Base64 at line 17033) and runs it via COM, with persistence via
+`SyncAppvPublishingServer.vbs` + registry. Remaining optional work: extract/decode the staged payload
+content (run Activator under Wine and read that file, or XOR-decode the embedded blob). NOTES.md is the
+source of truth; do not re-derive what it says.

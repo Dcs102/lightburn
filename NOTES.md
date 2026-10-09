@@ -466,3 +466,98 @@ from the last-shown global @ `0x1408df8f8`. Non-empty messages by code:
 - [x] Confirm no other code paths reset the four globals → done in Phase 4 (§16a/16b xref census:
   writers are exactly Allow/Startup/Checkesnec1L_Internal/ActivateyeKesnec1L/ConfigureUI + UI slots;
   all covered by the §17 patch set; no periodic re-check).
+- [x] Ghidra-decompile Activator.exe (warez) → **done** (§20). Mechanism fully mapped; the staged
+  PowerShell payload content is the only remaining unknown (next step: capture/decode it).
+
+## 20. Phase 7 — Ghidra decompilation of warez `Activator.exe` (verified)
+
+Full decompilation of the warez dropper, in a dedicated Ghidra project **`Actproj`**
+(`/var/home/Dcs102/lightburn/ghidra-proj/Actproj`, ~342 MB rep) on a **second MCP headless instance at
+`http://127.0.0.1:8090`** (the shared `:8089` server was left untouched; see §19d for why a separate
+instance + `-Djava.io.tmpdir` under `work/act_tmp` was needed). `Activator.exe` = PE32+ x86-64, image
+base `0x140000000`, **99,671 functions**. All addresses below are absolute (image-base-relative + 0x140000000).
+
+### 20a. String obfuscation (runtime XOR)
+Strings are stored encrypted as inline `MOV byte ptr [RBP+off], imm` immediates in small getter
+functions, then decrypted in place into BSS buffers (`.data`, va `0x17fe000`). Decryptor
+`FUN_1406ee4b0(ptr,len,key)` with **key `0x5aa5d2b4d39b2b69`** (LE bytes `69 2b 9b d3 b4 d2 a5 5a`):
+`buf[i] ^= (key >> ((i%8)*8)) & 0xff`. Decoded values (getter → string):
+| Getter | Decoded |
+|---|---|
+| `FUN_1406e8140` / `FUN_1406e9380` | `%SystemDrive%\Windows\System32\SyncAppvPublishingServer.vbs` |
+| `FUN_1406e88d0` | `fg_v2.0.0` (named mutex) |
+| `FUN_1406e8b80` | `%SystemDrive%\Windows\logs` |
+| `FUN_1406e8e80` | `%SystemDrive%\Windows\logs\system-logs.txt` |
+| `FUN_1406e91e0` | `%USERDOMAIN%\%USERNAME%` |
+| `FUN_1406e95d0` | the PowerShell payload (see 20c) |
+| `FUN_1406e9f00` | `\Microsoft\Windows\NetService\Network\NetServices` (registry path) |
+
+### 20b. Control flow
+- **Top-level** `FUN_1406ef770`: init → `FUN_140704f60` (`GetModuleFileNameW`-based path setup; returns
+  false on failure → activator returns 1) → on success calls core `FUN_1406ed270`.
+- **Core routine `FUN_1406ed270`** (returns a status code):
+  1. Precondition gates: `FUN_1406eaf30()==1`→return **3** (COM-based check);
+     `FUN_1406ead30("APMonUI.dll")==0`→return **3** — `FUN_1406ead30(name)` builds `<exedir>\<name>` and
+     `PathFileExistsA`, so **APMonUI.dll must sit next to Activator.exe**;
+     `FUN_1406eaef0()==0` required (it calls `GetSystemMetrics(0x1000)` = SM_REMOTESESSION; i.e. a
+     non-remote session) else return **5**.
+  2. Requires `%SystemDrive%\Windows\System32\SyncAppvPublishingServer.vbs` to exist (`PathFileExistsA`),
+     else error dialog.
+  3. `Wow64DisableWow64FsRedirection`; named mutex `"fg_v2.0.0"` (`CreateMutexA`) — if
+     `ERROR_ALREADY_EXISTS` (0xb7) → return **7** (single-instance guard).
+  4. `CreateDirectoryA("%SystemDrive%\Windows\logs")`, then **writes
+     `%SystemDrive%\Windows\logs\system-logs.txt`** via file-write helper `FUN_1406ffb90(path,data,size)`
+     (MFC `CFile` open+write).
+  5. Builds one command string = template + three placeholder substitutions
+     (`thunk_FUN_140702280(dst,src,find,replace)`): `$($UserId)`→`%USERDOMAIN%\%USERNAME%`,
+     `$($Command)`→the `SyncAppvPublishingServer.vbs` path, `$($Arguments)`→the PowerShell payload.
+  6. Executes it via COM executor `FUN_1406efc30(regpath, command)` with
+     `regpath = \Microsoft\Windows\NetService\Network\NetServices`. On HRESULT `0x80070005`
+     (E_ACCESSDENIED) → builds an error string and `exit(0)`.
+
+### 20c. The staged PowerShell payload (`$($Arguments)`)
+XOR-decoded value of `FUN_1406e95d0` (267 chars; re-extracted from the inline immediates, base offset
+`RBP+0x30`, len field `0x10c`). Exact decoded bytes:
+```
+"n; $a=Get-Content "%SystemDrive%\Windows\logs\system-logs.txt" | Select -Index 17033;$script_decoded = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($a)); $script_block = [Scriptblock]::Create($script_decoded);Invoke-Command $script_block
+```
+The leading `"n; ` is a splice/continuation fragment (the template supplies the preceding quote/backtick
+so it becomes a PowerShell `` `n `` newline + statement separator when `$($Arguments)` is substituted).
+The functional core:
+```
+$a=Get-Content "%SystemDrive%\Windows\logs\system-logs.txt" | Select -Index 17033;
+$script_decoded = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($a));
+$script_block = [Scriptblock]::Create($script_decoded); Invoke-Command $script_block
+```
+⇒ it reads **line index 17033** of the just-written `system-logs.txt`, Base64-decodes it (UTF-8), wraps
+it in a `ScriptBlock`, and invokes it. So the **actual crack logic is a PowerShell script hidden as a
+Base64 string at line 17033 of the staged file** — not present in plaintext anywhere in the PE.
+
+### 20d. COM executor `FUN_1406efc30`
+`CoInitializeEx` + `CoCreateInstance(CLSID {0F87369F-A4E5-4CFC-BD3E-73E6154572DD}, IID
+{2FABA4C7-4DA9-4013-9697-20CC3FD40F85})` — WshShell-style COM automation: calls vtable[0x50] (Run) and
+vtable[0x38] (Exec), then a method on the returned object with args `(regpath, command, 6)`.
+
+### 20e. APMonUI.dll role (refines §18d)
+The warez `APMonUI.dll` is a **genuine, unmodified** Microsoft "Adaptive Port Monitor UI" print DLL
+(WIL framework strings, exports `InitializePrintMonitorUI`/`LocalConfigurePortUI`, XML manifest
+v5.1.0.0). The copy is **unsigned** (Authenticode cert dir rva=0/size=0 — signature stripped). It has
+**no embedded payload** (only 139 lines as text; no Base64 blob; no crack keywords). Its role is a
+**required marker file** next to Activator.exe (absence → "APMonUI.dll not exists" error), consistent
+with §18d's "toolkit component reused across the group's releases."
+
+### 20f. Assessment + remaining unknown
+Activator.exe is a **dropper/stager**, not the crack itself: it stages a PowerShell payload into
+`C:\Windows\logs\system-logs.txt` (Base64 at line 17033) and runs it via COM, using
+`SyncAppvPublishingServer.vbs` + registry `\Microsoft\Windows\NetService\Network\NetServices` for
+persistence. **Hypothesis:** the staged PowerShell installs a persistent hook that re-applies the
+license bypass / blocks the Cryptlex phone-home on each run (matching §18c's "block the network"
+strategy, but done in-band). The **exact payload content is the one thing not yet extracted** — next
+step is to capture/decode it (run Activator under Wine and read `C:\Windows\logs\system-logs.txt` line
+17033, or locate + XOR-decode the embedded blob that fills it). This does not change §18f's conclusion:
+the warez crack still defeats the same network/Cryptlex gate our Phase-5 patch (§17) already bypasses.
+
+**Repro:** `Actproj` at `ghidra-proj/Actproj`; second MCP on :8090 (launcher
+`/home/Dcs102/tools/ghidra-mcp/start-headless.sh` with `GHIDRA_MCP_PORT=8090` and
+`JAVA_OPTS="-Xmx4g -XX:+UseG1GC -Djava.io.tmpdir=/var/home/Dcs102/lightburn/work/act_tmp"`). Decompilation
+artifacts: `work/act_fn_{ed270,main,patch,exec,copy,ffb90,reg}.json`, `work/act_imports.json`.
