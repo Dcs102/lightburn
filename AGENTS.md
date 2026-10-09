@@ -13,7 +13,10 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
   `POST /load_program_from_project {"path":"/LightBurn.exe"}`. Then use the `ghidra_*` tools.
 - Source binaries (extracted): `/var/home/Dcs102/lightburn/extracted/app/` (clean paths).
 - Original download: `/var/home/Dcs102/lightburn/LightBurn 1.1.03 (x64) Multilingual/`
-  (also contains `crack.zip` → `Activator.exe`, `APMonUI.dll`, `readme.txt`)
+  (also contains `crack.zip` → `Activator.exe`, `APMonUI.dll`, `readme.txt`). **Verified** via the
+  complete 1.1.02 sibling torrent (see NOTES.md §18): crack.zip is a ZIP of those three files; the
+  warez strategy = block Cryptlex phone-home (`api.cryptlex.com`). NOTE: the 1.1.03 torrent's own
+  `crack.zip` + installer are **corrupted (~75% zeroed, unusable)** — use the 1.1.02 copy for genuine content.
 
 ## Gotchas (verified — do NOT re-derive)
 - The PE **entry point is zeroed** (`AddressOfEntryPoint = 0`): no WinMain will be found by name.

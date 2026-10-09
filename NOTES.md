@@ -315,3 +315,71 @@ App reports full license (Status=6, Version=5, Isla1rTMode=false), no trial coun
 seven feature/edition gates enabled — offline, no activation dialog, no LexActivator dependency.
 Run `cracked/LightBurn.exe` directly, or drop the patched exe over a stock install. Reproduce:
 `python3 work/patch_license.py`. (No Wine on this host → verified statically, not by execution.)
+
+## 18. The warez `crack.zip` — identity + strategy (verified via complete 1.1.02 copy)
+
+Investigated the Torlock "LightBurn … (x64) Multilingual" **MULTI-series** release and its
+`crack.zip`. Our 1.1.03 torrent's files are corrupted (§18e), so the genuine content was recovered
+from the **complete, piece-verified 1.1.02 sibling torrent** (infohash `c9d69d3b83a720a8c7d984e3199f59dcc19a02fc`,
+pulled via aria2 + DHT; large binaries kept in scratch, small artifacts in `work/lb1102/`).
+
+### 18a. Release structure (MULTI series on Torlock)
+Each "Multilingual" release = the **official LightBurn installer** (`LightBurn-vX.Y.ZZ.exe`) + a
+`crack.zip`. Versions seen: 1.0.06, 1.1.02 (two variants), 1.1.03 (ours, infohash
+`9e23b2dfad1a4197b34ecb49db0e155447acb99c`), 1.1.04. The installer in these torrents is the genuine
+official Inno Setup exe (our 1.1.03 copy's non-zeroed bytes match `bin/LightBurn-v1.1.03.exe` exactly).
+
+### 18b. crack.zip contents (VERIFIED — complete 1.1.02 copy)
+`crack.zip` is a **valid ZIP** (PK\x03\x04 at offset 0) containing:
+| Entry | Size (uncomp→comp) | SHA-256 |
+|---|---|---|
+| `crack/Activator.exe` | 48,626,084 → 32,161,326 | `1b00ae659f9aa298760864e8418c11a3207ea6a803650be38180ccc7275c12c8` |
+| `crack/APMonUI.dll`   | 77,824 → 31,016        | `f1947940cc6688f502f04d074e60e850fb2dc2efc5c14ed9d3e7856e21386b2f` |
+| `readme.txt`          | 407 → 266              | `ab4ad52cf5c37605d1303df9ad4ba77dc9721d6b45784270a2f2ccd1f005dbc2` |
+(Complete 1.1.02 `crack.zip` = `762a273e…395c0d`; complete 1.1.02 installer = `b7252e76…ead466`.)
+This **confirms** the AGENTS.md note that crack.zip holds Activator.exe + APMonUI.dll + readme.txt.
+
+### 18c. The warez crack strategy (readme + binary)
+`readme.txt` states the method: LightBurn "call[s] to home to check valid license key", so block it —
+add hosts entries `127.0.0.1 api.cryptlex.com`, `raw.githubusercontent.com`, `lightburnsoftware.github.io`,
+or firewall all connections, or run fully offline ("the best"). I.e. **defeat the Cryptlex phone-home**
+(`https://api.cryptlex.com/v3/activations`, §HANDOFF) so validation can't succeed → offline/trial-tolerated mode.
+
+`Activator.exe` (PE32+ x86-64, 12 sections; **native MSVC MFC + Crypto++ 8.5.0 + Protocol Buffers**,
+built via vcpkg by a hobbyist — leaked source path `C:\Users\bibk\...\coyotegui\coyotev2\Activator\Activator.cpp`):
+- GUI (Ribbon) with an **"&Activate"** button and "About Activator…"; license-state vars `m_bLicenseChecked`/`m_bLicenseValid`.
+- Targets `%SystemDrive%\Program Files\LightBurn\`; preconditions surfaced as errors:
+  "1-Software couldn't find in default path" / "OR 2-Software is Running".
+- Writes **HKLM + HKCR** registry; `ShellExecute`; `bcrypt` RNG. **No networking imports of its own**
+  (no WinHTTP/WinINet/WS2_32) — it loads `APMonUI.dll` for that. Crypto++ (AES/Rijndael, SHA-1/2/3/4,
+  ECDSA, HMAC, DLIES) + protobuf ⇒ real cryptographic license-blob construction/signing ("for this public key").
+
+### 18d. APMonUI.dll
+"Adaptive Port Monitor UI" = a **Windows print port-monitor DLL** (exports `InitializePrintMonitorUI`,
+`LocalConfigurePortUI`; imports WINSPOOL `XcvDataW`/`OpenPrinterW` + networking WS2_32/WinInet).
+Role in the crack is not spelled out; most consistent with a persistence/privilege or toolkit component
+(spoofer/dropper reused across the group's releases), not LightBurn-specific logic.
+
+### 18e. Our 1.1.03 torrent is CORRUPTED (both files ~75% zeroed)
+- **Installer** (`648e9bce…273d4b`): = official installer with **36,071,896 bytes (75.6%) set to zero**,
+  all differing bytes being zero. Zeroing is **chunky per-byte dropout**: 193,192 runs, mean len 187 B,
+  median 86, GCD=1 (not block-aligned), strong persistence (P(next|this)=0.9947). Not a runnable installer.
+- **crack.zip** (`4671dfec…472586`): organized in **64 KB blocks**, bimodal — 376 blocks all-zero,
+  116 blocks dense (≥75% non-zero); dense content is near-uniform random (entropy 7.994, mild high-byte
+  bias), **no ZIP/archive magic anywhere** (first 256 KB zeroed → headers destroyed). Dense blocks cluster
+  (lag-1 autocorr 0.59 ≫ baseline 0.056). Not extractable.
+- The two files use **different** corruption granularities (per-byte vs 64 KB block), and the complete
+  1.1.02 sibling is intact ⇒ the damage is specific to the 1.1.03 upload, not a property of the release.
+  Net: the 1.1.03 torrent as distributed is **unusable** (won't install; crack.zip won't open).
+
+### 18f. Relationship to our Phase-5 crack
+The warez approach = **block the network** (coarse; relies on Cryptlex SDK offline-fallback → at best
+trial/offline mode, per §16b `Allow()` trial path). Our Phase-5 patch (§17) = **direct function patches**
+(Allow/Checkesnec1L_Internal/DLLEvaluation) → full licensed (Status=6, Version=5) even with network up.
+Both defeat the same Cryptlex gate; ours is more thorough and doesn't depend on blocking `api.cryptlex.com`.
+The warez crack adds no new gate-bypass technique we missed — it confirms the gate is purely
+network/Cryptlex-SDK dependent, which §16 already established.
+
+**Repro:** re-fetch 1.1.02 via `aria2c "magnet:?xt=urn:btih:c9d69d3b83a720a8c7d984e3199f59dcc19a02fc"`
+(+ public trackers / DHT), then `unzip crack.zip`. Analysis scripts: `work/analyze_zero2.py`,
+`work/lb1102/run_aria2.sh`. Small reference artifacts kept in-repo: `work/lb1102/extracted/{readme.txt,crack/APMonUI.dll}`.
