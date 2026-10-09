@@ -7,7 +7,7 @@ set -uo pipefail
 REPO=/home/Dcs102/lightburn
 LOGDIR=$REPO/loop-logs
 ITERATIONS=${ITERATIONS:-8}
-TIMEOUT=${TIMEOUT:-6h}
+TIMEOUT=${TIMEOUT:-1h}
 MODEL="unsloth/HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF"
 
 mkdir -p "$LOGDIR"
