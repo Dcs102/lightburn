@@ -1,0 +1,1 @@
+{"name":"FUN_1406eaef0","address":"1406eaef0","decompiled":"\nvoid FUN_1406eaef0(void)\n\n{\n  __CheckForDebuggerJustMyCode(&DAT_1418fe1c4);\n  GetSystemMetrics(0x1000);\n  return;\n}\n\n"}
