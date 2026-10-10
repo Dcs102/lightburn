@@ -913,3 +913,56 @@ Built `cracked/LightBurn_hardened.exe` = the §17 patch set **plus** a NOP of `S
   dismissed); the crack's local-evaluation override still yields the licensed main window.
 - **Tooling:** `work/patch_hardened.py` (patcher), `work/find_calls.py` (E8/FF15 call-site finder, absolute VAs),
   `work/scan_imports.py` (import-dir + IAT-targeted `.text` scanner).
+
+## 28. Phase 11 — item-3 (VMP) unpacked: the license bypass is 5 surgical `.text` patches (verified by runtime diff)
+
+Goal: locate where item 3 (`work/item3.bin`, the VMProtect-packed LightBurn **1.1.02**) makes itself report
+"License Valid" with no `ldata` file and no Cryptlex phone-home (§24c). Static unpacking of `.vmp0`/`.vmp1` was
+avoided in favor of a **runtime memory dump** diffed against a version-matched genuine reference.
+
+- **Variant gate (STEP 0, passed):** item 3 is VMProtect 3.x "section-stripping" layout — all original sections
+  have `RawSize=0`; every byte of real code/data lives in `.vmp1` and is decrypted at runtime. Image base
+  `0x140000000` (confirmed via `/proc/<pid>/maps`, `WINEASLR=0`). Original 1.1.02 EP = RVA `0x839F2C`; item-3 PE
+  EP = RVA `0x1EB96D2` (the VMP stub in `.vmp1`). Reference: `work/unpacked/vmp_variant.md`.
+- **Reference binary:** version-matched genuine LightBurn **1.1.02** extracted to
+  `work/unpacked/prefix1102/drive_c/lb1102/LightBurn.exe` (19,253,176 B; TimeDateStamp `0x6229008b`; section
+  VAs/sizes byte-identical to item 3's original layout). Section table: `work/unpacked/genuine1102_sections.json`.
+- **Anti-debug (empirically characterized):** VMP traps at VA `0x14309F67B` (`.vmp1`) when a debugger sets **DR
+  registers** (hw breakpoints) or plants **0xCC** bytes (sw breakpoints); it does NOT trap on ptrace stops
+  themselves. Passive tracing and pure `/proc/PID/mem` polling are safe. Wine does not set `PEB.BeingDebugged`
+  under ptrace. This is why the dump was taken with **no debugger attached**.
+- **Dump A (EP-time):** captured by polling probe addresses every 2 ms via `/proc/<pid>/mem` and dumping all
+  sections at the first moment `.data` became non-zero — `t=2.4478 s` after process start (`.text` decrypts at
+  ~1.0–1.3 s; license globals go non-zero at ~2.4 s). Files: `work/unpacked/liveA_{headers,text,rdata,data,pdata,
+  tls,rdata2,reloc_rsrc}.bin`. Dumper: `work/unpacked/early_dump.py`. (Dump B = post-startup, `liveB_*.bin`.)
+- **Result — section-by-section diff of Dump A vs genuine 1.1.02:**
+
+  | section | diff ranges | real patches | what the diffs are |
+  |---------|------------:|-------------:|--------------------|
+  | `.text`  | 97,919 | **5** | 92,993 VMP import-thunk rewrites (`FF15/FF25` IAT → `push reg; E8/E9 rel32` into `.vmp0/.vmp1`) + the 5 patches below |
+  | `.rdata` | 2,765    | 0 | IAT slots replaced with VMP thunk/garbage pointers (no meaningful data change) |
+  | `.data`  | **0**      | 0 | file-initialized region (first `0x31200` bytes) **byte-identical** to genuine; BSS all zeros |
+  | `.pdata` | 40,080   | 0 | exception directory rewritten by VMP |
+  | `.tls`   | 1        | 0 | RVA `0x132C007`: `0x80`→`0x00` (VMP artifact) |
+  | `_RDATA` | 244      | 0 | a 3-byte-entry table zeroed (VMP artifact) |
+
+- **The 5 license patches** (all in the contiguous RVA `0x3A18B2`–`0x3B0179` license-evaluation region, which VMP
+  left as native code rather than virtualizing; confirmed present at EP time ⇒ applied **before** packing):
+
+  | id | RVA | genuine → patched | effect |
+  |----|-----|-------------------|--------|
+  | P1 | `0x3A18B2` | `je +0xA8` (`0F84 A8000000`) → `jmp +0xA9; nop` (`E9 A9000000 90`) | force the branch to `0x3A1960` unconditionally (same target) |
+  | P2 | `0x3A42F0` | `mov esi,eax; movzx eax,[rip+0xE2C605]` (`8BF0 0FB605 05C6E200`) → `xor esi,esi; xor eax,eax; nop×5` (`33F6 33C0 90…`) | zero `esi` (return of `call 0x1404C09D0`) and force the global@RVA `0x11D08FE` load to read 0, so `test al,al; je 0x3A48F5` is **always** taken |
+  | P3 | `0x3A490D` | `mov ebx,eax` (`8BD8`) → `xor ebx,ebx` (`33DB`) | force `ebx=0` after `call 0x1404C1040`, so `test ebx,ebx; jne 0x3A4930` is **not** taken (falls through) |
+  | P4 | `0x3A4920` | imm `03` → `06` in `mov [rip+0xE2BFDC], imm32` | write **6** instead of 3 to license-state global @ RVA `0x11D08FD` (adjacent store writes 4 to RVA `0x122AEC5`, unchanged) |
+  | P5 | `0x3B0173` | `ja +0xC0` (`0F87 C0000000`) → `jmp +0xC1; nop` (`E9 C1000000 90`) | force the branch to `0x3B0239` unconditionally (same target) |
+
+- **Conclusion:** item 3's "License Valid" state is produced by **exactly five surgical code patches** in the
+  license-evaluation function(s), applied to the original 1.1.02 binary *before* VMProtect packed it. There are
+  **no data-section (or other) file-level patches** — the cracker did not pre-seed any global; the globals are set
+  at runtime by the patched code (P4 writes `0x11D08FD`=6; P2/P3 steer the control flow that would otherwise
+  require a live Cryptlex evaluation). This is consistent with §24c's observation (no `ldata`, no phone-home,
+  self-reported "License Valid").
+- **Artifacts:** `work/unpacked/item3_license_bypass_findings.json` (consolidated), `text_real_patches_A.json`,
+  `data_real_patches_A.json` (empty), `liveA_*.bin` (EP-time dumps), `genuine1102_sections.json`,
+  `vmp_variant.md`, `imports_static.json`. Dumper: `early_dump.py`; timing probe: `poll_G.py`.

@@ -1,0 +1,4 @@
+set pagination off
+set debuginfod enabled off
+thread apply all print/x $gs
+continue

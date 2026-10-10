@@ -1,0 +1,9 @@
+set pagination off
+set debuginfod enabled off
+show architecture
+info files
+set architecture i386:x86-64
+add-symbol-file "/var/home/Dcs102/lightburn/work/native/prefix/drive_c/Program Files/LightBurn/LightBurn.exe" 0x140000000
+info files
+hbreak 0x140839f2c
+info breakpoints

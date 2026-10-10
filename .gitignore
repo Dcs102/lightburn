@@ -47,3 +47,15 @@ work/native/LightBurn-v1.1.03-official.exe
 # VC++ 2015-2022 x64 redistributable (re-download from aka.ms/vs/17/release/vc_redist.x64.exe;
 # sha256 in NOTES.md §24a)
 work/native/item3_run/vcredist_2022_x64.exe
+
+# Phase 11 item-3 unpack scratch (regenerable via work/unpacked/early_dump.py + poll_G.py).
+# The Wine prefix holding the genuine 1.1.02 reference is ignored; a clean copy of the reference exe
+# is tracked at work/unpacked/genuine1102_LightBurn.exe. The definitive EP-time dumps (liveA_*.bin) and
+# all analysis artifacts (.json/.md/.py/.sh) are tracked; redundant timing dumps (t*.bin), the secondary
+# post-startup set (liveB_*.bin), the abandoned symbol-fixed PE, and logs are not.
+work/unpacked/prefix1102/
+work/unpacked/item3_symfix.exe
+work/unpacked/t*.bin
+work/unpacked/liveB_*.bin
+work/unpacked/lb1102_ref/
+work/unpacked/*.log

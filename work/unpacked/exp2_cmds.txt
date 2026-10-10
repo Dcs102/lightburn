@@ -1,0 +1,9 @@
+set pagination off
+set debuginfod enabled off
+print/x $gs
+print/x *(unsigned long long*)(($gs) + 0x30)
+set $teb = *(unsigned long long*)(($gs) + 0x30)
+print/x ($teb + 2)
+print *(unsigned char*)($teb + 2)
+print *(unsigned char*)(($teb + 0x18) + 2)
+print/x *(unsigned long long*)(($teb) + 0x18)

@@ -1,0 +1,17 @@
+set pagination off
+set debuginfod enabled off
+echo === T1: hbreak vmp1 (auto symbols) ===
+hbreak 0x141eb96d2
+info breakpoints
+echo === T2: set arch, hbreak text EP ===
+set architecture i386:x86-64
+hbreak 0x140839f2c
+info breakpoints
+echo === T3: add-symbol-file symfix, hbreak both ===
+add-symbol-file "/var/home/Dcs102/lightburn/work/unpacked/item3_symfix.exe" 0x140001000
+hbreak 0x141eb96d2
+hbreak 0x140839f2c
+info breakpoints
+echo === T4: software bp EP ===
+b *0x140839f2c
+info breakpoints

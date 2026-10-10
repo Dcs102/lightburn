@@ -1,0 +1,112 @@
+{
+ "summary": "item3 (VMProtect-packed LightBurn 1.1.02) license bypass = exactly 5 surgical .text code patches, applied BEFORE VMP packing. No .data or other-section file-level patches (file-initialized .data is byte-identical to genuine 1.1.02). All other section diffs are VMP artifacts (IAT thunk/garbage replacement, exception-dir rewrite, TLS byte, zeroed _RDATA table).",
+ "method": "Runtime memory dumps via /proc/PID/mem polling (no debugger; avoids VMP anti-debug which triggers on DR registers / 0xCC bytes). Dump A = earliest app-running state (t=2.4478s, first non-zero .data). Diffed each section against version-matched genuine 1.1.02 reference (work/unpacked/prefix1102/drive_c/lb1102/LightBurn.exe).",
+ "image_base": "0x140000000",
+ "genuine_ref": "work/unpacked/prefix1102/drive_c/lb1102/LightBurn.exe (LightBurn 1.1.02, TimeDateStamp 0x6229008b)",
+ "section_diff_at_EP_time": {
+  ".text": {
+   "diff_ranges": 97919,
+   "vmp_thunks": 53236,
+   "real_patches": 5,
+   "note": "92,993 import-thunk rewrites (FF15/FF25 IAT -> push/E8E9 to .vmp0/.vmp1) + 5 real patches"
+  },
+  ".rdata": {
+   "diff_ranges": 2765,
+   "diff_bytes": 212472,
+   "real_patches": 0,
+   "note": "IAT slots replaced with VMP thunk/garbage pointers; no meaningful data patches"
+  },
+  ".data": {
+   "diff_ranges": 0,
+   "diff_bytes": 0,
+   "real_patches": 0,
+   "note": "file-initialized region (first 0x31200 bytes) BYTE-IDENTICAL to genuine; BSS all zeros"
+  },
+  ".pdata": {
+   "diff_ranges": 40080,
+   "diff_bytes": 322103,
+   "real_patches": 0,
+   "note": "exception directory rewritten by VMP"
+  },
+  ".tls": {
+   "diff_ranges": 1,
+   "diff_bytes": 1,
+   "real_patches": 0,
+   "note": "RVA 0x132c007: 0x80->0x00 (VMP artifact)"
+  },
+  "_RDATA": {
+   "diff_ranges": 244,
+   "diff_bytes": 706,
+   "real_patches": 0,
+   "note": "3-byte table entries zeroed (VMP artifact)"
+  }
+ },
+ "text_patches": [
+  {
+   "id": "P1",
+   "rva": "0x3A18B2",
+   "va": "0x1403A18B2",
+   "len": 6,
+   "genuine": "0f84a8000000 (je +0xA8 -> 0x3A1960)",
+   "live": "e9a900000090 (jmp +0xA9 -> 0x3A1960; nop)",
+   "effect": "force conditional je into unconditional jmp to same target 0x3A1960"
+  },
+  {
+   "id": "P2",
+   "rva": "0x3A42F0",
+   "va": "0x1403A42F0",
+   "len": 9,
+   "genuine": "8bf0 0fb605 05c6e200 (mov esi,eax; movzx eax,[rip+0xE2C605] -> global RVA 0x11D08FE)",
+   "live": "33f6 33c0 9090909090 (xor esi,esi; xor eax,eax; nop x5)",
+   "effect": "zero esi (return of call 0x1404C09D0) and force the global@RVA 0x11D08FE load to read 0, so 'test al,al; je 0x3A48F5' is ALWAYS taken"
+  },
+  {
+   "id": "P3",
+   "rva": "0x3A490D",
+   "va": "0x1403A490D",
+   "len": 2,
+   "genuine": "8bd8 (mov ebx,eax)",
+   "live": "33db (xor ebx,ebx)",
+   "effect": "force ebx=0 after call 0x1404C1040, so 'test ebx,ebx; jne 0x3A4930' is NOT taken (falls through)"
+  },
+  {
+   "id": "P4",
+   "rva": "0x3A4920",
+   "va": "0x1403A4920",
+   "len": 1,
+   "genuine": "03 (imm in 'mov [rip+0xE2BFDC], 3' -> global RVA 0x11D08FD)",
+   "live": "06 (imm in 'mov [rip+0xE2BFDC], 6')",
+   "effect": "write 6 instead of 3 to license-state global @ RVA 0x11D08FD (adjacent store writes 4 to RVA 0x122AEC5, unchanged)"
+  },
+  {
+   "id": "P5",
+   "rva": "0x3B0173",
+   "va": "0x1403B0173",
+   "len": 6,
+   "genuine": "0f87c0000000 (ja +0xC0 -> 0x3B0239)",
+   "live": "e9c100000090 (jmp +0xC1 -> 0x3B0239; nop)",
+   "effect": "force conditional ja into unconditional jmp to same target 0x3B0239"
+  }
+ ],
+ "patch_region": "RVA 0x3A18B2 .. 0x3B0179 (contiguous ~59KB license-evaluation code; VMP left it native, not virtualized)",
+ "globals_touched": [
+  {
+   "rva": "0x11D08FE",
+   "note": "P2: load replaced with constant 0 (not written)"
+  },
+  {
+   "rva": "0x11D08FD",
+   "note": "P4: written 6 (was 3)"
+  },
+  {
+   "rva": "0x122AEC5",
+   "note": "adjacent store, written 4 (unchanged by patch)"
+  }
+ ],
+ "vmp_antidebug": "triggers on DR registers (hw breakpoints) or 0xCC bytes (sw breakpoints), NOT on ptrace stops. Trap site VA 0x14309F67B (.vmp1). Passive tracing / pure /proc/PID/mem polling is safe. Wine does not set PEB.BeingDebugged under ptrace.",
+ "timing": {
+  ".text_decrypt_s": "~1.0-1.3",
+  "license_globals_nonzero_s": "~2.4",
+  "dumpA_captured_s": "2.4478"
+ }
+}

@@ -1,0 +1,58 @@
+[
+ {
+  "name": ".text",
+  "vsize": 9256782,
+  "rva": 4096,
+  "rawsz": 9256960,
+  "rawptr": 1024
+ },
+ {
+  "name": ".rdata",
+  "vsize": 9354296,
+  "rva": 9261056,
+  "rawsz": 9354752,
+  "rawptr": 9257984
+ },
+ {
+  "name": ".data",
+  "vsize": 1119320,
+  "rva": 18616320,
+  "rawsz": 201216,
+  "rawptr": 18612736
+ },
+ {
+  "name": ".pdata",
+  "vsize": 362556,
+  "rva": 19738624,
+  "rawsz": 363008,
+  "rawptr": 18813952
+ },
+ {
+  "name": ".tls",
+  "vsize": 9,
+  "rva": 20103168,
+  "rawsz": 512,
+  "rawptr": 19176960
+ },
+ {
+  "name": "_RDATA",
+  "vsize": 1968,
+  "rva": 20107264,
+  "rawsz": 2048,
+  "rawptr": 19177472
+ },
+ {
+  "name": ".rsrc",
+  "vsize": 16072,
+  "rva": 20111360,
+  "rawsz": 16384,
+  "rawptr": 19179520
+ },
+ {
+  "name": ".reloc",
+  "vsize": 50740,
+  "rva": 20127744,
+  "rawsz": 51200,
+  "rawptr": 19195904
+ }
+]

@@ -1,0 +1,16 @@
+set pagination off
+set confirm off
+echo \n=== ATTACHED ===\n
+info registers rip rsp rax rcx rdx
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_headers.bin 0x140000000 0x140001000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_text.bin 0x140001000 0x1408d5000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_rdata.bin 0x1408d5000 0x1411c1000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_data.bin 0x1411c1000 0x1412d3000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_pdata.bin 0x1412d3000 0x14132c000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_tls.bin 0x14132c000 0x14132d000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_rdata2.bin 0x14132d000 0x14132e000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_vmp0.bin 0x14132e000 0x141365000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_vmp1.bin 0x141e56000 0x143248000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveB_reloc_rsrc.bin 0x143248000 0x14324d000
+echo \n=== DUMPS DONE ===\n
+detach

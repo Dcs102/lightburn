@@ -74,7 +74,7 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 Goal: decompile/understand LightBurn's behavior. The `.text` entropy (~6.4) indicates mostly
 plain MSVC code, not a heavy packer — standard decompilation should yield readable C.
 
-**STATUS (Phase 10 complete — project closed out):** the license gate is cracked AND runtime-verified, and the
+**STATUS (Phase 11 complete — project fully closed out):** the license gate is cracked AND runtime-verified, and the
 full warez stack was executed natively under Wine (no VM/QEMU) in a fresh prefix `work/native/prefix`
 (NOTES.md §22). **Goal A:** `cracked/LightBurn.exe` (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave
 / DLLEvaluation, see NOTES.md §17) launches under Wine to the licensed main window `<untitled> - LightBurn 1.1.03`
@@ -108,6 +108,12 @@ corrects §6b). **(b)** Registry + prefs map — two registry mechanisms (HKCU f
 API (`work/registry_map.md`). **(c)** Hardened crack — `cracked/LightBurn_hardened.exe` = §17 set + NOP of
 `ShutDown`'s deactivation call + corrected PE checksum (`0x0125e682`, `SizeOfHeapReserve` intact); verified
 byte-exact + disasm + **Wine** (licensed main window `<untitled> - LightBurn 1.1.03`, no License Page; A/B vs the
-§17 crack in `work/native/shots/{hardened_main,crack17_main}.png`; patcher `work/patch_hardened.py`). Only optional
-work left: unpack item 3 to locate its license-bypass code. NOTES.md is the source of truth; do not re-derive what
-it says.
+§17 crack in `work/native/shots/{hardened_main,crack17_main}.png`; patcher `work/patch_hardened.py`). **Phase 11**
+(NOTES.md §28) unpacked item 3 via a runtime memory dump (no debugger — VMP traps on DR registers / 0xCC bytes, not
+ptrace stops) diffed against version-matched genuine LightBurn **1.1.02**: the "License Valid" bypass is **exactly 5
+surgical `.text` code patches** in the RVA `0x3A18B2`–`0x3B0179` license-evaluation region (P1 `je`→`jmp`, P2 zero
+`esi`+force global@`0x11D08FE` load to 0, P3 `mov ebx,eax`→`xor ebx,ebx`, P4 imm `3`→`6` writing license-state
+global@`0x11D08FD`, P5 `ja`→`jmp`), applied **before** VMP packing; the file-initialized `.data` is **byte-identical**
+to genuine (no data-section patches) and all other section diffs are VMP artifacts. Artifacts:
+`work/unpacked/item3_license_bypass_findings.json` + `liveA_*.bin` EP-time dumps + `early_dump.py`. **Project fully
+closed — no optional work remains.** NOTES.md is the source of truth; do not re-derive what it says.

@@ -1,6 +1,6 @@
 # Handoff — LightBurn v1.1.03 Reverse Engineering
 
-**STATUS: COMPLETE.** Phases 1–9 are done and verified (NOTES.md §14–§22 is the source of truth;
+**STATUS: COMPLETE.** Phases 1–11 are done and verified (NOTES.md §14–§28 is the source of truth;
 AGENTS.md has env + gotchas). Do NOT re-derive what they state. No pending tasks remain.
 
 ## What was accomplished
@@ -34,11 +34,12 @@ AGENTS.md has env + gotchas). Do NOT re-derive what they state. No pending tasks
 - `work/native/item3_run/` — Phase 9c evidence: vcredist + install log, wine logs, main-window / License Page /
   Devices / wizard / Check-version screenshots + OCR output (`ocr_out.txt`, `ocr_licensepage.png`)
 
-## Only remaining optional work
-Analyze **item 3** (`work/item3.bin`, the VMProtect-packed LightBurn.exe, PE32+ imagebase
-`0x20000001000`) to confirm where its license bypass lives. VMP packing hides the modification —
-expect to need unpacking/analysis of `.vmp0`/`.vmp1`. Note (§24): item 3 now RUNS under Wine (MS
-concrt140.dll from the VC++ 2015-2022 redistributable supplies the missing PPL export) and reaches a
-fully functional main window self-reporting "License Valid" with 0 days of updates remaining and no
-ldata file — so dynamic behavior is fully characterized; what remains is locating the bypass code
-itself, for which static unpacking is still the better path. Everything else in the project is closed.
+## Phase 11 (item-3 unpack) — now complete
+The last optional item (analyze **item 3**, `work/item3.bin`, the VMProtect-packed LightBurn **1.1.02**) is done
+(NOTES.md §28). Rather than statically unpack `.vmp0`/`.vmp1`, a **runtime memory dump** was taken with no debugger
+attached (VMP traps on DR registers / 0xCC bytes, not ptrace stops) and diffed against version-matched genuine
+LightBurn 1.1.02. Finding: the "License Valid" bypass is **exactly 5 surgical `.text` code patches** in the RVA
+`0x3A18B2`–`0x3B0179` license-evaluation region, applied *before* VMP packing; the file-initialized `.data` is
+byte-identical to genuine (no data-section patches) and every other section diff is a VMP artifact. Artifacts:
+`work/unpacked/item3_license_bypass_findings.json`, `liveA_*.bin` EP-time dumps, `early_dump.py`. **Everything in the
+project is now closed — no optional work remains.**

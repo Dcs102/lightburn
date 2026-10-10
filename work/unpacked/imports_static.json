@@ -1,0 +1,116 @@
+{
+ "SHELL32.dll": [
+  "CommandLineToArgvW"
+ ],
+ "potrace.dll": [
+  "potrace_param_default"
+ ],
+ "SETUPAPI.dll": [
+  "SetupDiEnumDeviceInfo"
+ ],
+ "libusb-1.0.dll": [
+  "libusb_get_string_descriptor_ascii"
+ ],
+ "WS2_32.dll": [
+  "MZ\ufffd"
+ ],
+ "Qt5MultimediaWidgets.dll": [
+  "?setMediaObject@QCameraViewfinder@@MEAA_NPEAVQMediaObject@@@Z"
+ ],
+ "Qt5PrintSupport.dll": [
+  "??1QPrinter@@UEAA@XZ"
+ ],
+ "Qt5Widgets.dll": [
+  "?helpEvent@QAbstractItemDelegate@@UEAA_NPEAVQHelpEvent@@PEAVQAbstractItemView@@AEBVQStyleOptionViewItem@@AEBVQModelIndex@@@Z"
+ ],
+ "Qt5Multimedia.dll": [
+  "?qt_metacast@QCamera@@UEAAPEAXPEBD@Z"
+ ],
+ "Qt5Gui.dll": [
+  "?fillRect@QPainter@@QEAAXHHHHAEBVQBrush@@@Z"
+ ],
+ "Qt5SerialPort.dll": [
+  "?hasVendorIdentifier@QSerialPortInfo@@QEBA_NXZ"
+ ],
+ "Qt5Network.dll": [
+  "?metaObject@QNetworkAccessManager@@UEBAPEBUQMetaObject@@XZ"
+ ],
+ "Qt5Xml.dll": [
+  "?data@QDomCharacterData@@QEBA?AVQString@@XZ"
+ ],
+ "Qt5Core.dll": [
+  "?qt_metacall@QAbstractItemModel@@UEAAHW4Call@QMetaObject@@HPEAPEAX@Z"
+ ],
+ "MSVCP140.dll": [
+  "??1?$basic_iostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ"
+ ],
+ "dbghelp.dll": [
+  "SymGetModuleBase64"
+ ],
+ "ADVAPI32.dll": [
+  "CryptGetHashParam"
+ ],
+ "USER32.dll": [
+  "GetProcessWindowStation"
+ ],
+ "WINHTTP.dll": [
+  "WinHttpCloseHandle"
+ ],
+ "CRYPT32.dll": [
+  "CertFreeCertificateChain"
+ ],
+ "IPHLPAPI.DLL": [
+  "GetAdaptersInfo"
+ ],
+ "ole32.dll": [
+  "CoSetProxyBlanket"
+ ],
+ "OLEAUT32.dll": [
+  "MZ\ufffd"
+ ],
+ "CONCRT140.dll": [
+  "?_GetNumberOfVirtualProcessors@_CurrentScheduler@details@Concurrency@@SAIXZ"
+ ],
+ "KERNEL32.dll": [
+  "LocalAlloc"
+ ],
+ "VCRUNTIME140.dll": [
+  "_CxxThrowException"
+ ],
+ "api-ms-win-crt-runtime-l1-1-0.dll": [
+  "exit"
+ ],
+ "api-ms-win-crt-stdio-l1-1-0.dll": [
+  "__acrt_iob_func"
+ ],
+ "api-ms-win-crt-math-l1-1-0.dll": [
+  "fmod"
+ ],
+ "api-ms-win-crt-convert-l1-1-0.dll": [
+  "atoi"
+ ],
+ "api-ms-win-crt-string-l1-1-0.dll": [
+  "isdigit"
+ ],
+ "api-ms-win-crt-time-l1-1-0.dll": [
+  "_gmtime64"
+ ],
+ "api-ms-win-crt-heap-l1-1-0.dll": [
+  "realloc"
+ ],
+ "api-ms-win-crt-utility-l1-1-0.dll": [
+  "rand"
+ ],
+ "api-ms-win-crt-filesystem-l1-1-0.dll": [
+  "_access"
+ ],
+ "api-ms-win-crt-multibyte-l1-1-0.dll": [
+  "_mbsnbicmp"
+ ],
+ "api-ms-win-crt-locale-l1-1-0.dll": [
+  "_configthreadlocale"
+ ],
+ "WTSAPI32.dll": [
+  "WTSSendMessageW"
+ ]
+}

@@ -1,0 +1,24 @@
+set pagination off
+set confirm off
+set debuginfod enabled off
+handle SIGUSR1 nostop pass
+handle SIGUSR2 nostop pass
+handle SIGCHLD nostop pass
+handle SIGPIPE nostop pass
+hbreak *0x140839f2c
+commands 1
+silent
+echo \n=== EP HIT ===\n
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_headers.bin 0x140000000 0x140001000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_text.bin 0x140001000 0x1408d5000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_rdata.bin 0x1408d5000 0x1411c1000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_data.bin 0x1411c1000 0x1412d3000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_pdata.bin 0x1412d3000 0x14132c000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_tls.bin 0x14132c000 0x14132d000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_rdata2.bin 0x14132d000 0x14132e000
+dump memory /var/home/Dcs102/lightburn/work/unpacked/liveA_reloc_rsrc.bin 0x143248000 0x14324d000
+echo \n=== DUMP A DONE ===\n
+detach
+quit
+end
+continue

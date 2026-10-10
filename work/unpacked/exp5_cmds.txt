@@ -1,0 +1,8 @@
+set pagination off
+set debuginfod enabled off
+handle SIGUSR1 nostop pass
+handle SIGUSR2 nostop pass
+handle SIGCHLD nostop pass
+handle SIGPIPE nostop pass
+echo === NO BP, STAY ATTACHED ===
+continue
