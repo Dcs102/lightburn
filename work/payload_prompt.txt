@@ -1,0 +1,24 @@
+You are working on the LightBurn v1.1.03 reverse-engineering project in this directory. Read AGENTS.md and NOTES.md first — they are the source of truth; do NOT re-derive what they state. Focus your entire session on ONE task below and nothing else.
+
+TASK: Extract the exact content of the staged PowerShell payload from the warez Activator.exe — i.e. the Base64 string at line 17033 of the file it stages to C:\Windows\logs\system-logs.txt. This is the only remaining unknown in the project (NOTES.md §20f).
+
+VERIFIED FACTS (do not re-derive):
+- Core routine FUN_1406ed270 writes C:\Windows\logs\system-logs.txt via helper FUN_1406ffb90(path,data,size) (MFC CFile open+write).
+- The staged one-liner reads line index 17033 of that file, Base64-decodes it (UTF-8), wraps it in a ScriptBlock, and runs it. The actual crack logic lives ONLY in that Base64 string — it is never plaintext in the PE.
+- All embedded strings are XOR-obfuscated: decryptor FUN_1406ee4b0(ptr,len,key), key 0x5aa5d2b4d39b2b69 (LE bytes 69 2b 9b d3 b4 d2 a5 5a), buf[i] ^= (key >> ((i%8)*8)) & 0xff.
+- Binary copies: work/actrun/Activator.exe + work/actrun/APMonUI.dll. Ghidra project Actproj at ghidra-proj/Actproj, MCP on :8090 (NOT the shared :8089 — do not disturb it). Decomp artifacts already exist: work/act_fn_{ed270,main,patch,exec,copy,ffb90,reg}.json and work/act_imports.json.
+
+APPROACH (static first, runtime as fallback):
+1. STATIC (fastest path to done): in Actproj (:8090), decompile FUN_1406ed270 and trace the data/size args passed to FUN_1406ffb90 for the system-logs.txt write. Find where that buffer is built — likely a large embedded blob in .rdata/.data (possibly XOR-encoded and/or Base64-wrapped). Decode it fully, reconstruct the complete staged file content; line 17033's Base64 string decoded to UTF-8 IS the payload.
+2. RUNTIME (only if static is blocked): last Wine attempt (work/actrun/run.log) exited code 5 — the SM_REMOTESESSION precondition gate FUN_1406eaef0 failed before any file write. Byte-patch a MODIFIED copy of Activator.exe to bypass the return-3/return-5 gates, ensure SyncAppvPublishingServer.vbs exists in the prefix and APMonUI.dll sits beside the exe, re-run under Wine, then read line 17033 of work/wineprefix_act/drive_c/windows/logs/system-logs.txt.
+
+CONSTRAINTS:
+- Scratch only under work/ (tmpfs quota is often full; /tmp/codwaw_db belongs to another job — never delete it). If MCP write tools fail, use local capstone disasm via work/disasm_fn.py.
+- Report exactly what you found with evidence (decompile output / disasm / run log). Do NOT guess or fabricate payload content — if blocked, state which step failed and show the evidence.
+
+DONE WHEN:
+- Decoded payload (full text) saved to work/payload/.
+- NOTES.md gains §21: which approach worked, PE addresses of the blob, the decoded payload verbatim, and a summary of what it actually does (its license-bypass/persistence logic).
+- AGENTS.md STATUS line updated.
+
+When finished, stage and commit your changes with a specific message describing what you found; do not push. End with a short summary (<=15 lines): what you verified, exact addresses/artifacts, and the decoded payload's behavior.

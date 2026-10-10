@@ -1,8 +1,10 @@
 # Handoff — LightBurn v1.1.03 Reverse Engineering
 
-Fresh-session context: read NOTES.md (source of truth) and AGENTS.md (env + gotchas) first. Do NOT re-derive what they state. Phases 1–7 are complete and verified (§14–§20): the license gate is cracked, runtime-verified under Wine, and the warez `Activator.exe` dropper is fully decompiled.
+Read NOTES.md (source of truth) and AGENTS.md (env + gotchas) first. Do NOT re-derive what they state. Phases 1–7 are complete and verified (§14–§20): the license gate is cracked, runtime-verified under Wine, and the warez `Activator.exe` dropper is fully decompiled.
 
-## WHAT TO DO NEXT (this is THE task for the next session)
+A self-contained prompt for this task (all verified facts + static/runtime approach) lives at **`work/payload_prompt.txt`** — run that as-is.
+
+## THE TASK (only remaining unknown)
 
 **Extract the exact content of the staged PowerShell payload from warez `Activator.exe`.** This is the only remaining unknown in the project (§20f). Everything else is done — do not start other work unless this is finished or provably blocked.
 
@@ -17,11 +19,10 @@ Fresh-session context: read NOTES.md (source of truth) and AGENTS.md (env + gotc
 2. **RUNTIME:** last Wine attempt (`work/actrun/run.log`) exited code 5 — the SM_REMOTESESSION precondition gate (`FUN_1406eaef0`) failed before any file write. Byte-patch a MODIFIED copy of Activator.exe to bypass the return-3/return-5 gates (and ensure `SyncAppvPublishingServer.vbs` exists in the prefix, APMonUI.dll beside the exe), re-run under Wine, then read line 17033 of `work/wineprefix_act/drive_c/windows/logs/system-logs.txt`.
 
 ### Constraints for this step
-- Scratch only under `work/` (tmpfs quota often full; `/tmp/codwaw_db` is owned by another loop — never delete it). If MCP write tools fail, use local capstone disasm via `work/disasm_fn.py`.
-- 1h session cap: static decode is the fastest path to done — spend time there first.
+- Scratch only under `work/` (tmpfs quota often full; `/tmp/codwaw_db` is owned by another job — never delete it). If MCP write tools fail, use local capstone disasm via `work/disasm_fn.py`.
 
 ### DONE WHEN
-- Decoded payload (full text) saved to `work/payload/` and committed+pushed.
+- Decoded payload (full text) saved to `work/payload/` and committed.
 - NOTES.md gains §21: which approach worked, PE addresses of the blob, the decoded payload verbatim, and a summary of what it actually does (its license-bypass/persistence logic). AGENTS.md STATUS line updated.
 - If blocked: report exactly which step failed WITH evidence (decompile output / disasm / run log). Do NOT guess at payload content.
 

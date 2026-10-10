@@ -550,14 +550,88 @@ with §18d's "toolkit component reused across the group's releases."
 Activator.exe is a **dropper/stager**, not the crack itself: it stages a PowerShell payload into
 `C:\Windows\logs\system-logs.txt` (Base64 at line 17033) and runs it via COM, using
 `SyncAppvPublishingServer.vbs` + registry `\Microsoft\Windows\NetService\Network\NetServices` for
-persistence. **Hypothesis:** the staged PowerShell installs a persistent hook that re-applies the
-license bypass / blocks the Cryptlex phone-home on each run (matching §18c's "block the network"
-strategy, but done in-band). The **exact payload content is the one thing not yet extracted** — next
-step is to capture/decode it (run Activator under Wine and read `C:\Windows\logs\system-logs.txt` line
-17033, or locate + XOR-decode the embedded blob that fills it). This does not change §18f's conclusion:
-the warez crack still defeats the same network/Cryptlex gate our Phase-5 patch (§17) already bypasses.
+persistence. **Hypothesis (SUPERSEDED by §21):** the staged PowerShell installs a persistent hook that re-applies
+the license bypass / blocks the Cryptlex phone-home on each run (matching §18c's "block the network"
+strategy, but done in-band). The exact payload content was extracted directly from the PE in **§21** —
+it is a crypto-wallet clipboard-hijacking infostealer, not a license hook.
 
 **Repro:** `Actproj` at `ghidra-proj/Actproj`; second MCP on :8090 (launcher
 `/home/Dcs102/tools/ghidra-mcp/start-headless.sh` with `GHIDRA_MCP_PORT=8090` and
 `JAVA_OPTS="-Xmx4g -XX:+UseG1GC -Djava.io.tmpdir=/var/home/Dcs102/lightburn/work/act_tmp"`). Decompilation
 artifacts: `work/act_fn_{ed270,main,patch,exec,copy,ffb90,reg}.json`, `work/act_imports.json`.
+
+## 21. Phase 8 — the embedded container + staged payload (extracted, verified)
+
+Resolves §20f's "remaining unknown" **without running Activator**: the whole appended region is an
+AES-256-CBC encrypted container whose manifest lists four items; item 0 *is* the staged
+`system-logs.txt`, and its line index 17033 Base64-decodes to a 15,098-byte PowerShell infostealer.
+All values below were reproduced by re-implementing the binary's own pipeline (Crypto++ 8.5.0
+`StreamTransformationFilter` → `Redirector(mode=3)` → `ArraySink`, cipher `CBC_Decryption<Rijndael::Dec>`).
+
+### 21a. Container layout + key/IV
+`Activator.exe` = 48,626,084 bytes (`0x2E5F9A4`); PE sections end at file offset `0x1524200`, so ~25 MB
+is appended data. Two fixed inputs drive the crypto:
+- **Descriptor** (48 B) at file offset `0xd5e818` (VA `0x1413cd018`; copied to container+8 by
+  `FUN_140ee0490`): **key = first 32 B**, **IV = last 16 B**.
+  - key `71c54c3bcffce591a70c0b5ba6448327bc975d89f3021053125f1cb9a7c0af72`
+  - iv  `c0ba0b56eac742afd4cb680ee0eb4fb0`
+- **Trailer** (last 36 B of file) = `[DWORD size S][32-byte signature]`. Here S=176 (`0xb0`),
+  sig `10a4ac7a…b48e8c`. `FUN_140ee08a0` reads the trailer, validates the signature, seeks to
+  EOF-36-S, and decrypts S bytes → the **manifest blob** at `[0x2E5F8D0, 0x2E5F980)` (trailer =
+  `[0x2E5F980, 0x2E5F9A4)`).
+
+### 21b. Manifest (protobuf) + item table
+Decrypted manifest = protobuf `repeated field 1 = sfs::File` entries; each entry is parsed by the
+`sfs::File` vtable[10] method (vtable at `0x14159a310`) as: field 1 (varint)→id @+0x28,
+field 2 (varint)→offset @+0x18, field 3 (varint)→size @+0x20, field 4 (bytes)→data string @+0x2c.
+Item extraction (`FUN_140edeac0`) seeks to `offset` **inside Activator.exe itself**, reads exactly
+`size` bytes, and AES-256-CBC-decrypts them with the same key/IV:
+
+| id | offset    | size      | content |
+|----|-----------|-----------|---------|
+| 0  | `0x1524200` | 5,525,792 | fake NGen log → staged `C:\Windows\logs\system-logs.txt` (UTF-8 BOM; "To learn about increasing the verbosity of the NGen log files…"; 17,303 CRLF lines) |
+| 1  | `0x1A69320` | 1,472     | Task-Scheduler XML template (`<Task version="1.2">`, boot+registration triggers, hidden, HighestAvailable; `$($UserId)`/`$($Command)`/`$($Arguments)` placeholders) |
+| 2  | `0x1A698E0` | 1,504     | `SyncAppvPublishingServer.vbs` (hidden PowerShell runner: `WshShell.Run "powershell.exe -Command &{…}", 0`) |
+| 3  | `0x1A6A6A0` | 20,929,040 | **VMProtect-packed LightBurn.exe** (PE32+, imagebase `0x20000001000`, `.vmp0`/`.vmp1` sections; data field = `%SystemDrive%\Program Files\LightBurn\LightBurn.exe`) |
+
+Item 3 ends exactly where the manifest blob begins (`0x2E5F8D0`). The gaps between items
+(`[0x1A66C20,0x1A69320)`, `[0x1A69EC0,0x1A6A6A0)`) are random padding bytes.
+
+### 21c. Staged payload (line index 17033) — crypto-wallet clipboard hijacker
+Line index 17033 of item 0 (0-based, matching `Select -Index 17033` in §20c) is a 20,132-char Base64
+string → **15,098 bytes of PowerShell**, saved verbatim to `work/payload/staged_payload.ps1`. It is
+**not** the license crack — it is an infostealer:
+- **C2 beacon** (`oUjmVhxHJ4Qhrw`): every second POSTs to `http://api.private-chatting.com/connect`
+  with a Base64 UTF-16 `X-User-Agent` header carrying a system fingerprint (volume serial, computer
+  name, username, OS caption, CPU width, AV-product list) + detected wallet apps. The response is a
+  pipe-delimited remote command: `Cmd|<cmdline>` (hidden `cmd.exe /c`), `DwnlExe|<url>|<name>|<cmdline>`
+  (download to %temp% then run), or `SelfRemove`. A `worker: 0` response header disables the beacon.
+- **Clipboard address swap** (`main2`): if the clipboard holds a crypto address matching any of 10
+  regexes (BTC bech32/P2PKH/P2SH, BCH, BNB, ETH, XMR, XRP, DOGE, DASH) and it is not already the
+  attacker's own address, it **replaces the clipboard with the attacker's address** and reports the
+  stolen one to C2. Attacker addresses: BTC `bc1qn6ype8u5kgj672mvsez9wz9wt9wk22tzd5vprp` /
+  `1Pqkb4MZwKzgSNkaX32wMwg95D9NfW9vZX` / `3JvBvRuBfYvB6MjzMornj9EQpxhq9W7vXP`, BCH
+  `qq9yrhef7csy3yzgxgs0rvkvez440mk53gv8ulyu6a`, BNB `bnb1vmwl54jxj9yvsgz33xtyuvqnurdjy2raqnttkq`,
+  ETH `0x884467182849bA788ba89300e176ebe11624C882`, XMR
+  `48qx1krgEGzdcSacbmZdioNwXxW6r43yFSJDKPWZb3wsK9pYhajHNyE5FujWo1NxVwEBvGebS7biW9mjMEWdMevqMGmDJ6x`,
+  XRP `rH6dyKWNpcvFz6fQ4ohyDbevSxcxdxfSmz`, DOGE `DDxhfK5wbJkRN25mAbBYk3ND4xLjiMRyNq`,
+  DASH `Xtwj8uGx77NYBUki1UCPvEhe4kHYi6yWng`.
+- **Wallet detection** (`FindPaths`): probes %appdata%/%localappdata%/browser-extension dirs for
+  Exodus, Atomic Wallet, Electrum, Ledger Live, Jaxx Liberty, Guarda, Armory, DELTA, TREZOR Bridge,
+  Bitcoin Core, Binance, Blockstream Green, Coinomi, MetaMask/MEW/Coin98/Binance/Coinbase (Chrome/Edge/Brave),
+  and Firefox MetaMask `.xpi`; reports the list to C2.
+- **Window-title monitor** (`FindWindow`): watches window titles for exchange keywords (binance,
+  coinbase, blockchain, voyager, blockfi, coindesk, etoro, kucoin, citi, paxful, paypal, huobi,
+  poloniex, bittrex, kraken, bitfinex, bitstamp) and reports hits.
+
+### 21d. Revised assessment (supersedes §20f hypothesis)
+The warez is a **malware dropper wearing a crack costume**: Activator.exe stages the clipboard
+hijacker (item 0 → line 17033), persists via items 1+2 (a hidden scheduled task running
+`SyncAppvPublishingServer.vbs`), and replaces the installed LightBurn.exe with a VMProtect-packed copy
+(item 3) — VMP packing hides whatever license-bypass modification lives inside it. The "crack" works
+for the user because item 3 is a functional LightBurn.exe; the victim's machine quietly gets the
+infostealer. This matches §18c (fake cracks to spread malware); blocking the Cryptlex phone-home (§18)
+is incidental — the real payload never touches it.
+
+**Repro:** pycryptodome AES-256-CBC with key/IV from 21a; item offsets/sizes from 21b. Artifacts:
+`work/item{0,1,2,3}.bin`, `work/blob_decrypted.bin`, `work/payload/staged_payload.ps1`.

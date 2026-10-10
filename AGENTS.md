@@ -74,11 +74,13 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 Goal: decompile/understand LightBurn's behavior. The `.text` entropy (~6.4) indicates mostly
 plain MSVC code, not a heavy packer — standard decompilation should yield readable C.
 
-**STATUS (Phase 7 complete):** the license gate is cracked AND runtime-verified. `cracked/LightBurn.exe`
+**STATUS (Phase 8 complete):** the license gate is cracked AND runtime-verified. `cracked/LightBurn.exe`
 (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave / DLLEvaluation, see NOTES.md §17) launches
-under Wine to a fully functional main window (NOTES.md §19). The warez `Activator.exe` is now fully
-decompiled (NOTES.md §20): it's a dropper that stages a PowerShell payload into
-`C:\Windows\logs\system-logs.txt` (Base64 at line 17033) and runs it via COM, with persistence via
-`SyncAppvPublishingServer.vbs` + registry. Remaining optional work: extract/decode the staged payload
-content (run Activator under Wine and read that file, or XOR-decode the embedded blob). NOTES.md is the
-source of truth; do not re-derive what it says.
+under Wine to a fully functional main window (NOTES.md §19). The warez `Activator.exe` is fully decompiled
+(NOTES.md §20) **and its embedded container is fully extracted** (NOTES.md §21): the ~25 MB appended region
+is an AES-256-CBC container (key/IV in a 48-byte descriptor at file offset `0xd5e818`; Crypto++ 8.5.0) whose
+protobuf manifest lists 4 items — item 0 = the staged fake-NGen-log `system-logs.txt` (line index 17033
+Base64-decodes to a **15,098-byte PowerShell crypto-wallet clipboard-hijacker infostealer**, C2
+`api.private-chatting.com`, saved verbatim at `work/payload/staged_payload.ps1`), item 1 = Task-Scheduler XML,
+item 2 = `SyncAppvPublishingServer.vbs`, item 3 = a VMProtect-packed replacement LightBurn.exe. The warez is a
+malware dropper wearing a crack costume. NOTES.md is the source of truth; do not re-derive what it says.
