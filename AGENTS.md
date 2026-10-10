@@ -92,5 +92,9 @@ VMProtect-packed replacement LightBurn.exe. The warez is a malware dropper weari
 **Final artifacts (tracked):** `work/payload/staged_payload.ps1` (decoded payload, verbatim) +
 `work/item{0,1,2,3}.bin` (decrypted container items), plus `work/blob_decrypted.bin` (manifest) and
 `work/act_ed270_full.c.txt`. Phase 9 added `work/native/shots/*.png` (Wine screenshots) +
-`work/native/{before_snapshot,after_activator_inventory}.txt`. Only optional work left: unpack item 3 to locate
-its license bypass. NOTES.md is the source of truth; do not re-derive what it says.
+`work/native/{before_snapshot,after_activator_inventory}.txt`. **Phase 9b** read the item-3 (VMP) dialog verbatim
+(NOTES.md §23): it is the PE-loader "missing entry point" error — `The procedure entry point
+?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B could not be located in the dynamic link library CONCRT140.dll` —
+i.e. a **missing dependency** (Wine's concrt140 lacks that PPL export), NOT anti-VM/license; evidence in
+`work/native/vmp_dialog/`. Only optional work left: unpack item 3 to locate its license bypass. NOTES.md is the
+source of truth; do not re-derive what it says.

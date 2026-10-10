@@ -1,0 +1,20 @@
+### OCR of hidpi_full.png (200% DPI dialog crop, x2 autocontrast) ###
+  conf=0.912  LightBurn.exe
+  conf=0.847  The procedure entry point
+  conf=0.914  ?PPLParallelForEventGuid@ConcurrenCy@@3U_GUID@@B
+  conf=0.884  could not be located in the dynamic link library
+  conf=0.803  CONCRT140.dII
+  conf=0.642  OK
+
+### OCR of native_full.png (native 352x102 dialog crop, x2 autocontrast) ###
+  conf=0.886  LightBurn.exe
+  conf=0.871  The procedure entry point
+  conf=0.923  ?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B
+  conf=0.907  could not be located in the dynamic link library
+  conf=0.788  CONCRT140.dII
+  conf=0.530  OK
+
+### VERBATIM (reconstructed from OCR + import-table cross-check) ###
+Title: LightBurn.exe
+Message: The procedure entry point ?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B could not be located in the dynamic link library CONCRT140.dll.
+Button: OK

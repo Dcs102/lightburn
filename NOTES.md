@@ -705,3 +705,64 @@ Screenshot: `shots/goalB_vmp_dialog.png`.
 Both goals verified by execution. Goal A re-confirms §19 (crack → licensed main window). Goal B confirms
 §21 end-to-end (Activator deploys all four items byte-exact; the VMP exe is the item-3 payload). Remaining
 optional work: read the item-3 dialog text / unpack the VMP exe to locate its license bypass.
+
+## 23. Phase 9b — the item-3 (VMP) dialog, exact text + classification (verified by capture)
+
+Reads the modal dialog that the VMP-packed replacement `LightBurn.exe` (item 3) shows under Wine before
+dying (§22d), and classifies it. Evidence: `work/native/vmp_dialog/` (EVIDENCE.md, high-DPI screenshots,
+OCR helper, preload-shim attempt).
+
+### 23a. Verbatim dialog text (captured, not guessed)
+Title bar `LightBurn.exe`; single multi-line message; one **OK** button (standard `#32770` modal):
+
+    The procedure entry point ?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B
+    could not be located in the dynamic link library CONCRT140.dll.
+
+This is the canonical Windows/Wine **PE-loader "missing entry point"** message (imported symbol name +
+the DLL it was expected from), shown via `MessageBoxW`. It is NOT an app string, NOT a VMProtect
+anti-VM/anti-debug notice, and NOT a license error.
+
+### 23b. How it was read (method that worked)
+- **Preload shim FAILED:** a 64-bit `.so` wrapping MessageBoxW/A, TaskDialogIndirect, DrawTextW/ExtTextOutW
+  + a GetTickCount canary, loaded via `LD_PRELOAD`, ran its constructor but never intercepted any call —
+  not even the canary. ELF symbol interposition does NOT catch Wine PE imports (Wine fills the IAT with
+  direct pointers resolved by its own loader, bypassing the dynamic linker). A preload `.so` cannot wrap
+  Win32 API calls from a PE. (`work/native/vmp_dialog/hook.c`.)
+- **High-DPI render + OCR WORKED:** set `HKCU\Control Panel\Desktop\LogPixels=192` (200%) in the prefix
+  user.reg, relaunched item3 → dialog rendered at 704×204 (exactly 2× native 352×102). Moved it on-screen
+  (xdotool), captured the full scene with `spectacle -f -b -n` (screenshot = X root = 3440×1440, scale 1:1),
+  cropped to the window bbox, OCR'd with rapidocr-onnxruntime. Native-res OCR (3× upscale) agrees.
+
+### 23c. Cross-verification (static)
+- item3.bin's static import table lists only `?_GetNumberOfVirtualProcessors@...` from CONCRT140.dll — VMP
+  strips the table to ~1 import/DLL and reconstructs the full original table at runtime. The genuine
+  LightBurn.exe hard-imports 18 CONCRT140 symbols including this one.
+- Wine's concrt140.dll (prefix system32 AND builtin, 278 exports) HAS `?_GetNumberOfVirtualProcessors@...`
+  but has **no** `PPLParallelForEventGuid` export at all → the symbol is genuinely absent from Wine's
+  Concurrency Runtime. The mangled name decodes to a global const `struct GUID PPLParallelForEventGuid` in
+  namespace `Concurrency` — a PPL (Parallel Patterns Library) export of concrt140.dll.
+
+### 23d. Classification + why genuine runs but item3 does not
+**MISSING DEPENDENCY (Wine environment gap).** item3 needs the PPL export
+`?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B` from CONCRT140.dll at load time; Wine's incomplete
+concrt140 lacks it, so the loader aborts before any app code runs. NOT anti-VM / anti-debug / license.
+
+The genuine 1.1.03 exe imports the same symbol yet loads fine under Wine (reaches the code-46 WMI dialog,
+§19/§22b): Wine's loader is lenient for a normally-loaded main module — it leaves the one unresolvable IAT
+slot NULL and continues (the PPL path isn't hit at startup). The VMP packer re-resolves the full original
+import table at runtime, forcing strict resolution of every symbol, so that single missing export becomes a
+fatal load error. Same dependency gap; only the VMP build trips it hard under Wine.
+
+### 23e. Implication for real Windows
+On real Windows, CONCRT140.dll (VC++ 2015-2022 redistributable, shipped as `vcredist_2017_x64.exe`) DOES
+export `PPLParallelForEventGuid`; the import resolves and item3 runs normally. So this dialog is a **Wine-only
+limitation**, not evidence the warez payload is broken on real Windows. To run item3 under Wine, supply a
+complete concrt140.dll (copy the real Microsoft one into the prefix system32). §22d's verdict stands and is
+now explained: the VMP replacement does not reach the main window under Wine because of this missing PPL
+export, not because of anti-VM behavior.
+
+### 23f. Status
+Dialog text captured verbatim + classified (missing dependency / Wine concrt140 gap). Prefix DPI restored
+(LogPixels removed from Desktop; `[Software\Wine\Fonts]` LogPixels back to `0x60`). Resolves §22e's first
+remaining item ("read the item-3 dialog text"). Only optional work left: unpack item 3 to locate its license
+bypass.
