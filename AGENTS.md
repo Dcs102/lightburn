@@ -74,7 +74,7 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 Goal: decompile/understand LightBurn's behavior. The `.text` entropy (~6.4) indicates mostly
 plain MSVC code, not a heavy packer — standard decompilation should yield readable C.
 
-**STATUS (Phase 9 complete — project closed out):** the license gate is cracked AND runtime-verified, and the
+**STATUS (Phase 10 complete — project closed out):** the license gate is cracked AND runtime-verified, and the
 full warez stack was executed natively under Wine (no VM/QEMU) in a fresh prefix `work/native/prefix`
 (NOTES.md §22). **Goal A:** `cracked/LightBurn.exe` (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave
 / DLLEvaluation, see NOTES.md §17) launches under Wine to the licensed main window `<untitled> - LightBurn 1.1.03`
@@ -100,5 +100,14 @@ i.e. a **missing dependency** (Wine's concrt140 lacks that PPL export), NOT anti
 the prefix (MS concrt140.dll 14.44.35211 exports the PPL symbol), and item 3 then **runs under Wine to a fully
 functional main window** that self-reports **"License Valid"** (0 days of updates remaining; no ldata file, no
 phone-home, no code-46 dialog) — the VMP build is LightBurn **1.1.02**; evidence in `work/native/item3_run/`.
-Only optional work left: unpack item 3 to locate its license-bypass code. NOTES.md is the source of truth; do
-not re-derive what it says.
+**Phase 10** (NOTES.md §25–§27) closed out three follow-ups: **(a)** Cryptlex export binding — the client is
+**statically linked in-process** (no `GetProcAddress` resolves `LexActivator.dll`'s 36 exports; 47-site dynamic
+census, none Cryptlex); `LexActivator.dll` is only an MD5 canary via `DLLEvaluation` (`work/cryptlex_binding.md`,
+corrects §6b). **(b)** Registry + prefs map — two registry mechanisms (HKCU file-association keys; LexActivator
+`csetz` store under `SOFTWARE\CLASSES\csetz`) across 4 helpers / 7 APIs; prefs.ini is Qt `QSettings`, not Win32 INI
+API (`work/registry_map.md`). **(c)** Hardened crack — `cracked/LightBurn_hardened.exe` = §17 set + NOP of
+`ShutDown`'s deactivation call + corrected PE checksum (`0x0125e682`, `SizeOfHeapReserve` intact); verified
+byte-exact + disasm + **Wine** (licensed main window `<untitled> - LightBurn 1.1.03`, no License Page; A/B vs the
+§17 crack in `work/native/shots/{hardened_main,crack17_main}.png`; patcher `work/patch_hardened.py`). Only optional
+work left: unpack item 3 to locate its license-bypass code. NOTES.md is the source of truth; do not re-derive what
+it says.

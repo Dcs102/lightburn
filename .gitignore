@@ -20,6 +20,7 @@ __pycache__/
 # runtime DLLs/data (identical to extracted/app/). Reproduce via work/patch_license.py.
 cracked/*
 !cracked/LightBurn.exe
+!cracked/LightBurn_hardened.exe
 !cracked/README.md
 
 # Large regenerable analysis artifacts (objdump dump; regenerate per AGENTS.md)
@@ -35,6 +36,10 @@ work/act_tmp/
 work/wineprefix/
 work/wineprefix_act/
 work/native/prefix/
+
+# Phase 10 Wine run dirs (full app + ~86MB of deps copied for execution; regenerable from extracted/app/)
+work/native/crack_run/
+work/native/hardened_run/
 
 # Phase 9 fallback installer (unnecessary — extracted/app + cracked/ are used instead; re-downloadable)
 work/native/LightBurn-v1.1.03-official.exe
