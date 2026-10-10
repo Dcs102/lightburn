@@ -1,0 +1,178 @@
+ 228438       0 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/i386-unix/wine C:\Program Files\LightBurn\LightBurn.exe
+=== t=1
+ 228438       0 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/i386-unix/wine C:\Program Files\LightBurn\LightBurn.exe
+ 228440       0 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+=== t=2
+ 228440       1 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+=== t=3
+ 228440       1 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       0 C:\Program Files\LightBurn\LightBurn.exe
+=== t=4
+ 228440       2 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       1 C:\Program Files\LightBurn\LightBurn.exe
+=== t=5
+ 228440       2 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       1 C:\Program Files\LightBurn\LightBurn.exe
+=== t=6
+ 228440       3 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       2 C:\Program Files\LightBurn\LightBurn.exe
+=== t=7
+ 228440       3 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       2 C:\Program Files\LightBurn\LightBurn.exe
+=== t=8
+ 228440       4 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       3 C:\Program Files\LightBurn\LightBurn.exe
+=== t=9
+ 228440       4 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       3 C:\Program Files\LightBurn\LightBurn.exe
+=== t=10
+ 228440       5 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       4 C:\Program Files\LightBurn\LightBurn.exe
+=== t=11
+ 228440       5 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       4 C:\Program Files\LightBurn\LightBurn.exe
+=== t=12
+ 228440       6 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       5 C:\Program Files\LightBurn\LightBurn.exe
+=== t=13
+ 228440       6 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       5 C:\Program Files\LightBurn\LightBurn.exe
+=== t=14
+ 228440       7 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       6 C:\Program Files\LightBurn\LightBurn.exe
+=== t=15
+ 228440       7 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       6 C:\Program Files\LightBurn\LightBurn.exe
+=== t=16
+ 228440       8 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       7 C:\Program Files\LightBurn\LightBurn.exe
+=== t=17
+ 228440       8 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       7 C:\Program Files\LightBurn\LightBurn.exe
+=== t=18
+ 228440       9 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       8 C:\Program Files\LightBurn\LightBurn.exe
+=== t=19
+ 228440       9 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       8 C:\Program Files\LightBurn\LightBurn.exe
+=== t=20
+ 228440      10 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       9 C:\Program Files\LightBurn\LightBurn.exe
+=== t=21
+ 228440      10 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535       9 C:\Program Files\LightBurn\LightBurn.exe
+=== t=22
+ 228440      11 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      10 C:\Program Files\LightBurn\LightBurn.exe
+=== t=23
+ 228440      11 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      10 C:\Program Files\LightBurn\LightBurn.exe
+=== t=24
+ 228440      12 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      11 C:\Program Files\LightBurn\LightBurn.exe
+=== t=25
+ 228440      12 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      11 C:\Program Files\LightBurn\LightBurn.exe
+=== t=26
+ 228440      13 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      12 C:\Program Files\LightBurn\LightBurn.exe
+=== t=27
+ 228440      13 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      12 C:\Program Files\LightBurn\LightBurn.exe
+=== t=28
+ 228440      14 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      13 C:\Program Files\LightBurn\LightBurn.exe
+=== t=29
+ 228440      14 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      13 C:\Program Files\LightBurn\LightBurn.exe
+=== t=30
+ 228440      15 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      14 C:\Program Files\LightBurn\LightBurn.exe
+=== t=31
+ 228440      15 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      14 C:\Program Files\LightBurn\LightBurn.exe
+=== t=32
+ 228440      16 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      15 C:\Program Files\LightBurn\LightBurn.exe
+=== t=33
+ 228440      16 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      15 C:\Program Files\LightBurn\LightBurn.exe
+=== t=34
+ 228440      17 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      16 C:\Program Files\LightBurn\LightBurn.exe
+=== t=35
+ 228440      17 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      16 C:\Program Files\LightBurn\LightBurn.exe
+=== t=36
+ 228440      18 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      17 C:\Program Files\LightBurn\LightBurn.exe
+=== t=37
+ 228440      18 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      17 C:\Program Files\LightBurn\LightBurn.exe
+=== t=38
+ 228440      19 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      18 C:\Program Files\LightBurn\LightBurn.exe
+=== t=39
+ 228440      19 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      18 C:\Program Files\LightBurn\LightBurn.exe
+=== t=40
+ 228440      20 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      19 C:\Program Files\LightBurn\LightBurn.exe
+=== t=41
+ 228440      20 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      19 C:\Program Files\LightBurn\LightBurn.exe
+=== t=42
+ 228440      21 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      20 C:\Program Files\LightBurn\LightBurn.exe
+=== t=43
+ 228440      21 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      20 C:\Program Files\LightBurn\LightBurn.exe
+=== t=44
+ 228440      22 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      21 C:\Program Files\LightBurn\LightBurn.exe
+=== t=45
+ 228440      22 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      21 C:\Program Files\LightBurn\LightBurn.exe
+=== t=46
+ 228440      23 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      22 C:\Program Files\LightBurn\LightBurn.exe
+=== t=47
+ 228440      23 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      22 C:\Program Files\LightBurn\LightBurn.exe
+=== t=48
+ 228440      24 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      23 C:\Program Files\LightBurn\LightBurn.exe
+=== t=49
+ 228440      24 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      23 C:\Program Files\LightBurn\LightBurn.exe
+=== t=50
+ 228440      25 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      24 C:\Program Files\LightBurn\LightBurn.exe
+=== t=51
+ 228440      25 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      24 C:\Program Files\LightBurn\LightBurn.exe
+=== t=52
+ 228440      26 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      25 C:\Program Files\LightBurn\LightBurn.exe
+=== t=53
+ 228440      26 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      25 C:\Program Files\LightBurn\LightBurn.exe
+=== t=54
+ 228440      27 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      26 C:\Program Files\LightBurn\LightBurn.exe
+=== t=55
+ 228440      27 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      26 C:\Program Files\LightBurn\LightBurn.exe
+=== t=56
+ 228440      28 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      27 C:\Program Files\LightBurn\LightBurn.exe
+=== t=57
+ 228440      28 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      27 C:\Program Files\LightBurn\LightBurn.exe
+=== t=58
+ 228440      29 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      28 C:\Program Files\LightBurn\LightBurn.exe
+=== t=59
+ 228440      29 /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/../../bin/wineserver
+ 228535      28 C:\Program Files\LightBurn\LightBurn.exe
+=== t=60

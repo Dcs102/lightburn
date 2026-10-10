@@ -38,3 +38,7 @@ work/native/prefix/
 
 # Phase 9 fallback installer (unnecessary — extracted/app + cracked/ are used instead; re-downloadable)
 work/native/LightBurn-v1.1.03-official.exe
+
+# VC++ 2015-2022 x64 redistributable (re-download from aka.ms/vs/17/release/vc_redist.x64.exe;
+# sha256 in NOTES.md §24a)
+work/native/item3_run/vcredist_2022_x64.exe

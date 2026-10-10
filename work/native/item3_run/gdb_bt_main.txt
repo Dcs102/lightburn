@@ -1,0 +1,33 @@
+[New LWP 197483]
+[New LWP 197480]
+[New LWP 197479]
+[New LWP 197474]
+[New LWP 197419]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+
+warning: Selected architecture i386:x86-64 is not compatible with reported target architecture i386:x64-32
+
+warning: BFD: /var/home/Dcs102/lightburn/work/native/prefix/drive_c/Program Files/LightBurn/LightBurn.exe: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .vmp1
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib64/libthread_db.so.1".
+0x00007f56cb3432fd in ioctl () from /usr/lib64/libc.so.6
+[Switching to thread 1 (Thread 0x7f56cb24e740 (LWP 197399))]
+#0  0x00007f56cb3432fd in ioctl () from /usr/lib64/libc.so.6
+#0  0x00007f56cb3432fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f56cb1b9c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f56cb1bafc5 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f56cb1be73d in NtWaitForMultipleObjects () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f56bccd98e7 in wait_message () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+#5  0x00007f56bccd9ae7 in NtUserMsgWaitForMultipleObjectsEx.part.0 () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+#6  0x00007f56cb1ac616 in __wine_syscall_dispatcher () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#7  0x00007f56cb1aa788 in server_init_process_done () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#8  0x00007f56cb4a817a in ?? ()
+#9  0x0000000000000000 in ?? ()
+[Inferior 1 (process 197399) detached]

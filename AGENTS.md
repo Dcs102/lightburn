@@ -96,5 +96,9 @@ VMProtect-packed replacement LightBurn.exe. The warez is a malware dropper weari
 (NOTES.md §23): it is the PE-loader "missing entry point" error — `The procedure entry point
 ?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B could not be located in the dynamic link library CONCRT140.dll` —
 i.e. a **missing dependency** (Wine's concrt140 lacks that PPL export), NOT anti-VM/license; evidence in
-`work/native/vmp_dialog/`. Only optional work left: unpack item 3 to locate its license bypass. NOTES.md is the
-source of truth; do not re-derive what it says.
+`work/native/vmp_dialog/`. **Phase 9c** (NOTES.md §24) installed the MS VC++ 2015-2022 x64 redistributable into
+the prefix (MS concrt140.dll 14.44.35211 exports the PPL symbol), and item 3 then **runs under Wine to a fully
+functional main window** that self-reports **"License Valid"** (0 days of updates remaining; no ldata file, no
+phone-home, no code-46 dialog) — the VMP build is LightBurn **1.1.02**; evidence in `work/native/item3_run/`.
+Only optional work left: unpack item 3 to locate its license-bypass code. NOTES.md is the source of truth; do
+not re-derive what it says.

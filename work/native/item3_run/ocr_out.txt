@@ -1,0 +1,167 @@
+windows: {'DannyBazzite <untitled> - LightBurn 1.1.02': '0x01a00005', 'DannyBazzite License Page - LightBurn 1.1.02': '0x01a00006'}
+screenshot: /home/Dcs102/Pictures/Screenshots/Screenshot_20261009_223947.png
+screen px: (3440, 1440)
+--- DannyBazzite <untitled> - LightBurn 1.1.02 -> ocr_main.png ((1742, 818)) ---
+  [0.74] Eile  Edit
+  [0.78] Tools
+  [0.88] Laser Tools
+  [0.80] Window
+  [0.79] Arrange
+  [0.84] Language
+  [0.69] Help
+  [0.82] Font MS Shell Clg 2
+  [0.87] HSpace 0.00
+  [0.76] Norrral
+  [0.89] Width 0.000
+  [0.84] 100.000
+  [0.84] Height 25.00
+  [0.83] XPos 0.000
+  [0.88] Rotate 0.00
+  [0.84]  Align Y Middle
+  [0.76] 0 Eald
+  [0.79] O Welded
+  [0.88] vSpace 0.00
+  [0.86] YPos 0.000
+  [0.83] Height 0.000
+  [0.86] 100.000
+  [0.76] Offset d
+  [0.83]  Upper Case
+  [0.79]  Italic
+  [0.86] Cuts / Layers
+  [0.79] 340200
+  [0.83] 200 40
+  [0.59] 20
+  [0.74] 220
+  [0.74] 240
+  [0.54] 300
+  [0.75] 320
+  [0.60] 80
+  [0.61] 100
+  [0.69] 120
+  [0.73] 140
+  [0.70] 160
+  [0.61] 180
+  [0.72] 200
+  [0.75] 260
+  [0.62] 280
+  [0.84] Output
+  [0.83] LayerMode
+  [0.80] Spd/Pwr
+  [0.67] Show
+  [0.56] Air
+  [0.73] 180
+  [0.75] 180
+  [0.70] 160
+  [0.64] 160
+  [0.64] 140
+  [0.69] 140
+  [0.60] 0.1 8
+  [0.87] Layer Color
+  [0.87] Speed (rr/s)
+  [0.75] 120
+  [0.72] 120
+  [0.72] 0.00 图
+  [0.90] Pass Count
+  [0.88] Power Max (%)
+  [0.53] 0.008
+  [0.88] Interval (rr)
+  [0.74] 0.100 图
+  [0.87] Power Min (%)
+  [0.85] Carera Control
+  [0.80] Variable Text
+  [0.92] Cuts / Layers
+  [0.64] 100
+  [0.68] 100
+  [0.76] Laser
+  [0.74] Discannected : d: 0o
+  [0.65] 80
+  [0.65] 80
+  [0.80] Il Pause
+  [0.64] Stop
+  [0.78]  Frare
+  [0.67] <> Frare
+  [0.54] 60
+  [0.66] 60
+  [0.51] 价Hare
+  [0.86] Absalute Coords
+  [0.83] Start Fron:
+  [0.82] Job Origin
+  [0.66] 40
+  [0.62] 40
+  [0.89] O Cut Selected Graphics
+  [0.91] O Use Selection Origin
+  [0.86] D Optirize Cut Path
+  [0.86] Optimrization Settings
+  [0.55] 20
+  [0.66] 20
+  [0.80] Devices
+  [0.84] Radius:
+  [0.66] 20
+  [0.67] 140
+  [0.66] 160
+  [0.73] 240
+  [0.66] 260
+  [0.73] 280
+  [0.73] 320
+  [0.66] 340
+  [0.66] 40
+  [0.70] 200
+  [0.62] 100
+  [0.74] 120
+  [0.63] 180
+  [0.86] Library
+  [0.66] 60
+  [0.56] 80
+  [0.62] 226-
+  [0.60] 10.0 图
+  [0.79] Laser
+  [0.67] 25
+  [0.60] 26
+  [0.66] 27
+  [0.57] T1
+  [0.60] T2
+  [0.67] 06
+  [0.66] 19
+  [0.67] 22
+  [0.57] 01
+  [0.65] 02
+  [0.51] 04
+  [0.67] 05
+  [0.52] 07
+  [0.67] 60
+  [0.62] 10
+  [0.51] 12
+  [0.67] 13
+  [0.54] 15
+  [0.54] 18
+  [0.62] 20
+  [0.67] 21
+  [0.57] 23
+  [0.51] 24
+  [0.60] 28
+  [0.66] 00
+  [0.66] 03
+  [0.67] 08
+  [0.67] 14
+  [0.67] 17
+  [0.52] 29
+  [0.56] 16
+  [0.69] CO shear
+  [0.76]  Mave
+  [0.76]  size
+  [0.79]  Rotate
+--- DannyBazzite License Page - LightBurn 1.1.02 -> ocr_licensepage.png ((487, 522)) ---
+  [0.89] Thank you for supporting LightEurn.
+  [0.91] d days of updates reraining in license
+  [0.87]  Use Froxy Server:
+  [0.82] (None)
+  [0.89] License Key
+  [0.91] License Valid
+  [0.87] Ceactivate License
+  [0.83] Request Offine
+  [0.88] Process Offine
+  [0.87] Request Offine
+  [0.76] Activaticon
+  [0.80] Activation
+  [0.91] Ceactivaticn
+  [0.66] OK

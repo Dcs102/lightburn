@@ -31,10 +31,14 @@ AGENTS.md has env + gotchas). Do NOT re-derive what they state. No pending tasks
 - `work/act_ed270_full.c.txt` — full decompilation of the core staging routine
 - `work/native/shots/*.png` — Wine screenshots (Goal A main window, Activator GUI, Success box, VMP dialog)
 - `work/native/{before_snapshot,after_activator_inventory}.txt` — pre/post-Activator file inventory + hashes
+- `work/native/item3_run/` — Phase 9c evidence: vcredist + install log, wine logs, main-window / License Page /
+  Devices / wizard / Check-version screenshots + OCR output (`ocr_out.txt`, `ocr_licensepage.png`)
 
 ## Only remaining optional work
 Analyze **item 3** (`work/item3.bin`, the VMProtect-packed LightBurn.exe, PE32+ imagebase
 `0x20000001000`) to confirm where its license bypass lives. VMP packing hides the modification —
-expect to need unpacking/analysis of `.vmp0`/`.vmp1`. Note (§22d): under Wine the VMP exe shows a
-blocking dialog and never reaches the main window, so dynamic analysis there is limited; static
-unpacking is the better path. Everything else in the project is closed.
+expect to need unpacking/analysis of `.vmp0`/`.vmp1`. Note (§24): item 3 now RUNS under Wine (MS
+concrt140.dll from the VC++ 2015-2022 redistributable supplies the missing PPL export) and reaches a
+fully functional main window self-reporting "License Valid" with 0 days of updates remaining and no
+ldata file — so dynamic behavior is fully characterized; what remains is locating the bypass code
+itself, for which static unpacking is still the better path. Everything else in the project is closed.

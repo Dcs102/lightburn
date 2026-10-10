@@ -1,0 +1,76 @@
+[New LWP 222314]
+[New LWP 222311]
+[New LWP 222310]
+[New LWP 222305]
+[New LWP 222185]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+
+warning: Selected architecture i386:x86-64 is not compatible with reported target architecture i386:x64-32
+
+warning: BFD: /var/home/Dcs102/lightburn/work/native/prefix/drive_c/Program Files/LightBurn/LightBurn.exe: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .vmp1
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib64/libthread_db.so.1".
+0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  Id   Target Id                                          Frame 
+* 1    Thread 0x7f7cc02d7740 (LWP 222080) "LightBurn.exe" 0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  2    Thread 0x1003ff6c0 (LWP 222314) "wine_rpcrt4_io"   0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  3    Thread 0x1008ff6c0 (LWP 222311) "wine_rpcrt4_io"   0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  4    Thread 0x1007ff6c0 (LWP 222310) "wine_threadpool"  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  5    Thread 0x1006ff6c0 (LWP 222305) "wine_rpcrt4_io"   0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+  6    Thread 0x1001ff6c0 (LWP 222185) "wine_rpcrt4_ser"  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+
+Thread 6 (Thread 0x1001ff6c0 (LWP 222185) "wine_rpcrt4_ser"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243fc5 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc024773d in NtWaitForMultipleObjects () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cc0235616 in __wine_syscall_dispatcher () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f7cc025537e in start_thread () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+
+Thread 5 (Thread 0x1006ff6c0 (LWP 222305) "wine_rpcrt4_io"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243ee3 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc0247a7c in NtWaitForSingleObject () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cc0235616 in __wine_syscall_dispatcher () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f7cc025537e in start_thread () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+
+Thread 4 (Thread 0x1007ff6c0 (LWP 222310) "wine_threadpool"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243ee3 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc024773d in NtWaitForMultipleObjects () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cb1cd98e7 in wait_message () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+#5  0x00007f7cb1cda1df in NtUserGetMessage () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+
+Thread 3 (Thread 0x1008ff6c0 (LWP 222311) "wine_rpcrt4_io"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243ee3 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc0247a7c in NtWaitForSingleObject () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cc0235616 in __wine_syscall_dispatcher () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f7cc025537e in start_thread () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+
+Thread 2 (Thread 0x1003ff6c0 (LWP 222314) "wine_rpcrt4_io"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243ee3 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc0247a7c in NtWaitForSingleObject () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cc0235616 in __wine_syscall_dispatcher () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f7cc025537e in start_thread () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+
+Thread 1 (Thread 0x7f7cc02d7740 (LWP 222080) "LightBurn.exe"):
+#0  0x00007f7cc03cc2fd in ioctl () from /usr/lib64/libc.so.6
+#1  0x00007f7cc0242c5a in linux_wait_objs () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f7cc0243fc5 in inproc_wait () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f7cc024773d in NtWaitForMultipleObjects () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f7cb1cd98e7 in wait_message () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+#5  0x00007f7cb1cd9ae7 in NtUserMsgWaitForMultipleObjectsEx.part.0 () from /var/home/Dcs102/.local/share/Steam/steamapps/common/Proton - Experimental/files/lib/wine/x86_64-unix/win32u.so
+[Inferior 1 (process 222080) detached]

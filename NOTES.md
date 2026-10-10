@@ -766,3 +766,75 @@ Dialog text captured verbatim + classified (missing dependency / Wine concrt140 
 (LogPixels removed from Desktop; `[Software\Wine\Fonts]` LogPixels back to `0x60`). Resolves §22e's first
 remaining item ("read the item-3 dialog text"). Only optional work left: unpack item 3 to locate its license
 bypass.
+
+## 24. Phase 9c — item-3 (VMP) runs under Wine: concrt140 fix + licensed-state verification (verified by execution)
+
+Supplies the missing CONCRT140 export (§23e's suggested fix), runs the VMP-packed replacement `LightBurn.exe`
+(item 3) to a functional main window, and verifies its license state. Evidence: `work/native/item3_run/`
+(vcredist + install log, wine logs, screenshots, OCR output, capture helper).
+
+### 24a. The fix (Microsoft VC++ 2015-2022 x64 redistributable)
+- Downloaded `vcredist_2022_x64.exe` (sha256 `cc0ff0eb1dc3f5188ae6…`, 25,635,768 B) to
+  `work/native/item3_run/`; installed into the prefix with
+  `DISPLAY=:0 … wine vcredist_2022_x64.exe /quiet /norestart /log` → exit 0 (first attempt without DISPLAY
+  failed — wine fell back to the nodrv driver).
+- Result: MS `concrt140.dll` build **14.44.35211** (324,208 B, dated Jun 11 2025) now in prefix system32;
+  `objdump -p` confirms export index 146 = `?PPLParallelForEventGuid@Concurrency@@3U_GUID@@B`. The installer
+  also refreshed `msvcp140.dll`, `msvcp140_1.dll`, `msvcp140_2.dll`, `vcruntime140.dll`, `vcruntime140_1.dll`.
+
+### 24b. item 3 now loads and runs
+- No more missing-entry-point dialog; wine log is clean (only the pre-existing non-fatal d3d/vkd3d import
+  fixmes — `captureLib.dll` wants d3d11, which Wine lacks; see §24f).
+- gdb: main thread parked in `NtUserMsgWaitForMultipleObjectsEx` (the message loop), all other threads
+  wine-internal (`wine_rpcrt4_*`, `wine_threadpool`). Stable for 16+ minutes.
+- Run-to-run variance (observed, not fully explained): one launch exited after ~30 s with no windows; another
+  spawned short-lived child processes every ~2 s for ~80 s before settling. The stable state is the normal
+  one — consistent with a Cryptlex network-timeout race at startup (no phone-home endpoint reachable).
+
+### 24c. License state: self-licensed, "License Valid", 0 days of updates
+Windows created: main `<untitled> - LightBurn 1.1.02` (fully rendered UI — OCR reads the complete menu bar,
+text-properties panel, Cuts/Layers, laser status), `License Page - LightBurn 1.1.02`, and a hidden helper
+window `LightBurn`.
+
+License Page verbatim (RapidOCR + pixel-glyph decode of the leading digit, which OCR missed):
+- "Thank you for supporting LightBurn."
+- "**0** days of updates remaining in license" (leading glyph is a closed box = 0; decoded from the bitmap)
+- "License Key" — field present but **empty**
+- "**License Valid**"
+- "Deactivate License"; Request/Process Offline buttons; Activation | Deactivation tabs; OK
+
+Key facts:
+- **No `lightburn.ldata` exists anywhere in the prefix** (checked appdir + AppData) → the license is NOT
+  file-based (§16e). The VMP exe self-reports a valid license with no Cryptlex phone-home and no ldata —
+  the bypass is built into the packed binary itself.
+- `prefs.ini` after first run: `"ShowLicenseExpired": true`, `"TrialDayNag": -1` → valid-but-expired
+  (no update entitlement), no trial nagging.
+- **No code-46 "License System Error" dialog** — unlike the genuine exe under Wine (§19/§22b, WMI
+  fingerprint stub). The VMP build's Cryptlex init path is bypassed/modified, so startup goes straight to
+  main window + License Page.
+
+### 24d. Functional verification (full first-launch flow, all interactive)
+- Devices dialog (empty built-in list) → New Device Wizard: type `grbl`, connection Serial/USB, work area
+  500×500 mm, name "GRBL" → Finish → device saved to `prefs.ini` `DeviceList`.
+- Second launch: skips device setup; shows "Check version" dialog — "A newer version (1.7.08) is available -
+  would you like to download it?" (Yes/No) → update check works.
+- Laser status "Disconnected" (no hardware under Wine — expected). Every dialog click behaved correctly.
+
+### 24e. Environment incident: KWin state corruption (not wine/DLL-related)
+Mid-session, ALL X11 windows on the server (wine and non-wine alike) became `IsUnMapped` → black captures,
+even for a plain python-xlib client that explicitly maps. Root cause: KWin compositor state corrupted after a
+hung `xdotool windowactivate --sync` against an unmapped window; restarting Xwayland alone did not help.
+Fixed with `kwin_wayland --replace` (fresh KWin + Xwayland). Lesson: avoid `windowactivate --sync` on windows
+that may be unmapped.
+
+### 24f. vkd3d/wined3d: not needed
+Qt's software rasterizer renders every window fully under Wine; the d3d11 import failure only affects
+`captureLib.dll` (screen-capture feature), which is irrelevant to the license/main-window goal. No GPU stack
+installed.
+
+### 24g. Verdict
+Phase 9c complete: item 3 (VMP-packed **LightBurn 1.1.02** — note: 1.1.02, matching the §18 sibling torrent,
+not 1.1.03) runs under Wine past the §23 import blocker and reaches a fully functional main window that
+self-reports **"License Valid"** (0 days of updates remaining; no ldata file; no phone-home). The warez
+payload works as intended: a permanently usable, licensed LightBurn with no Cryptlex dependency. Remaining
+optional work: unpack item 3 to locate the license-bypass code itself.
