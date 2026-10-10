@@ -1,0 +1,28 @@
+=== C:\Program Files\LightBurn (before) ===
+8f38a18380760f61
+916525c6025df472
+390f8ed9a1110414
+a04af92571dcb686
+d98bb0a0bcbb5332
+b397a5a9138ee82c
+250d0bde019fab48
+a1a16686763fee6a
+e9033271bec05322
+c8ddc3d6b935f972
+8676c2de1a3c9daa
+9e4f6e6d3294eccb
+87c5294f74b74aed
+39b525b241e8a6b8
+9b17ca2b746bd561
+6c8db6aab9a6e962
+de4a20f8c659a252
+15617dd204051b8f
+8d24ed6dc510d5fb
+dce0aff4a6fd6b19
+94800785f061fc7f
+=== C:\Windows\logs exists? ===
+ls: cannot access 'prefix/drive_c/windows/logs': No such file or directory
+=== System32 VBS (before) ===
+ls: cannot access 'prefix/drive_c/windows/system32/*.vbs': No such file or directory
+=== TaskCache reg (before) ===
+ls: cannot access 'prefix/drive_c/windows/System32/Tasks': No such file or directory

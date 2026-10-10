@@ -34,3 +34,7 @@ work/act_tmp/
 # Wine runtime prefixes (~630MB each; regenerable — screenshots are the evidence, not the prefix)
 work/wineprefix/
 work/wineprefix_act/
+work/native/prefix/
+
+# Phase 9 fallback installer (unnecessary — extracted/app + cracked/ are used instead; re-downloadable)
+work/native/LightBurn-v1.1.03-official.exe

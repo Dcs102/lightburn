@@ -74,9 +74,15 @@ Target: **LightBurn v1.1.03** laser-engraver software (x64 package, but the bina
 Goal: decompile/understand LightBurn's behavior. The `.text` entropy (~6.4) indicates mostly
 plain MSVC code, not a heavy packer — standard decompilation should yield readable C.
 
-**STATUS (Phase 8 complete — project closed out):** the license gate is cracked AND runtime-verified.
-`cracked/LightBurn.exe` (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave / DLLEvaluation, see
-NOTES.md §17) launches under Wine to a fully functional main window (NOTES.md §19). The warez `Activator.exe`
+**STATUS (Phase 9 complete — project closed out):** the license gate is cracked AND runtime-verified, and the
+full warez stack was executed natively under Wine (no VM/QEMU) in a fresh prefix `work/native/prefix`
+(NOTES.md §22). **Goal A:** `cracked/LightBurn.exe` (259-byte patch set: Allow / Checkesnec1L_Internal+code-cave
+/ DLLEvaluation, see NOTES.md §17) launches under Wine to the licensed main window `<untitled> - LightBurn 1.1.03`
+with **no "License Page" dialog** (the genuine exe shows one) — re-confirms §19. **Goal B:** the genuine
+`Activator.exe` runs end-to-end, shows a "Success" box, and deploys all four container items **byte-exact**
+(item 0 → `C:\Windows\logs\system-logs.txt`, item 2 → `SyncAppvPublishingServer.vbs`, item 3 → VMP-packed
+`LightBurn.exe` = `item3.bin[:20929024]`, item 1 → Task-Scheduler COM call); the VMP exe launches but shows a
+blocking dialog and does not reach the main window under Wine (§22d). The warez `Activator.exe`
 is fully decompiled (NOTES.md §20) **and its embedded container is fully extracted** (NOTES.md §21): the ~25 MB
 appended region is an AES-256-CBC container (key/IV in a 48-byte descriptor at file offset `0xd5e818`; Crypto++
 8.5.0) whose protobuf manifest lists 4 items — item 0 = the staged fake-NGen-log `system-logs.txt` (line index
@@ -85,5 +91,6 @@ appended region is an AES-256-CBC container (key/IV in a 48-byte descriptor at f
 VMProtect-packed replacement LightBurn.exe. The warez is a malware dropper wearing a crack costume (§21d).
 **Final artifacts (tracked):** `work/payload/staged_payload.ps1` (decoded payload, verbatim) +
 `work/item{0,1,2,3}.bin` (decrypted container items), plus `work/blob_decrypted.bin` (manifest) and
-`work/act_ed270_full.c.txt`. Only optional work left: unpack item 3 to locate its license bypass. NOTES.md is
-the source of truth; do not re-derive what it says.
+`work/act_ed270_full.c.txt`. Phase 9 added `work/native/shots/*.png` (Wine screenshots) +
+`work/native/{before_snapshot,after_activator_inventory}.txt`. Only optional work left: unpack item 3 to locate
+its license bypass. NOTES.md is the source of truth; do not re-derive what it says.

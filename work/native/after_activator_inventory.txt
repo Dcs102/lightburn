@@ -1,0 +1,13 @@
+=== FINAL INVENTORY (after Activator run) ===
+--- C:\Program Files\LightBurn\LightBurn.exe (deployed item3) ---
+20929024 bytes
+20e5c4eb4703bc55a82dafde539951cd4dcee5853ae5932ca137184ffba17874  prefix/drive_c/Program Files/LightBurn/LightBurn.exe
+--- C:\Windows\logs\system-logs.txt (item0 fake NGen log) ---
+5525777 bytes
+32f93dd3c7206cd72187a48fb69aa5e528ed71667ae0a588bbeb80c1afda4c1c  prefix/drive_c/windows/logs/system-logs.txt
+--- C:\Windows\System32\SyncAppvPublishingServer.vbs (item2) ---
+1502 bytes
+3c75cfef8402472532fb6dd7d27781d5d8fcb39e9a97f0e99c226c0defd0dc34  prefix/drive_c/windows/system32/SyncAppvPublishingServer.vbs
+--- item3.bin reference (raw container item) ---
+20929040 bytes
+4cc624dca6a6eabe322a65b0b45e1a4831d20a33c91dbdfbf901e20d8a6e8218  /var/home/Dcs102/lightburn/work/item3.bin

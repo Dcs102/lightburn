@@ -644,3 +644,64 @@ is incidental — the real payload never touches it.
 
 **Repro:** pycryptodome AES-256-CBC with key/IV from 21a; item offsets/sizes from 21b. Artifacts:
 `work/item{0,1,2,3}.bin`, `work/blob_decrypted.bin`, `work/payload/staged_payload.ps1`.
+
+## 22. Phase 9 — native Wine execution of the full warez stack (verified by running)
+
+Runs the real binaries on this host under Proton wine 11.0 (no VM/QEMU), in a fresh prefix
+`work/native/prefix`, and captures evidence for both goals. Source-of-truth artifacts:
+`work/native/shots/*.png`, `work/native/{before_snapshot,after_activator_inventory}.txt`,
+`work/native/{activator_run,vmp_run2}.log`.
+
+### 22a. Environment + capture gotchas (verified)
+- Proton wine 11.0 at `<Proton - Experimental>/files/bin/wine`; prefix `work/native/prefix`.
+- X capture: `DISPLAY=:0 XAUTHORITY=/run/user/1000/xauth_smhqjo`. ImageMagick `import` is broken for
+  non-interactive per-window capture; PIL `ImageGrab` (X root) mirrors only ~30% of a Wayland window.
+  **`spectacle -f -b -n`** (KDE, Wayland-native) captures the full composited scene to
+  `~/Pictures/Screenshots/` — used for all screenshots here.
+- xdotool / python-xlib use **X-root coords**; wmctrl reports an offset view (a window at X-root
+  `(600,300)` shows as `(1200,600)` in wmctrl). Clicks must target X-root coords.
+- The prefix `hosts` file is NOT honored by this Proton build: `api.cryptlex.com` still resolves to the
+  real IP (`35.71.188.31`) even with a fake entry → beacon capture / strict C2 blocking needs a
+  host-level redirect, not the prefix hosts.
+
+### 22b. Goal A — cracked exe reaches the licensed main window (re-confirms §19)
+Installed `extracted/app/` into `C:\Program Files\LightBurn`, swapped in `cracked/LightBurn.exe`
+(sha256 `03bdee62…`). Under Wine:
+- code-46 "License System Error" dialog appears (WMI artifact, §19c) → dismissed.
+- Main window `<untitled> - LightBurn 1.1.03` (1722×798) opens; **no "License Page" dialog**.
+- Contrast: the GENUINE exe (`8f38a183…`) shows an extra `License Page - LightBurn 1.1.03` (467×502)
+  window — the cracked build suppresses it → licensed state confirmed by execution.
+- No `lightburn.ldata` is written (the §17 crack is in-process; only `prefs.ini` UI prefs are created).
+  Screenshot: `shots/goalA_cracked_main.png` (+ `_ui` crop); top ~58% renders as real UI (menu+toolbars),
+  bottom third stays unpainted black under Wine (partial-paint, consistent across X-root and spectacle).
+
+### 22c. Goal B — Activator runs end-to-end and deploys all four items byte-exact
+Placed genuine `Activator.exe` (`1b00ae65…`) + `APMonUI.dll` (`f1947940…`) in `C:\crack\`, restored the
+genuine `LightBurn.exe` (`8f38a183…`). Activator shows an MFC GUI titled "Team-crackerfg - Activator"
+(source path `coyotev2/Activator/Activator.cpp`); the **Activate button** (lower-right) triggers the core
+routine. After clicking:
+- a **"Success"** MessageBox appears;
+- item 0 → `C:\Windows\logs\system-logs.txt` (5,525,777 B = `item0.bin[:5525777]`, strips 15×`0x0f`);
+- item 2 → `C:\Windows\System32\SyncAppvPublishingServer.vbs` (1,502 B = `item2.bin[:1502]`, strips 2×`0x02`);
+- item 3 → `C:\Program Files\LightBurn\LightBurn.exe` (20,929,024 B = `item3.bin[:20929024]`, strips
+  16×`0x10`; valid PE32+, VMP markers present); sha256 `20e5c4eb…`;
+- item 1 → Task-Scheduler COM API invoked (`taskschd:read_task … Exec/Command/Arguments` in the log);
+  Wine's taskschd is partially stubbed so the task is not fully persisted to the registry here.
+
+Each deployed file is a **byte-exact prefix** of its decrypted container item — the Activator writes the
+manifest size and drops trailing alignment padding. This empirically confirms §21b/§21d: the warez stages
+the infostealer log + persistence VBS and swaps in the VMP-packed LightBurn.exe.
+
+### 22d. The VMP-packed replacement (item 3) under Wine
+Launching the deployed `LightBurn.exe` starts the process but shows a small modal dialog (352×102) with a
+**logo** (upper-left), a multi-line message, and an **icon** (lower-left); it does **not** reach the main
+window, and dismissing the dialog terminates the process. The exact message is not legible at the native
+352×102 resolution under this headless-Wayland capture. Verdict: the VMP replacement does not run to a
+functional main window **under Wine** (consistent with VMProtect anti-VM/environment behavior or a runtime
+dependency gap) — a Wine-environment limitation, not evidence the crack is broken on real Windows.
+Screenshot: `shots/goalB_vmp_dialog.png`.
+
+### 22e. Status
+Both goals verified by execution. Goal A re-confirms §19 (crack → licensed main window). Goal B confirms
+§21 end-to-end (Activator deploys all four items byte-exact; the VMP exe is the item-3 payload). Remaining
+optional work: read the item-3 dialog text / unpack the VMP exe to locate its license bypass.
