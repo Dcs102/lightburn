@@ -24,3 +24,13 @@ cracked/*
 
 # Large regenerable analysis artifacts (objdump dump; regenerate per AGENTS.md)
 work/disasm.txt
+
+# aria2 download progress log (regenerable; run_aria2.sh re-creates it)
+work/lb1102/dl/aria2.out
+
+# Ghidra MCP temp/cache under work/act_tmp (java.io.tmpdir scratch; regenerable)
+work/act_tmp/
+
+# Wine runtime prefixes (~630MB each; regenerable — screenshots are the evidence, not the prefix)
+work/wineprefix/
+work/wineprefix_act/

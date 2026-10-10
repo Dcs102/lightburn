@@ -1,29 +1,31 @@
 # Handoff — LightBurn v1.1.03 Reverse Engineering
 
-Read NOTES.md (source of truth) and AGENTS.md (env + gotchas) first. Do NOT re-derive what they state. Phases 1–7 are complete and verified (§14–§20): the license gate is cracked, runtime-verified under Wine, and the warez `Activator.exe` dropper is fully decompiled.
+**STATUS: COMPLETE.** Phases 1–8 are done and verified (NOTES.md §14–§21 is the source of truth;
+AGENTS.md has env + gotchas). Do NOT re-derive what they state. No pending tasks remain.
 
-A self-contained prompt for this task (all verified facts + static/runtime approach) lives at **`work/payload_prompt.txt`** — run that as-is.
+## What was accomplished
+- **License gate cracked + runtime-verified**: `cracked/LightBurn.exe` (259-byte patch set, §17)
+  launches under Wine to a fully functional main window (§19).
+- **Warez `Activator.exe` fully decompiled** (§20): dropper/stager that writes a fake NGen log to
+  `C:\Windows\logs\system-logs.txt`, Base64-decodes line index 17033 of it, and invokes the result
+  via COM; persists through a hidden scheduled task + `SyncAppvPublishingServer.vbs`.
+- **Staged payload extracted byte-exact** (§21): the ~25 MB appended region is an AES-256-CBC
+  container (Crypto++ 8.5.0) with a 4-item protobuf manifest. Item 0's line 17033 decodes to a
+  15,098-byte PowerShell **crypto-wallet clipboard-hijacker infostealer** — C2
+  `http://api.private-chatting.com/connect`, swaps crypto addresses on the clipboard, beacons
+  system fingerprints + detected wallet apps. Saved verbatim at `work/payload/staged_payload.ps1`.
+- **Assessment (§21d)**: the warez is a **malware dropper wearing a crack costume** — it replaces
+  the installed LightBurn.exe with a VMProtect-packed copy (item 3) and quietly installs the
+  infostealer. Blocking the Cryptlex phone-home is incidental; the payload never touches it.
 
-## THE TASK (only remaining unknown)
+## Final artifacts (tracked in git)
+- `work/payload/staged_payload.ps1` — the decoded payload, verbatim
+- `work/item{0,1,2,3}.bin` — decrypted container items (fake NGen log / task XML / VBS / packed exe)
+- `work/blob_decrypted.bin` — decrypted 176-byte protobuf manifest
+- `work/act_ed270_full.c.txt` — full decompilation of the core staging routine
 
-**Extract the exact content of the staged PowerShell payload from warez `Activator.exe`.** This is the only remaining unknown in the project (§20f). Everything else is done — do not start other work unless this is finished or provably blocked.
-
-### Verified facts about the payload (do not re-derive)
-- Core routine `FUN_1406ed270` writes `C:\Windows\logs\system-logs.txt` via helper `FUN_1406ffb90(path,data,size)` (MFC CFile open+write).
-- The staged PowerShell one-liner reads **line index 17033** of that file, Base64-decodes it (UTF-8), wraps in a ScriptBlock, and invokes it. The actual crack logic lives ONLY in that Base64 string — never plaintext in the PE.
-- All embedded strings are XOR-obfuscated: decryptor `FUN_1406ee4b0(ptr,len,key)`, key `0x5aa5d2b4d39b2b69` (LE bytes `69 2b 9b d3 b4 d2 a5 5a`), `buf[i] ^= (key >> ((i%8)*8)) & 0xff`.
-- Binary copies: `work/actrun/Activator.exe` + `work/actrun/APMonUI.dll`. Ghidra project `Actproj` at `ghidra-proj/Actproj`, MCP on **:8090** (NOT the shared :8089 — do not disturb it).
-
-### Approach — static first, runtime as fallback
-1. **STATIC (fastest):** in Actproj, decompile `FUN_1406ed270` and trace the data/size args passed to `FUN_1406ffb90` for the system-logs.txt write. Find where that buffer is built — likely a large embedded blob in .rdata/.data (possibly XOR-encoded and/or Base64-wrapped). Decode it fully and reconstruct the complete file content; line 17033's Base64 string → UTF-8 IS the payload.
-2. **RUNTIME:** last Wine attempt (`work/actrun/run.log`) exited code 5 — the SM_REMOTESESSION precondition gate (`FUN_1406eaef0`) failed before any file write. Byte-patch a MODIFIED copy of Activator.exe to bypass the return-3/return-5 gates (and ensure `SyncAppvPublishingServer.vbs` exists in the prefix, APMonUI.dll beside the exe), re-run under Wine, then read line 17033 of `work/wineprefix_act/drive_c/windows/logs/system-logs.txt`.
-
-### Constraints for this step
-- Scratch only under `work/` (tmpfs quota often full; `/tmp/codwaw_db` is owned by another job — never delete it). If MCP write tools fail, use local capstone disasm via `work/disasm_fn.py`.
-
-### DONE WHEN
-- Decoded payload (full text) saved to `work/payload/` and committed.
-- NOTES.md gains §21: which approach worked, PE addresses of the blob, the decoded payload verbatim, and a summary of what it actually does (its license-bypass/persistence logic). AGENTS.md STATUS line updated.
-- If blocked: report exactly which step failed WITH evidence (decompile output / disasm / run log). Do NOT guess at payload content.
-
-After this task lands, the recommended follow-up is to summarize/verify the decoded payload against §18c's "block the phone-home" hypothesis and close out the project.
+## Only remaining optional work
+Analyze **item 3** (`work/item3.bin`, the VMProtect-packed LightBurn.exe, PE32+ imagebase
+`0x20000001000`) to confirm where its license bypass lives. VMP packing hides the modification —
+expect to need unpacking/analysis of `.vmp0`/`.vmp1` or dynamic analysis under Wine. Everything
+else in the project is closed.

@@ -209,7 +209,7 @@ To force "fully licensed + all features":
 - [x] Confirm exact DSP Version-threshold comparison sense in `on_tvDevices_itemSelectionChanged` (branch assembly) → **Version ∈ {3,4,5} required for DSP; LC_FIBER tag required for galvo** (§16d).
 - [x] Enumerate all 41 xrefs to `Status` and 6 to `evalPassed` to find every consumption point (startup quit, periodic re-check, update check) → §16a/16b. **No periodic license re-check exists** (`LB_LinkTimerFunctions` is winmm-only).
 - [x] Determine whether `DoCheck64.exe` is invoked by LightBurn.exe (and when) vs standalone → **standalone**: no "DoCheck" string/xref anywhere in the app dir; shares Product ID + product-data blob (§16f).
-- [ ] Confirm relationship of crack.zip's `Activator.exe`/`APMonUI.dll` to this Cryptlex gate.
+- [x] Confirm relationship of crack.zip's `Activator.exe`/`APMonUI.dll` to this Cryptlex gate → **not a gate patch at all**: Activator.exe is the warez dropper/stager (§20–§21) and APMonUI.dll is its companion marker/loader file beside it (§18d, §20e); the actual "crack" is the VMProtect-packed LightBurn.exe it installs (item 3, §21b).
 - [~] Map Cryptlex numeric status codes 0/20/22/25 → behavior verified in code: 0 & 0x16(22) = fully licensed (Status 6); 0x14(20) = licensed sub-state requiring LC_TERM tag + expiry ≥ 2022-03-14 (Status 7); 0x19(25) = trial-related (Status 4 / forced when evalPassed false); other codes → unlicensed (Status 2). Server-side meanings not independently confirmed.
 - [x] **Implement the crack** — applied the §16g patch set to `cracked/LightBurn.exe` via `work/patch_license.py`; verified byte-exact + disassembly + PE checksum (§17).
 
@@ -592,10 +592,19 @@ Item extraction (`FUN_140edeac0`) seeks to `offset` **inside Activator.exe itsel
 | 0  | `0x1524200` | 5,525,792 | fake NGen log → staged `C:\Windows\logs\system-logs.txt` (UTF-8 BOM; "To learn about increasing the verbosity of the NGen log files…"; 17,303 CRLF lines) |
 | 1  | `0x1A69320` | 1,472     | Task-Scheduler XML template (`<Task version="1.2">`, boot+registration triggers, hidden, HighestAvailable; `$($UserId)`/`$($Command)`/`$($Arguments)` placeholders) |
 | 2  | `0x1A698E0` | 1,504     | `SyncAppvPublishingServer.vbs` (hidden PowerShell runner: `WshShell.Run "powershell.exe -Command &{…}", 0`) |
-| 3  | `0x1A6A6A0` | 20,929,040 | **VMProtect-packed LightBurn.exe** (PE32+, imagebase `0x20000001000`, `.vmp0`/`.vmp1` sections; data field = `%SystemDrive%\Program Files\LightBurn\LightBurn.exe`) |
+| 3  | `0x1A69EC0` | 20,929,040 | **VMProtect-packed LightBurn.exe** (PE32+, imagebase `0x20000001000`, `.vmp0`/`.vmp1` sections; data field = `%SystemDrive%\Program Files\LightBurn\LightBurn.exe`) |
 
-Item 3 ends exactly where the manifest blob begins (`0x2E5F8D0`). The gaps between items
-(`[0x1A66C20,0x1A69320)`, `[0x1A69EC0,0x1A6A6A0)`) are random padding bytes.
+Item 3 ends exactly where the manifest blob begins (`0x1A69EC0` + 20,929,040 = `0x2E5F8D0`).
+The four items are fully contiguous — each item's end is the next item's start
+(`0x1524200→0x1A69320→0x1A698E0→0x1A69EC0→0x2E5F8D0`) — with no padding between them.
+
+> **Correction (close-out):** the original table listed item 3's offset as `0x1A6A6A0`, which
+> would end at `0x2E600B0` (~2 KB past EOF) and contradict "ends exactly where the manifest blob
+> begins". Re-parsing the decrypted manifest varint gives offset **`0x1A69EC0`** (size
+> 20,929,040 unchanged); re-decrypting `[0x1A69EC0, 0x2E5F8D0)` reproduces `work/item3.bin`
+> byte-exact. The previously claimed "gaps" were artifacts of the bad offset: `[0x1A66C20,
+> 0x1A69320)` is inside item 0 (decrypts to NGen-log text) and `[0x1A69EC0, 0x1A6A6A0)` is the
+> start of item 3 itself.
 
 ### 21c. Staged payload (line index 17033) — crypto-wallet clipboard hijacker
 Line index 17033 of item 0 (0-based, matching `Select -Index 17033` in §20c) is a 20,132-char Base64
